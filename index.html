@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Filtr terpenowy — odmiany apteczne PL</title>
+<meta name="theme-color" content="#0f1210">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Terpeny PL">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg:#0f1210;
+    --panel:#161b18;
+    --panel-2:#1c2320;
+    --line:#2a332e;
+    --ink:#eef1ec;
+    --ink-dim:#9fada3;
+    --ink-faint:#6b766f;
+    --accent:#8fbf6b;
+    --accent-2:#c9a15a;
+    --indica:#a97cc9;
+    --sativa:#d9a441;
+    --hybrid:#6bb0bf;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -5%, rgba(143,191,107,0.07), transparent),
+      radial-gradient(ellipse 700px 400px at 100% 10%, rgba(201,161,90,0.05), transparent),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    padding:0 0 80px 0;
+  }
+
+  header{
+    padding:44px 32px 28px;
+    border-bottom:1px solid var(--line);
+    max-width:1400px;
+    margin:0 auto;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Source Serif 4',serif;
+    font-weight:600;
+    font-size:clamp(28px,4vw,42px);
+    margin:0 0 8px;
+    letter-spacing:-0.01em;
+  }
+  .sub{
+    color:var(--ink-dim);
+    font-size:14.5px;
+    max-width:640px;
+    line-height:1.55;
+  }
+
+  .layout{
+    max-width:1400px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:300px 1fr;
+    gap:0;
+    align-items:start;
+  }
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  aside{
+    padding:28px 24px;
+    border-right:1px solid var(--line);
+    position:sticky;
+    top:0;
+    align-self:start;
+    max-height:100vh;
+    overflow-y:auto;
+  }
+  @media (max-width:900px){
+    aside{position:static; max-height:none; border-right:none; border-bottom:1px solid var(--line);}
+  }
+
+  .panel-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin:0 0 14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+
+  .mode-toggle{
+    display:flex;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:7px;
+    padding:3px;
+    margin-bottom:22px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+  }
+  .mode-toggle button{
+    flex:1;
+    background:none;
+    border:none;
+    color:var(--ink-dim);
+    padding:8px 6px;
+    border-radius:5px;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:inherit;
+    transition:all .15s;
+  }
+  .mode-toggle button.active{
+    background:var(--accent);
+    color:#10160f;
+    font-weight:600;
+  }
+
+  .terp-list{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+  }
+  .terp-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 8px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:background .12s;
+    user-select:none;
+  }
+  .terp-item:hover{background:var(--panel-2);}
+  .terp-item.checked{background:rgba(143,191,107,0.09);}
+  .terp-item input{
+    appearance:none;
+    width:15px;height:15px;
+    border:1.5px solid var(--ink-faint);
+    border-radius:4px;
+    display:grid;
+    place-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .terp-item input:checked{
+    background:var(--accent);
+    border-color:var(--accent);
+  }
+  .terp-item input:checked::after{
+    content:"";
+    width:5px;height:8px;
+    border:solid #10160f;
+    border-width:0 2px 2px 0;
+    transform:rotate(45deg) translate(-1px,-1px);
+  }
+  .terp-name{font-size:13.5px; flex:1;}
+  .terp-count{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    color:var(--ink-faint);
+    background:var(--panel-2);
+    padding:1px 6px;
+    border-radius:10px;
+  }
+
+  .clear-btn{
+    margin-top:16px;
+    width:100%;
+    background:none;
+    border:1px solid var(--line);
+    color:var(--ink-dim);
+    padding:9px;
+    border-radius:6px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    cursor:pointer;
+    transition:all .15s;
+  }
+  .clear-btn:hover{border-color:var(--ink-faint); color:var(--ink);}
+
+  main{padding:28px 32px;}
+
+  .result-bar{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:18px;
+    padding-bottom:14px;
+    border-bottom:1px solid var(--line);
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .result-count{
+    font-family:'Source Serif 4',serif;
+    font-size:20px;
+  }
+  .result-count b{color:var(--accent); font-weight:700;}
+  .active-filters{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .chip{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--accent-2);
+    padding:4px 9px;
+    border-radius:20px;
+  }
+
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+    gap:12px;
+  }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    transition:border-color .15s, transform .15s;
+  }
+  .card:hover{border-color:var(--ink-faint);}
+
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:6px;
+    gap:8px;
+  }
+  .card-name{
+    font-family:'Source Serif 4',serif;
+    font-weight:600;
+    font-size:17px;
+    line-height:1.25;
+  }
+  .card-producer{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    color:var(--ink-faint);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-top:2px;
+  }
+  .type-badge{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    padding:3px 8px;
+    border-radius:20px;
+    white-space:nowrap;
+    flex-shrink:0;
+    font-weight:600;
+  }
+  .type-Indica{background:rgba(169,124,201,0.15); color:var(--indica);}
+  .type-Sativa{background:rgba(217,164,65,0.15); color:var(--sativa);}
+  .type-Hybryda{background:rgba(107,176,191,0.15); color:var(--hybrid);}
+
+  .thc-row{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    color:var(--ink-dim);
+    margin:8px 0 10px;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    flex-wrap:wrap;
+  }
+  .thc-row span{color:var(--ink);}
+  .verify-badge{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:9.5px;
+    padding:2px 7px;
+    border-radius:20px;
+    margin-left:auto;
+  }
+  .v-yes{background:rgba(143,191,107,0.16); color:var(--accent);}
+  .v-part{background:rgba(201,161,90,0.16); color:var(--accent-2);}
+  .v-no{background:var(--panel-2); color:var(--ink-faint); border:1px solid var(--line);}
+
+  .terp-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    margin-bottom:10px;
+  }
+  .terp-tag{
+    font-size:11px;
+    padding:3px 8px;
+    border-radius:5px;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--ink-dim);
+  }
+  .terp-tag.match{
+    background:rgba(143,191,107,0.14);
+    border-color:rgba(143,191,107,0.35);
+    color:var(--accent);
+    font-weight:600;
+  }
+
+  .card-effect{
+    font-size:12.5px;
+    color:var(--ink-dim);
+    line-height:1.5;
+    border-top:1px solid var(--line);
+    padding-top:9px;
+  }
+  .serial-warning{
+    font-size:11px;
+    color:var(--sativa);
+    background:rgba(217,164,65,0.1);
+    border:1px solid rgba(217,164,65,0.3);
+    border-radius:6px;
+    padding:6px 9px;
+    margin-top:8px;
+    line-height:1.4;
+  }
+  .price-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:9px;
+  }
+  .price-chip{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    background:rgba(143,191,107,0.08);
+    border:1px solid rgba(143,191,107,0.25);
+    color:var(--ink-dim);
+    padding:4px 9px;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    gap:5px;
+  }
+  .price-chip b{color:var(--accent); font-weight:700;}
+  .price-source{
+    font-size:9.5px;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--ink-faint);
+    background:var(--panel-2);
+    padding:1px 5px;
+    border-radius:4px;
+  }
+
+  .empty{
+    padding:60px 20px;
+    text-align:center;
+    color:var(--ink-faint);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    grid-column:1/-1;
+  }
+
+  .notes-btn{
+    margin-top:10px;
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--ink-dim);
+    padding:8px;
+    border-radius:6px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    transition:all .15s;
+  }
+  .notes-btn:hover{border-color:var(--accent); color:var(--accent);}
+  .notes-btn .n-count{
+    background:var(--accent);
+    color:#10160f;
+    border-radius:10px;
+    padding:0 6px;
+    font-weight:700;
+    min-width:16px;
+    text-align:center;
+  }
+  .notes-btn .n-count.zero{background:var(--line); color:var(--ink-faint);}
+
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(5,7,6,0.75);
+    backdrop-filter:blur(2px);
+    z-index:100;
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+  }
+  .modal-overlay.open{display:flex;}
+  @media (min-width:640px){
+    .modal-overlay{align-items:center;}
+  }
+
+  .modal{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-top-left-radius:16px;
+    border-top-right-radius:16px;
+    width:100%;
+    max-width:640px;
+    max-height:88vh;
+    overflow-y:auto;
+    padding:20px 20px calc(20px + env(safe-area-inset-bottom));
+    animation:slideup .2s ease-out;
+  }
+  @media (min-width:640px){
+    .modal{border-radius:16px; max-height:80vh;}
+  }
+  @keyframes slideup{ from{transform:translateY(24px); opacity:0;} to{transform:translateY(0); opacity:1;} }
+
+  .modal-head{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    margin-bottom:16px;
+    padding-bottom:14px;
+    border-bottom:1px solid var(--line);
+  }
+  .modal-title{font-family:'Source Serif 4',serif; font-weight:600; font-size:19px;}
+  .modal-sub{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-faint); margin-top:3px;}
+  .modal-close{
+    background:none; border:none; color:var(--ink-faint);
+    font-size:22px; line-height:1; cursor:pointer; padding:4px 8px;
+  }
+  .modal-close:hover{color:var(--ink);}
+
+  .note-form{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px;
+    margin-bottom:18px;
+  }
+  .form-row{display:flex; gap:8px; margin-bottom:8px;}
+  .form-row input{flex:1; min-width:0;}
+  .note-form input, .note-form textarea{
+    width:100%;
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:6px;
+    color:var(--ink);
+    padding:8px 10px;
+    font-family:'Inter',sans-serif;
+    font-size:13.5px;
+    box-sizing:border-box;
+  }
+  .note-form textarea{
+    min-height:70px;
+    resize:vertical;
+    font-family:'Inter',sans-serif;
+    margin-bottom:10px;
+  }
+  .note-form input::placeholder, .note-form textarea::placeholder{color:var(--ink-faint);}
+  .note-form label{
+    display:block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    color:var(--ink-faint);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-bottom:4px;
+  }
+
+  .chip-groups{margin-bottom:12px;}
+  .chip-group-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10px;
+    color:var(--ink-faint);
+    margin:8px 0 5px;
+  }
+  .chip-row{display:flex; flex-wrap:wrap; gap:5px;}
+  .quick-chip{
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    background:var(--bg);
+    border:1px solid var(--line);
+    color:var(--ink-dim);
+    padding:5px 10px;
+    border-radius:14px;
+    cursor:pointer;
+    transition:all .12s;
+    white-space:nowrap;
+  }
+  .quick-chip:hover{border-color:var(--accent); color:var(--accent); background:rgba(143,191,107,0.08);}
+  .quick-chip:active{transform:scale(0.96);}
+
+  .save-note-btn{
+    width:100%;
+    background:var(--accent);
+    color:#10160f;
+    border:none;
+    padding:10px;
+    border-radius:7px;
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:13.5px;
+    cursor:pointer;
+  }
+  .save-note-btn:hover{filter:brightness(1.08);}
+
+  .notes-list-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    color:var(--ink-faint);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:10px;
+  }
+  .note-item{
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 12px;
+    margin-bottom:8px;
+    position:relative;
+  }
+  .note-item-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:5px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+  }
+  .note-item-meta{color:var(--accent-2);}
+  .note-item-meta b{color:var(--ink);}
+  .note-item-date{color:var(--ink-faint);}
+  .note-item-text{font-size:13px; line-height:1.5; color:var(--ink-dim);}
+  .note-del{
+    position:absolute; top:8px; right:8px;
+    background:none; border:none; color:var(--ink-faint);
+    font-size:14px; cursor:pointer; padding:2px 6px;
+  }
+  .note-del:hover{color:#d9776b;}
+  .notes-empty{
+    color:var(--ink-faint);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    padding:16px 0;
+    text-align:center;
+  }
+
+  footer{
+    max-width:1400px;
+    margin:40px auto 0;
+    padding:20px 32px 0;
+    border-top:1px solid var(--line);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--ink-faint);
+    line-height:1.6;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Narzędzie kliniczne · susz apteczny PL</div>
+  <h1>Filtr terpenowy</h1>
+  <div class="sub">Zaznacz terpeny — lista odmian zawęzi się do surowców, które je zawierają. Odmiany z <span style="color:var(--accent)">zielonym znacznikiem „✓ BudCare"</span> mają udział procentowy terpenów potwierdzony na budcare.pl — pozostałe to dane jakościowe (kolejność, bez %) z materiałów producenta/branży. Żadne z tych źródeł nie zastępują CoA konkretnej partii.</div>
+</header>
+
+<div class="layout">
+  <aside>
+    <div class="panel-label">
+      <span>Terpeny</span>
+      <span id="terp-total"></span>
+    </div>
+
+    <div class="mode-toggle">
+      <button id="mode-any" class="active">Zawiera którykolwiek</button>
+      <button id="mode-all">Zawiera wszystkie</button>
+    </div>
+
+    <div class="terp-list" id="terp-list"></div>
+
+    <button class="clear-btn" id="clear-btn">Wyczyść filtry</button>
+  </aside>
+
+  <main>
+    <div class="result-bar">
+      <div class="result-count"><b id="count-num">0</b> odmian</div>
+      <div class="active-filters" id="active-filters"></div>
+    </div>
+    <div class="cards" id="cards"></div>
+  </main>
+</div>
+
+<footer>
+  Źródła: URPL (Lista Surowców Farmaceutycznych), BudCare.pl (baza odmian — jedyne źródło z podanym % udziałem każdego terpenu, wyliczonym jako średnia z wielu partii), materiały producentów (Aurora, Canopy Growth, Cantourage, COSMA, Suprobion, PhytoPūr Bio, Four20 Pharma, Tilray, S-Lab), agregacja branżowa (Cannabis Spot, MedCan Clinics). <b>NR</b> = Niezapominajka Rzeszów Rejtana, cotygodniowy cennik przekazywany prywatnie — ceny i dostępność aktualne na dzień podany przy cenie, nie odświeżają się automatycznie. Stan ogólny: sierpień 2026 — dostępność apteczna rotuje miesięcznie, sprawdź bieżąco w GdziePoLek/KtoMaLek. BudCare zastrzega, że nawet ich dane to średnie z partii, nie certyfikat konkretnego opakowania — traktuj jako punkt wyjścia do rozmowy z pacjentem, nie jako CoA. Związek terpen→efekt w większości oparty na danych przedklinicznych, nie RCT.
+</footer>
+
+<div class="modal-overlay" id="notes-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title" id="modal-strain-name">—</div>
+        <div class="modal-sub" id="modal-strain-sub">—</div>
+      </div>
+      <button class="modal-close" id="modal-close-btn">✕</button>
+    </div>
+
+    <div class="note-form">
+      <div class="form-row">
+        <div>
+          <label>Inicjały pacjenta</label>
+          <input type="text" id="note-patient" placeholder="np. X.Y.">
+        </div>
+        <div>
+          <label>Dawka</label>
+          <input type="text" id="note-dose" placeholder="np. 0,15 g">
+        </div>
+      </div>
+
+      <div class="chip-groups">
+        <div class="chip-group-label">Efekt</div>
+        <div class="chip-row">
+          <span class="quick-chip">silny relaks</span>
+          <span class="quick-chip">euforia</span>
+          <span class="quick-chip">senność</span>
+          <span class="quick-chip">aktywacja</span>
+          <span class="quick-chip">poprawa nastroju</span>
+          <span class="quick-chip">redukcja lęku</span>
+          <span class="quick-chip">zamulenie</span>
+        </div>
+        <div class="chip-group-label">Działanie kliniczne</div>
+        <div class="chip-row">
+          <span class="quick-chip">dobre działanie p/bólowe</span>
+          <span class="quick-chip">p/zapalne</span>
+          <span class="quick-chip">przeciwskurczowe</span>
+          <span class="quick-chip">nasenne</span>
+          <span class="quick-chip">poprawa apetytu</span>
+          <span class="quick-chip">przeciwwymiotne</span>
+          <span class="quick-chip">brak efektu</span>
+        </div>
+        <div class="chip-group-label">Farmakokinetyka</div>
+        <div class="chip-row">
+          <span class="quick-chip">szybki onset</span>
+          <span class="quick-chip">długie okienko terapeutyczne</span>
+          <span class="quick-chip">krótkie działanie</span>
+          <span class="quick-chip">efekt kumulacyjny</span>
+        </div>
+        <div class="chip-group-label">Tolerancja / AE</div>
+        <div class="chip-row">
+          <span class="quick-chip">dobra tolerancja</span>
+          <span class="quick-chip">suchość w ustach</span>
+          <span class="quick-chip">tachykardia</span>
+          <span class="quick-chip">zawroty głowy</span>
+          <span class="quick-chip">kaszel</span>
+        </div>
+        <div class="chip-group-label">Droga podania</div>
+        <div class="chip-row">
+          <span class="quick-chip">waporyzacja</span>
+          <span class="quick-chip">palenie</span>
+        </div>
+      </div>
+
+      <label>Notatka</label>
+      <textarea id="note-text" placeholder="Kliknij chipy powyżej albo pisz swobodnie..."></textarea>
+      <button class="save-note-btn" id="save-note-btn">Zapisz notatkę</button>
+    </div>
+
+    <div class="notes-list-label" id="notes-list-label">Historia notatek</div>
+    <div id="notes-list"></div>
+  </div>
+</div>
+
+<script>
+let strains = [];
+let allTerpenes = [];
+let selected = new Set();
+let mode = "any"; // any | all
+
+async function loadStrains(){
+  try{
+    const res = await fetch('strains.json', {cache:'no-store'});
+    const data = await res.json();
+    strains = data.strains;
+  }catch(e){
+    document.getElementById('cards').innerHTML =
+      `<div class="empty">Nie udało się wczytać strains.json.<br>Sprawdź, czy plik jest w tym samym folderze co index.html i czy strona jest serwowana przez http(s) (nie otwarta jako plik lokalny).</div>`;
+    console.error(e);
+    return;
+  }
+  normalizeStrains();
+  allTerpenes = [...new Set(strains.flatMap(s => s.terpenes))].sort((a,b)=>a.localeCompare(b,'pl'));
+  terpTotal.textContent = allTerpenes.length + " poz.";
+  render();
+}
+
+// Normalize legacy entries (no pct/verified/source fields) to keep consistent schema
+function normalizeStrains(){
+  strains.forEach(s=>{
+    if(s.pct === undefined) s.pct = null;
+    if(s.verified === undefined) s.verified = false;
+    if(s.source === undefined) s.source = "branżowe / producent (Cannabis Spot, MedCan i in.)";
+  });
+}
+
+const terpList = document.getElementById('terp-list');
+const terpTotal = document.getElementById('terp-total');
+
+function terpCount(t){ return strains.filter(s=>s.terpenes.includes(t)).length; }
+
+function renderTerpList(){
+  terpList.innerHTML = "";
+  allTerpenes.forEach(t=>{
+    const row = document.createElement('label');
+    row.className = 'terp-item' + (selected.has(t) ? ' checked' : '');
+    row.innerHTML = `
+      <input type="checkbox" ${selected.has(t)?'checked':''} data-terp="${t}">
+      <span class="terp-name">${t}</span>
+      <span class="terp-count">${terpCount(t)}</span>
+    `;
+    row.querySelector('input').addEventListener('change', (e)=>{
+      if(e.target.checked) selected.add(t); else selected.delete(t);
+      render();
+    });
+    terpList.appendChild(row);
+  });
+}
+
+function matchesFilter(strain){
+  if(selected.size === 0) return true;
+  const terps = strain.terpenes;
+  if(mode === "any"){
+    return [...selected].some(t => terps.includes(t));
+  } else {
+    return [...selected].every(t => terps.includes(t));
+  }
+}
+
+function render(){
+  renderTerpList();
+
+  const filtered = strains.filter(matchesFilter).sort((a,b)=>{
+    const rank = v => v===true ? 0 : v==="partial" ? 1 : 2;
+    return rank(a.verified) - rank(b.verified);
+  });
+  document.getElementById('count-num').textContent = filtered.length;
+
+  const activeWrap = document.getElementById('active-filters');
+  activeWrap.innerHTML = "";
+  selected.forEach(t=>{
+    const c = document.createElement('span');
+    c.className = 'chip';
+    c.textContent = t;
+    activeWrap.appendChild(c);
+  });
+
+  const cardsWrap = document.getElementById('cards');
+  cardsWrap.innerHTML = "";
+
+  if(filtered.length === 0){
+    cardsWrap.innerHTML = `<div class="empty">Brak odmian spełniających ten zestaw kryteriów.<br>Zmień tryb na „którykolwiek" lub odznacz część terpenów.</div>`;
+    return;
+  }
+
+  filtered.forEach(s=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    const terpTagsHtml = s.terpenes.length
+      ? s.terpenes.map(t => {
+          const pctLabel = (s.pct && s.pct[t]) ? ` ${s.pct[t]}%` : "";
+          return `<span class="terp-tag ${selected.has(t)?'match':''}">${t}${pctLabel}</span>`;
+        }).join('')
+      : `<span class="terp-tag">profil niepublikowany</span>`;
+
+    const badge = s.verified === true
+      ? `<span class="verify-badge v-yes" title="Udziały % potwierdzone na BudCare.pl">✓ BudCare</span>`
+      : s.verified === "partial"
+        ? `<span class="verify-badge v-part" title="Kolejność terpenów potwierdzona branżowo, bez %">~ częściowo</span>`
+        : `<span class="verify-badge v-no" title="Dane wyłącznie z materiałów producenta/branżowych">producent</span>`;
+
+    card.innerHTML = `
+      <div class="card-top">
+        <div>
+          <div class="card-name">${s.name}</div>
+          <div class="card-producer">${s.producer}</div>
+        </div>
+        <div class="type-badge type-${s.type}">${s.type}</div>
+      </div>
+      <div class="thc-row">THC <span>${s.thc}</span> · CBD <span>${s.cbd}</span> · ${badge}</div>
+      <div class="terp-tags">${terpTagsHtml}</div>
+      <div class="card-effect">${s.effect}</div>
+      ${s.serial_note ? `<div class="serial-warning">⚠️ ${s.serial_note}</div>` : ''}
+      ${(s.prices && s.prices.length) ? `<div class="price-row">${s.prices.map(p => `
+        <span class="price-chip">
+          <span class="price-source">${p.source}</span>
+          <b>${p.price_pln} zł</b> / ${p.package_g}g (${p.price_per_g} zł/g)${p.thc_nr ? ` · THC ${p.thc_nr}` : ''}${p.code ? ` · kod: ${p.code}` : ''}
+        </span>`).join('')}</div>` : ''}
+    `;
+
+    const noteCount = getNotes(strainKey(s)).length;
+    const notesBtn = document.createElement('button');
+    notesBtn.className = 'notes-btn';
+    notesBtn.innerHTML = `📝 Notatki kliniczne <span class="n-count ${noteCount===0?'zero':''}">${noteCount}</span>`;
+    notesBtn.addEventListener('click', ()=> openNotesModal(s));
+    card.appendChild(notesBtn);
+    cardsWrap.appendChild(card);
+  });
+}
+
+document.getElementById('mode-any').addEventListener('click', ()=>{
+  mode = "any";
+  document.getElementById('mode-any').classList.add('active');
+  document.getElementById('mode-all').classList.remove('active');
+  render();
+});
+document.getElementById('mode-all').addEventListener('click', ()=>{
+  mode = "all";
+  document.getElementById('mode-all').classList.add('active');
+  document.getElementById('mode-any').classList.remove('active');
+  render();
+});
+document.getElementById('clear-btn').addEventListener('click', ()=>{
+  selected.clear();
+  render();
+});
+
+// ---------- NOTATKI KLINICZNE (localStorage, offline, tylko na tym urządzeniu) ----------
+const NOTES_KEY = 'terpeny_pl_notes_v1';
+
+function strainKey(s){ return s.producer + '|' + s.name; }
+
+function loadAllNotes(){
+  try{
+    const raw = localStorage.getItem(NOTES_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }catch(e){ return []; }
+}
+function saveAllNotes(notes){
+  try{ localStorage.setItem(NOTES_KEY, JSON.stringify(notes)); }
+  catch(e){ alert('Nie udało się zapisać notatki (pamięć przeglądarki pełna lub zablokowana).'); }
+}
+function getNotes(key){
+  return loadAllNotes().filter(n => n.strainKey === key).sort((a,b)=> b.ts - a.ts);
+}
+
+let currentStrain = null;
+
+function openNotesModal(s){
+  currentStrain = s;
+  document.getElementById('modal-strain-name').textContent = s.name;
+  document.getElementById('modal-strain-sub').textContent = s.producer + ' · THC ' + s.thc + ' · CBD ' + s.cbd;
+  document.getElementById('note-patient').value = '';
+  document.getElementById('note-dose').value = '';
+  document.getElementById('note-text').value = '';
+  renderNotesList();
+  document.getElementById('notes-modal').classList.add('open');
+}
+function closeNotesModal(){
+  document.getElementById('notes-modal').classList.remove('open');
+  currentStrain = null;
+  render(); // odśwież liczniki notatek na kartach
+}
+document.getElementById('modal-close-btn').addEventListener('click', closeNotesModal);
+document.getElementById('notes-modal').addEventListener('click', (e)=>{
+  if(e.target.id === 'notes-modal') closeNotesModal();
+});
+
+// Chipy wstawiają tekst do notatki w miejscu kursora
+document.querySelectorAll('.quick-chip').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    const ta = document.getElementById('note-text');
+    const insert = chip.textContent.trim();
+    const start = ta.selectionStart ?? ta.value.length;
+    const end = ta.selectionEnd ?? ta.value.length;
+    let before = ta.value.slice(0, start);
+    let after = ta.value.slice(end);
+    let toInsert = insert;
+    if(before.length && !/[\s,]$/.test(before)) toInsert = ', ' + toInsert;
+    if(after.length && !/^[\s,]/.test(after)) toInsert = toInsert + ', ';
+    ta.value = before + toInsert + after;
+    const pos = (before + toInsert).length;
+    ta.focus();
+    ta.setSelectionRange(pos, pos);
+  });
+});
+
+document.getElementById('save-note-btn').addEventListener('click', ()=>{
+  if(!currentStrain) return;
+  const text = document.getElementById('note-text').value.trim();
+  const patient = document.getElementById('note-patient').value.trim();
+  const dose = document.getElementById('note-dose').value.trim();
+  if(!text){ alert('Wpisz treść notatki.'); return; }
+
+  const notes = loadAllNotes();
+  notes.push({
+    id: Date.now() + '-' + Math.random().toString(36).slice(2,7),
+    strainKey: strainKey(currentStrain),
+    patient, dose, text,
+    ts: Date.now(),
+    dateLabel: new Date().toLocaleDateString('pl-PL', {day:'2-digit', month:'2-digit', year:'numeric'})
+  });
+  saveAllNotes(notes);
+
+  document.getElementById('note-patient').value = '';
+  document.getElementById('note-dose').value = '';
+  document.getElementById('note-text').value = '';
+  renderNotesList();
+});
+
+function renderNotesList(){
+  const list = document.getElementById('notes-list');
+  const notes = getNotes(strainKey(currentStrain));
+  document.getElementById('notes-list-label').textContent = `Historia notatek (${notes.length})`;
+  if(notes.length === 0){
+    list.innerHTML = `<div class="notes-empty">Brak zapisanych notatek dla tej odmiany.</div>`;
+    return;
+  }
+  list.innerHTML = notes.map(n => `
+    <div class="note-item" data-id="${n.id}">
+      <button class="note-del" title="Usuń notatkę">✕</button>
+      <div class="note-item-head">
+        <span class="note-item-meta">${n.patient ? `<b>${escapeHtml(n.patient)}</b>` : '<span style="color:var(--ink-faint)">bez inicjałów</span>'} ${n.dose ? ' · D: ' + escapeHtml(n.dose) : ''}</span>
+        <span class="note-item-date">${n.dateLabel}</span>
+      </div>
+      <div class="note-item-text">${escapeHtml(n.text)}</div>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.note-del').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      const id = e.target.closest('.note-item').dataset.id;
+      if(!confirm('Usunąć tę notatkę?')) return;
+      const notes = loadAllNotes().filter(n => n.id !== id);
+      saveAllNotes(notes);
+      renderNotesList();
+    });
+  });
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+// ---------- PWA: rejestracja service workera (offline) ----------
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+
+loadStrains();
+</script>
+
+</body>
+</html>

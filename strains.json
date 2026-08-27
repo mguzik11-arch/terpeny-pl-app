@@ -1,0 +1,1614 @@
+{
+  "meta": {
+    "last_updated": "2026-08-26",
+    "sources": [
+      "URPL - Lista Surowców Farmaceutycznych",
+      "BudCare.pl",
+      "Cannabis Spot",
+      "MedCan Clinics",
+      "materiały producentów",
+      "NR = Niezapominajka Rzeszów Rejtana (cotygodniowy cennik apteczny, przekazywany prywatnie)"
+    ],
+    "note": "verified:true = udział % terpenów potwierdzony na BudCare.pl. verified:'partial' = kolejność terpenów potwierdzona branżowo, bez wag %. verified:false = dane niepotwierdzone, sprawdź CoA. Status 'WYCOFANA' oznacza brak nowych dostaw od producenta — istniejące partie mogą pozostawać w lokalnym obrocie do wyczerpania zapasu (aktywny numer rejestru pozwala aptekom sprzedawać posiadany zapas)."
+  },
+  "strains": [
+    {
+      "name": "Sourdough",
+      "producer": "Aurora",
+      "thc": "29%",
+      "cbd": "<1%",
+      "type": "Indica",
+      "terpenes": [
+        "Limonen",
+        "Beta-kariofilen",
+        "Mircen",
+        "Linalol",
+        "Bisabolol"
+      ],
+      "pct": {
+        "Limonen": 26,
+        "Beta-kariofilen": 19,
+        "Mircen": 13,
+        "Linalol": 10,
+        "Bisabolol": 6
+      },
+      "effect": "Relaksujące — ból oporny na leczenie, bezsenność, silny efekt cielesny",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 330,
+          "price_per_g": 33,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Farm Gas",
+      "producer": "Aurora",
+      "thc": "27%",
+      "cbd": "<1%",
+      "type": "Indica",
+      "terpenes": [
+        "Limonen",
+        "Beta-kariofilen",
+        "Nerolidol",
+        "Humulen",
+        "Mircen"
+      ],
+      "pct": {
+        "Limonen": 31,
+        "Beta-kariofilen": 22,
+        "Nerolidol": 10,
+        "Humulen": 8,
+        "Mircen": 6
+      },
+      "effect": "Relaksujące — ból oporny, spastyczność, głębokie odprężenie",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 300,
+          "price_per_g": 30,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Black Jelly",
+      "producer": "Aurora",
+      "thc": "27%",
+      "cbd": "<1%",
+      "type": "Hybryda/Sativa",
+      "terpenes": [
+        "Limonen",
+        "Beta-kariofilen",
+        "Mircen",
+        "Humulen",
+        "Pinen",
+        "Linalol"
+      ],
+      "pct": {
+        "Limonen": 26,
+        "Beta-kariofilen": 25,
+        "Mircen": 22,
+        "Humulen": 10,
+        "Pinen": 5,
+        "Linalol": 3
+      },
+      "effect": "Energetyzujące, nastrój, koncentracja, apetyt — z elementem rozluźniającym",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 390,
+          "price_per_g": 39,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Ghost Train Haze",
+      "producer": "Aurora",
+      "thc": "22%",
+      "cbd": "1%",
+      "type": "Sativa",
+      "terpenes": [
+        "Terpinolen",
+        "Limonen",
+        "Mircen",
+        "Pinen",
+        "Ocymen",
+        "Linalol"
+      ],
+      "pct": {
+        "Terpinolen": 43,
+        "Limonen": 10,
+        "Mircen": 11,
+        "Pinen": 6,
+        "Ocymen": 5,
+        "Linalol": 4
+      },
+      "effect": "Pobudzające — nowotwory (apetyt/ból), depresja, PTSD, niskie dawki: ADHD",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 520,
+          "price_per_g": 52,
+          "package_g": 15,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Delahaze",
+      "producer": "Aurora",
+      "thc": "22%",
+      "cbd": "1%",
+      "type": "Sativa",
+      "terpenes": [
+        "Terpinolen",
+        "Mircen",
+        "Pinen",
+        "Beta-kariofilen",
+        "Ocymen"
+      ],
+      "pct": {
+        "Terpinolen": 30,
+        "Mircen": 16,
+        "Pinen": 14,
+        "Beta-kariofilen": 9,
+        "Ocymen": 5
+      },
+      "effect": "Pobudzające — energia, koncentracja, depresja, spadek energii",
+      "verified": true,
+      "source": "BudCare",
+      "status": "WYCOFANA (XI 2025)"
+    },
+    {
+      "name": "Pink Kush",
+      "producer": "Aurora",
+      "thc": "20%",
+      "cbd": "<1%",
+      "type": "Indica",
+      "terpenes": [
+        "Limonen",
+        "Beta-kariofilen",
+        "Mircen",
+        "Nerolidol"
+      ],
+      "pct": null,
+      "effect": "Głęboki relaks — ból, stres, bezsenność",
+      "verified": "partial",
+      "source": "BudCare (opis jakościowy, bez %)",
+      "status": "Wycofana ogólnopolsko przez producenta (BudCare, XI 2025) — nowe dostawy nie są planowane. Resztki starych partii nadal w lokalnym obrocie (potwierdzone w NR, 26.08.2026) — do wyczerpania zapasu.",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 550,
+          "price_per_g": 55,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "thc_nr": "20%"
+        }
+      ]
+    },
+    {
+      "name": "8/8 zrównoważona",
+      "producer": "Aurora",
+      "thc": "8%",
+      "cbd": "8%",
+      "type": "Hybryda",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Lęk, seniorzy, start terapii — profil terpenowy niepublikowany",
+      "verified": false,
+      "source": "—",
+      "status": "sprawdź dostępność"
+    },
+    {
+      "name": "Red Velvet Cake",
+      "producer": "Canopy Growth",
+      "thc": "27%",
+      "cbd": "<0,5%",
+      "type": "Sativa",
+      "terpenes": [
+        "Limonen",
+        "Mircen",
+        "Beta-kariofilen"
+      ],
+      "pct": null,
+      "effect": "Pobudzające — energia, nastrój, koncentracja bez przeciążenia",
+      "verified": "partial",
+      "source": "BudCare (opis jakościowy, bez %)",
+      "status": "dostępna"
+    },
+    {
+      "name": "Kush Mints",
+      "producer": "Canopy Growth",
+      "thc": "27–30%",
+      "cbd": "<1%",
+      "type": "Hybryda",
+      "terpenes": [
+        "Limonen",
+        "Beta-kariofilen",
+        "Linalol",
+        "Selinadien"
+      ],
+      "pct": null,
+      "effect": "Zrównoważone — selinadien nadaje rzadszy chmielowo-korzenny aromat",
+      "verified": "partial",
+      "source": "BudCare (opis jakościowy, bez %)",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 580,
+          "price_per_g": 38,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "thc_nr": "30%"
+        }
+      ]
+    },
+    {
+      "name": "Krypton / Snowtorious Krypton",
+      "producer": "Canopy Growth",
+      "thc": "25%",
+      "cbd": "0,5%",
+      "type": "Indica",
+      "terpenes": [
+        "Mircen",
+        "Limonen",
+        "Beta-kariofilen"
+      ],
+      "pct": null,
+      "effect": "Relaksujące — silny ból, sen, ciężki cielesny efekt",
+      "verified": "partial",
+      "source": "BudCare (opis jakościowy, bez %)",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 580,
+          "price_per_g": 38,
+          "package_g": 15,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Bakerstreet",
+      "producer": "Canopy Growth",
+      "thc": "20%",
+      "cbd": "≤0,5%",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Sen, uspokojenie — profil terpenowy niepotwierdzony na BudCare",
+      "verified": false,
+      "source": "—",
+      "status": "sprawdź dostępność",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 580,
+          "price_per_g": 38,
+          "package_g": 15,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Penelope 8/7",
+      "producer": "Canopy Growth",
+      "thc": "8%",
+      "cbd": "7%",
+      "type": "Zrównoważona",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Lęk, seniorzy, start terapii — profil terpenowy niepublikowany",
+      "verified": false,
+      "source": "—",
+      "status": "sprawdź dostępność"
+    },
+    {
+      "name": "Gelato 33",
+      "producer": "Cantourage",
+      "thc": "26%",
+      "cbd": "≤1%",
+      "type": "Hybryda",
+      "terpenes": [
+        "Linalol",
+        "Mircen",
+        "Limonen"
+      ],
+      "pct": null,
+      "effect": "Zrównoważone — lęk, depresja, brak apetytu",
+      "verified": "partial",
+      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 450,
+          "price_per_g": 45,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "MAC 1",
+      "producer": "Cantourage",
+      "thc": "25%",
+      "cbd": "≤1%",
+      "type": "Hybryda",
+      "terpenes": [
+        "Linalol",
+        "Pinen",
+        "Beta-kariofilen",
+        "Limonen"
+      ],
+      "pct": null,
+      "effect": "Zrównoważone — ból, obniżony nastrój",
+      "verified": "partial",
+      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 450,
+          "price_per_g": 45,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Gorilla Girl",
+      "producer": "COSMA",
+      "thc": "20–22%",
+      "cbd": "≤1%",
+      "type": "Sativa",
+      "terpenes": [
+        "Linalol",
+        "Mircen",
+        "Pinen",
+        "Humulen",
+        "Beta-kariofilen",
+        "Limonen",
+        "Terpinolen",
+        "Bisabolol"
+      ],
+      "pct": null,
+      "effect": "Pobudzające/zrównoważone — nastrój, odprężenie",
+      "verified": "partial",
+      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "status": "dostępna"
+    },
+    {
+      "name": "Blue Monkey / Mac Monkey",
+      "producer": "COSMA",
+      "thc": "21%",
+      "cbd": "1%",
+      "type": "Indica",
+      "terpenes": [
+        "Linalol",
+        "Mircen",
+        "Pinen",
+        "Humulen",
+        "Beta-kariofilen",
+        "Limonen",
+        "Terpinolen",
+        "Bisabolol"
+      ],
+      "pct": null,
+      "effect": "Relaksujące/zrównoważone — ból, relaks",
+      "verified": "partial",
+      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 300,
+          "price_per_g": 30,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ],
+      "type_nr": "Indica 70%"
+    },
+    {
+      "name": "Gorilla Glue #4",
+      "producer": "Four20 Pharma",
+      "thc": "22%",
+      "cbd": "<1%",
+      "type": "Indica",
+      "terpenes": [
+        "Mircen",
+        "Humulen",
+        "Beta-kariofilen",
+        "Limonen"
+      ],
+      "pct": null,
+      "effect": "Relaksujące — ból, stany zapalne",
+      "verified": "partial",
+      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 540,
+          "price_per_g": 36,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "GG"
+        }
+      ]
+    },
+    {
+      "name": "MAC 1",
+      "producer": "Four20 Pharma",
+      "thc": "22%",
+      "cbd": "<1%",
+      "type": "Indica",
+      "terpenes": [
+        "Linalol",
+        "Pinen",
+        "Beta-kariofilen",
+        "Limonen"
+      ],
+      "pct": null,
+      "effect": "Relaksujące/zrównoważone",
+      "verified": "partial",
+      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 540,
+          "price_per_g": 36,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "MAC",
+          "thc_nr": "22%"
+        }
+      ]
+    },
+    {
+      "name": "Humble Warrior",
+      "producer": "Suprobion",
+      "thc": "23%",
+      "cbd": "≤1%",
+      "type": "Sativa",
+      "terpenes": [
+        "Mircen",
+        "Beta-kariofilen",
+        "Ocymen"
+      ],
+      "pct": null,
+      "effect": "Pobudzające/zrównoważone",
+      "verified": "partial",
+      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "status": "dostępna"
+    },
+    {
+      "name": "Gorilla Glue",
+      "producer": "Suprobion",
+      "thc": "23%",
+      "cbd": "≤1%",
+      "type": "Indica",
+      "terpenes": [
+        "Mircen",
+        "Humulen",
+        "Beta-kariofilen",
+        "Limonen",
+        "Bisabolol"
+      ],
+      "pct": null,
+      "effect": "Relaksujące/zrównoważone — diesel, ziemisty",
+      "verified": "partial",
+      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 420,
+          "price_per_g": 42,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Mystic Wonder",
+      "producer": "Suprobion",
+      "thc": "23%",
+      "cbd": "≤1%",
+      "type": "Indica",
+      "terpenes": [
+        "Mircen",
+        "Pinen",
+        "Beta-kariofilen",
+        "Limonen",
+        "Farnezen"
+      ],
+      "pct": null,
+      "effect": "Relaksujące/zrównoważone",
+      "verified": "partial",
+      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 400,
+          "price_per_g": 40,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ],
+      "type_nr": "Indica 60%"
+    },
+    {
+      "name": "Frosted Lemon Angel",
+      "producer": "PhytoPūr Bio",
+      "thc": "24%",
+      "cbd": "≤1%",
+      "type": "Indica",
+      "terpenes": [
+        "Mircen",
+        "Pinen",
+        "Humulen",
+        "Beta-kariofilen",
+        "Limonen",
+        "Terpinolen",
+        "Bisabolol"
+      ],
+      "pct": null,
+      "effect": "Relaksujące/zrównoważone — nastrój, ból, energia",
+      "verified": "partial",
+      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "status": "dostępna"
+    },
+    {
+      "name": "Big Purple Dragon",
+      "producer": "PhytoPūr Bio",
+      "thc": "24%",
+      "cbd": "≤1%",
+      "type": "Hybryda",
+      "terpenes": [
+        "Linalol",
+        "Mircen",
+        "Pinen",
+        "Humulen",
+        "Beta-kariofilen",
+        "Limonen",
+        "Guaiol"
+      ],
+      "pct": null,
+      "effect": "Pobudzające/zrównoważone",
+      "verified": "partial",
+      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "status": "dostępna"
+    },
+    {
+      "name": "Pink Certz",
+      "producer": "S-Lab",
+      "thc": "18–22%",
+      "cbd": "—",
+      "type": "Hybryda 50/50",
+      "terpenes": [
+        "Beta-kariofilen",
+        "Limonen",
+        "Linalol"
+      ],
+      "pct": null,
+      "effect": "Zrównoważone — łagodna stymulacja + relaksacja ciała",
+      "verified": "partial",
+      "source": "branża (nie BudCare %)",
+      "status": "dostępna"
+    },
+    {
+      "name": "Jack Herer",
+      "producer": "S-Lab",
+      "thc": "18%",
+      "cbd": "<1%",
+      "type": "Sativa",
+      "terpenes": [
+        "Mircen",
+        "Nerolidol",
+        "Beta-kariofilen",
+        "Pinen"
+      ],
+      "pct": {
+        "Mircen": 40,
+        "Nerolidol": 20,
+        "Beta-kariofilen": 6,
+        "Pinen": 5
+      },
+      "effect": "Kreatywność, łagodny lęk/depresja, ból migrenowy — nie zalecana przy bezsenności",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna"
+    },
+    {
+      "name": "Master Kush",
+      "producer": "S-Lab",
+      "thc": "18%",
+      "cbd": "1%",
+      "type": "Indica",
+      "terpenes": [
+        "Beta-kariofilen",
+        "Nerolidol",
+        "Bisabolol",
+        "Limonen",
+        "Mircen",
+        "Humulen",
+        "Linalol",
+        "Pinen"
+      ],
+      "pct": {
+        "Beta-kariofilen": 26,
+        "Nerolidol": 24,
+        "Bisabolol": 10,
+        "Limonen": 9,
+        "Mircen": 4,
+        "Humulen": 4,
+        "Linalol": 4,
+        "Pinen": 2
+      },
+      "effect": "Relaks, bezsenność, ból przewlekły, lęk — UWAGA: BudCare podaje wersję 18% z pełnym profilem %; w NR dostępna partia 22% (może być inna rejestracja/genetyka, terpeny poniżej dot. wersji 18%)",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 380,
+          "price_per_g": 25,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "thc_nr": "22%"
+        }
+      ]
+    },
+    {
+      "name": "Blueberry",
+      "producer": "Tilray",
+      "thc": "18%",
+      "cbd": "1%",
+      "type": "Indica",
+      "terpenes": [
+        "Mircen",
+        "Humulen",
+        "Linalol",
+        "Bisabolol"
+      ],
+      "pct": {
+        "Mircen": 25,
+        "Humulen": 13,
+        "Linalol": 5,
+        "Bisabolol": 3
+      },
+      "effect": "Ból (ostry i przewlekły/neuropatyczny), PTSD, bezsenność",
+      "verified": true,
+      "source": "BudCare",
+      "status": "niska dostępność"
+    },
+    {
+      "name": "Lilac Diesel",
+      "producer": "S-Lab / Tilray / Synoptis",
+      "thc": "18–22%",
+      "cbd": "≤1%",
+      "type": "Sativa",
+      "terpenes": [
+        "Terpinolen",
+        "Beta-kariofilen",
+        "Pinen",
+        "Linalol"
+      ],
+      "pct": null,
+      "effect": "Energia, poprawa nastroju, lekkość — udziały % niepublikowane",
+      "verified": "partial",
+      "source": "branżowe (nie BudCare %)",
+      "status": "dostępna",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 390,
+          "price_per_g": 26,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "LD",
+          "thc_nr": "22% (Tilray)"
+        }
+      ]
+    },
+    {
+      "name": "Headband",
+      "producer": "Tilray",
+      "thc": "18%",
+      "cbd": "1%",
+      "type": "Hybryda",
+      "terpenes": [
+        "Kariofilen",
+        "Limonen",
+        "Bisabolol",
+        "Nerolidol"
+      ],
+      "pct": {
+        "Kariofilen": 21,
+        "Limonen": 8,
+        "Bisabolol": 16,
+        "Nerolidol": 25
+      },
+      "effect": "Ból (migreny, napięciowy), spastyczność mięśni, redukcja stresu — zrównoważone",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna",
+      "serial_note": "Pod tym samym rejestrem (Tilray THC18/CBD1) występuje 10 odmian — rozróżnia tylko numer serii na opakowaniu",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 370,
+          "price_per_g": 24,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "HB"
+        }
+      ]
+    },
+    {
+      "name": "Rockstar",
+      "producer": "Tilray",
+      "thc": "18%",
+      "cbd": "1%",
+      "type": "Indica",
+      "terpenes": [
+        "Linalol",
+        "Mircen",
+        "Humulen",
+        "Kariofilen",
+        "Limonen",
+        "Bisabolol",
+        "Nerolidol"
+      ],
+      "pct": {
+        "Linalol": 8,
+        "Mircen": 6,
+        "Humulen": 8,
+        "Kariofilen": 23,
+        "Limonen": 8,
+        "Bisabolol": 12,
+        "Nerolidol": 24
+      },
+      "effect": "Ból głowy, ból przewlekły, zaburzenia snu, euforia + głęboki relaks",
+      "verified": true,
+      "source": "BudCare",
+      "status": "niska dostępność",
+      "serial_note": "Pod tym samym rejestrem (Tilray THC18/CBD1) występuje 10 odmian — rozróżnia tylko numer serii na opakowaniu"
+    },
+    {
+      "name": "Jean Guy",
+      "producer": "ODI Pharma",
+      "thc": "20%",
+      "cbd": "1%",
+      "type": "Hybryda/Sativa",
+      "terpenes": [
+        "Kariofilen",
+        "Terpinolen",
+        "Bisabolol",
+        "Nerolidol",
+        "Guaiol"
+      ],
+      "pct": {
+        "Kariofilen": 18,
+        "Terpinolen": 15,
+        "Bisabolol": 8,
+        "Nerolidol": 9,
+        "Guaiol": 10
+      },
+      "effect": "Zmęczenie przewlekłe, fibromialgia, ból neuropatyczny, ADHD (małe dawki) — pobudzające bez sedacji",
+      "verified": true,
+      "source": "BudCare",
+      "status": "niska dostępność",
+      "serial_note": "Ta sama nazwa 'Jean Guy' występuje też pod rejestrem S-Lab THC18 — inny producent, sprawdź który masz"
+    },
+    {
+      "name": "Amnesia Haze (Desert Flame)",
+      "producer": "Medezin",
+      "thc": "20%",
+      "cbd": "1%",
+      "type": "Hybryda/Sativa",
+      "terpenes": [
+        "Mircen",
+        "Pinen",
+        "Humulen",
+        "Kariofilen",
+        "Limonen"
+      ],
+      "pct": {
+        "Mircen": 27,
+        "Pinen": 4,
+        "Humulen": 8,
+        "Kariofilen": 22,
+        "Limonen": 17
+      },
+      "effect": "ADHD, depresja, koncentracja, stymulacja apetytu — u osób podatnych na lęk możliwa paranoja przy wyższych dawkach",
+      "verified": true,
+      "source": "BudCare",
+      "status": "niska dostępność"
+    },
+    {
+      "name": "Electric Honeydew",
+      "producer": "Aurora",
+      "thc": "27%",
+      "cbd": "<1%",
+      "type": "Sativa",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 350,
+          "price_per_g": 35,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Chemango Kush",
+      "producer": "Aurora",
+      "thc": "29%",
+      "cbd": "<1%",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji (nowość w ofercie)",
+      "verified": false,
+      "source": "—",
+      "status": "NOWOŚĆ w NR (26.08.2026)",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 450,
+          "price_per_g": 45,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Pavé S1",
+      "producer": "Cantourage",
+      "thc": "27,3%",
+      "cbd": "≤1%",
+      "type": "Hybryda 50/50",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 450,
+          "price_per_g": 45,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Modified Gas",
+      "producer": "Cantourage",
+      "thc": "26,3%",
+      "cbd": "≤1%",
+      "type": "Hybryda 50/50",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 450,
+          "price_per_g": 45,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Orange Cake",
+      "producer": "Cantourage",
+      "thc": "27,9%",
+      "cbd": "≤1%",
+      "type": "Hybryda 50/50",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 450,
+          "price_per_g": 45,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Jack Haze",
+      "producer": "Red No 2",
+      "thc": "19%",
+      "cbd": "—",
+      "type": "Sativa",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 280,
+          "price_per_g": 56,
+          "package_g": 5,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Afgan Kush",
+      "producer": "Canopy Growth",
+      "thc": "25%",
+      "cbd": "<1%",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 580,
+          "price_per_g": 38,
+          "package_g": 15,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Ultra Jack",
+      "producer": "Canopy Growth",
+      "thc": "30%",
+      "cbd": "<0,5%",
+      "type": "Sativa",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji (nowość)",
+      "verified": false,
+      "source": "—",
+      "status": "NOWOŚĆ w NR (26.08.2026)",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 580,
+          "price_per_g": 38,
+          "package_g": 15,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Orange Cream Pop",
+      "producer": "COSMA",
+      "thc": "20%",
+      "cbd": "≤1%",
+      "type": "Sativa",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 360,
+          "price_per_g": 36,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Hindu Kush",
+      "producer": "COSMA",
+      "thc": "22%",
+      "cbd": "≤1%",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 340,
+          "price_per_g": 34,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Black R.",
+      "producer": "COSMA",
+      "thc": "22%",
+      "cbd": "≤1%",
+      "type": "Hybryda 50/50",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji (nazwa skrócona przez aptekę, potwierdź pełną nazwę na opakowaniu)",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 340,
+          "price_per_g": 34,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Wedding Pop Triangle",
+      "producer": "Four20 Pharma",
+      "thc": "24%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji. UWAGA: ta sama nazwa wcześniej pojawiła się jako nowość u Medalchemy — możliwe że to inny producent/rejestracja, sprawdź opakowanie",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 300,
+          "price_per_g": 30,
+          "package_g": 10,
+          "date": "2026-08-26",
+          "code": "WPT"
+        }
+      ]
+    },
+    {
+      "name": "Zookies",
+      "producer": "Four20 Pharma",
+      "thc": "25%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji. UWAGA: ta sama nazwa wcześniej pojawiła się jako nowość u Medalchemy — sprawdź opakowanie",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 280,
+          "price_per_g": 28,
+          "package_g": 10,
+          "date": "2026-08-26",
+          "code": "ZK"
+        }
+      ]
+    },
+    {
+      "name": "GMO",
+      "producer": "Four20 Pharma",
+      "thc": "27%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 570,
+          "price_per_g": 38,
+          "package_g": 15,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "MSP",
+      "producer": "Four20 Pharma",
+      "thc": "27%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Skrót niezidentyfikowany — potwierdź pełną nazwę na opakowaniu. Profil terpenowy do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 540,
+          "price_per_g": 36,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "MSP"
+        }
+      ]
+    },
+    {
+      "name": "Gorilla Glue",
+      "producer": "PhytoPūr Bio",
+      "thc": "24%",
+      "cbd": "≤1%",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 370,
+          "price_per_g": 37,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "OG Kush",
+      "producer": "Bliss Pharma",
+      "thc": "22%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 380,
+          "price_per_g": 38,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Strawberry Kush",
+      "producer": "Bliss Pharma",
+      "thc": "25%",
+      "cbd": "—",
+      "type": "Hybryda",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Energia, poprawa nastroju (opis producenta) — profil terpenowy nieopublikowany na BudCare",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 400,
+          "price_per_g": 40,
+          "package_g": 10,
+          "date": "2026-08-26"
+        }
+      ]
+    },
+    {
+      "name": "Blueberry",
+      "producer": "S-Lab",
+      "thc": "18%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare dla wersji S-Lab (BudCare ma zweryfikowany profil dla wersji Tilray 18% — prawdopodobnie inna genetyka mimo tej samej nazwy)",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 460,
+          "price_per_g": 30,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "BB"
+        }
+      ]
+    },
+    {
+      "name": "Cataract Kush",
+      "producer": "S-Lab",
+      "thc": "18%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 430,
+          "price_per_g": 28,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "CK"
+        }
+      ]
+    },
+    {
+      "name": "Lemon Haze Gelato",
+      "producer": "S-Lab",
+      "thc": "18%",
+      "cbd": "—",
+      "type": "Sativa 70%",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 450,
+          "price_per_g": 30,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "LHG"
+        }
+      ]
+    },
+    {
+      "name": "Galaxy Walker",
+      "producer": "S-Lab",
+      "thc": "18%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 420,
+          "price_per_g": 28,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "GWO"
+        }
+      ]
+    },
+    {
+      "name": "Headband",
+      "producer": "S-Lab",
+      "thc": "18%",
+      "cbd": "—",
+      "type": "Sativa",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare dla wersji S-Lab (BudCare ma zweryfikowany profil dla wersji Tilray 18%, oznaczonej tam jako Hybryda — możliwa inna genetyka mimo tej samej nazwy)",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 430,
+          "price_per_g": 28,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "HB"
+        }
+      ]
+    },
+    {
+      "name": "Purps",
+      "producer": "S-Lab",
+      "thc": "18–22%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji. Dostępna w dwóch wersjach THC (18% i 22%) w NR",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 420,
+          "price_per_g": 28,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "PPS",
+          "thc_nr": "18%"
+        },
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 460,
+          "price_per_g": 30,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "PPS",
+          "thc_nr": "22%"
+        }
+      ]
+    },
+    {
+      "name": "Beach Crascher",
+      "producer": "S-Lab",
+      "thc": "22%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 380,
+          "price_per_g": 25,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "BCH"
+        }
+      ]
+    },
+    {
+      "name": "Pink Kush",
+      "producer": "S-Lab",
+      "thc": "22%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji. UWAGA: to INNA rejestracja niż Pink Kush od Aurory — ta sama nazwa, inny producent",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 450,
+          "price_per_g": 30,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "PK"
+        }
+      ]
+    },
+    {
+      "name": "Powdered Donuts",
+      "producer": "Synoptis",
+      "thc": "25%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 500,
+          "price_per_g": 33,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "PDD"
+        }
+      ]
+    },
+    {
+      "name": "Cataract Kush",
+      "producer": "Tilray",
+      "thc": "18%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 350,
+          "price_per_g": 23,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "CK"
+        }
+      ]
+    },
+    {
+      "name": "Blueberry 22%",
+      "producer": "Tilray",
+      "thc": "22%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "UWAGA: to inna rejestracja (22%) niż zweryfikowana na BudCare wersja 18% tego samego producenta — sprawdź numer serii, profil terpenowy może się różnić",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 360,
+          "price_per_g": 24,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "BB"
+        }
+      ]
+    },
+    {
+      "name": "Master Kush",
+      "producer": "Tilray",
+      "thc": "22%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare dla wersji Tilray — do weryfikacji (BudCare ma zweryfikowaną wersję S-Lab 18%)",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 360,
+          "price_per_g": 24,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "MK"
+        }
+      ]
+    },
+    {
+      "name": "Pink Kush",
+      "producer": "Tilray",
+      "thc": "22%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji. UWAGA: trzecia rejestracja Pink Kush (obok Aurora i S-Lab) — ta sama nazwa, różni producenci",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 360,
+          "price_per_g": 24,
+          "package_g": 15,
+          "date": "2026-08-26",
+          "code": "PK"
+        }
+      ]
+    }
+  ]
+}
