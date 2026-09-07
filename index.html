@@ -575,13 +575,162 @@
     color:var(--ink-faint);
     line-height:1.6;
   }
+
+  /* ---------- Panel badawczy (notatki kliniczne — widok zbiorczy) ---------- */
+  .header-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .research-nav-btn{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--accent);
+    padding:9px 14px;
+    border-radius:7px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:all .15s;
+    flex-shrink:0;
+  }
+  .research-nav-btn:hover{border-color:var(--accent); background:rgba(143,191,107,0.1);}
+
+  .modal-wide{max-width:920px;}
+
+  .research-toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+    margin-bottom:16px;
+  }
+  .research-toolbar input{
+    flex:1;
+    min-width:180px;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:6px;
+    color:var(--ink);
+    padding:9px 11px;
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+  }
+  .research-toolbar input::placeholder{color:var(--ink-faint);}
+  .research-view-toggle{
+    display:flex;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:7px;
+    padding:3px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    flex-shrink:0;
+  }
+  .research-view-toggle button{
+    background:none;border:none;color:var(--ink-dim);
+    padding:7px 11px;border-radius:5px;cursor:pointer;
+    font-family:inherit;font-size:inherit;
+    white-space:nowrap;
+  }
+  .research-view-toggle button.active{background:var(--accent); color:#10160f; font-weight:600;}
+  .research-export-btn{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    background:var(--accent);
+    color:#10160f;
+    border:none;
+    padding:9px 16px;
+    border-radius:7px;
+    font-weight:600;
+    cursor:pointer;
+    white-space:nowrap;
+    flex-shrink:0;
+  }
+  .research-export-btn:hover{filter:brightness(1.08);}
+
+  .research-stats{
+    display:flex; gap:18px; flex-wrap:wrap; margin-bottom:16px;
+    font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-faint);
+    text-transform:uppercase; letter-spacing:0.05em;
+  }
+  .research-stats b{
+    color:var(--accent); font-size:17px; font-family:'Source Serif 4',serif;
+    text-transform:none; letter-spacing:0; display:block; margin-bottom:2px;
+  }
+
+  .patient-group{
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:10px;
+    overflow:hidden;
+  }
+  .patient-group-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:11px 14px;
+    background:var(--panel-2);
+    cursor:pointer;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    gap:10px;
+  }
+  .patient-group-head:hover{background:rgba(143,191,107,0.08);}
+  .patient-group-head b{color:var(--accent); font-size:14.5px; font-family:'Source Serif 4',serif; font-weight:600;}
+  .patient-group-count{color:var(--ink-faint); font-size:11px;}
+  .patient-group-caret{color:var(--ink-faint); transition:transform .15s; flex-shrink:0;}
+  .patient-group-body{padding:2px 14px 12px;}
+  .patient-group-body.collapsed{display:none;}
+  .research-note-row{
+    padding:10px 0;
+    border-top:1px solid var(--line);
+    font-size:12.5px;
+  }
+  .research-note-row:first-child{border-top:none;}
+  .rn-head{
+    display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    color:var(--accent-2); font-family:'IBM Plex Mono',monospace; font-size:11px; margin-bottom:5px;
+  }
+  .rn-strain{color:var(--ink); font-weight:600;}
+  .rn-strain span{color:var(--ink-faint); font-weight:400;}
+  .rn-text{color:var(--ink-dim); line-height:1.5;}
+
+  .research-table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:8px;}
+  .research-table{width:100%; border-collapse:collapse; font-size:12px; min-width:640px;}
+  .research-table th{
+    text-align:left; font-family:'IBM Plex Mono',monospace; font-size:10.5px;
+    text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-faint);
+    padding:9px 12px; border-bottom:1px solid var(--line); white-space:nowrap;
+    background:var(--panel-2);
+  }
+  .research-table td{padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top; color:var(--ink-dim);}
+  .research-table td:nth-child(2){color:var(--accent); font-weight:600;}
+  .research-table td:nth-child(3){color:var(--ink);}
+  .research-table tr:last-child td{border-bottom:none;}
+  .research-table tr:hover td{background:rgba(143,191,107,0.05);}
+
+  @media (max-width:640px){
+    .header-top{flex-direction:column; align-items:stretch;}
+    .research-nav-btn{width:100%;}
+    .research-toolbar{flex-direction:column; align-items:stretch;}
+    .research-view-toggle, .research-export-btn{width:100%;}
+  }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="eyebrow">Narzędzie kliniczne · susz apteczny PL</div>
-  <h1>Filtr terpenowy</h1>
+  <div class="header-top">
+    <div>
+      <div class="eyebrow">Narzędzie kliniczne · susz apteczny PL</div>
+      <h1>Filtr terpenowy</h1>
+    </div>
+    <button class="research-nav-btn" id="research-btn">📊 Panel badawczy — notatki</button>
+  </div>
   <div class="sub">Zaznacz terpeny — lista odmian zawęzi się do surowców, które je zawierają. Odmiany z <span style="color:var(--accent)">zielonym znacznikiem „✓ BudCare"</span> mają udział procentowy terpenów potwierdzony na budcare.pl — pozostałe to dane jakościowe (kolejność, bez %) z materiałów producenta/branży. Żadne z tych źródeł nie zastępują CoA konkretnej partii.</div>
 </header>
 
@@ -629,7 +778,8 @@
       <div class="form-row">
         <div>
           <label>Inicjały pacjenta</label>
-          <input type="text" id="note-patient" placeholder="np. X.Y.">
+          <input type="text" id="note-patient" list="patient-datalist" placeholder="np. X.Y.">
+          <datalist id="patient-datalist"></datalist>
         </div>
         <div>
           <label>Dawka</label>
@@ -687,6 +837,31 @@
 
     <div class="notes-list-label" id="notes-list-label">Historia notatek</div>
     <div id="notes-list"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="research-modal">
+  <div class="modal modal-wide">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">Panel badawczy — notatki kliniczne</div>
+        <div class="modal-sub" id="research-sub">—</div>
+      </div>
+      <button class="modal-close" id="research-close-btn">✕</button>
+    </div>
+
+    <div class="research-stats" id="research-stats"></div>
+
+    <div class="research-toolbar">
+      <input type="text" id="research-search" placeholder="Szukaj po inicjałach pacjenta, odmianie lub producencie...">
+      <div class="research-view-toggle">
+        <button id="research-view-patients" class="active">Wg pacjenta</button>
+        <button id="research-view-list">Wszystkie notatki</button>
+      </div>
+      <button class="research-export-btn" id="research-export-btn">⬇ Eksport CSV</button>
+    </div>
+
+    <div id="research-content"></div>
   </div>
 </div>
 
@@ -872,6 +1047,7 @@ function openNotesModal(s){
   document.getElementById('note-patient').value = '';
   document.getElementById('note-dose').value = '';
   document.getElementById('note-text').value = '';
+  refreshPatientDatalist();
   renderNotesList();
   document.getElementById('notes-modal').classList.add('open');
 }
@@ -961,6 +1137,225 @@ function escapeHtml(str){
   const d = document.createElement('div');
   d.textContent = str;
   return d.innerHTML;
+}
+
+// ---------- Autouzupełnianie inicjałów pacjenta (na podstawie już zapisanych notatek) ----------
+function refreshPatientDatalist(){
+  const dl = document.getElementById('patient-datalist');
+  const names = [...new Set(
+    loadAllNotes().map(n => n.patient).filter(Boolean).map(p => p.trim().toUpperCase())
+  )].sort((a,b)=>a.localeCompare(b,'pl'));
+  dl.innerHTML = names.map(n => `<option value="${escapeHtml(n)}">`).join('');
+}
+
+// ---------- PANEL BADAWCZY: zbiorczy widok notatek klinicznych ----------
+// Cel: notatki dla tego samego pacjenta (po inicjałach) katalogują się razem,
+// niezależnie od odmiany i daty wizyty — do wykorzystania w analizie kohortowej.
+
+function patientKeyNorm(p){ return (p || '').trim().toUpperCase(); }
+
+function parseStrainKey(key){
+  const idx = key.indexOf('|');
+  return { producer: key.slice(0, idx), name: key.slice(idx + 1) };
+}
+
+let researchView = 'patients'; // 'patients' | 'list'
+let researchQuery = '';
+
+function getAllNotesEnriched(){
+  return loadAllNotes().map(n => {
+    const { producer, name } = parseStrainKey(n.strainKey);
+    return { ...n, strainName: name, strainProducer: producer };
+  });
+}
+
+function filteredResearchNotes(){
+  const all = getAllNotesEnriched();
+  if(!researchQuery) return all;
+  return all.filter(n =>
+    (n.patient || '').toLowerCase().includes(researchQuery) ||
+    n.strainName.toLowerCase().includes(researchQuery) ||
+    n.strainProducer.toLowerCase().includes(researchQuery)
+  );
+}
+
+function openResearchModal(){
+  researchView = 'patients';
+  researchQuery = '';
+  document.getElementById('research-search').value = '';
+  document.getElementById('research-view-patients').classList.add('active');
+  document.getElementById('research-view-list').classList.remove('active');
+  renderResearch();
+  document.getElementById('research-modal').classList.add('open');
+}
+function closeResearchModal(){
+  document.getElementById('research-modal').classList.remove('open');
+}
+document.getElementById('research-btn').addEventListener('click', openResearchModal);
+document.getElementById('research-close-btn').addEventListener('click', closeResearchModal);
+document.getElementById('research-modal').addEventListener('click', (e)=>{
+  if(e.target.id === 'research-modal') closeResearchModal();
+});
+document.getElementById('research-search').addEventListener('input', (e)=>{
+  researchQuery = e.target.value.trim().toLowerCase();
+  renderResearch();
+});
+document.getElementById('research-view-patients').addEventListener('click', ()=>{
+  researchView = 'patients';
+  document.getElementById('research-view-patients').classList.add('active');
+  document.getElementById('research-view-list').classList.remove('active');
+  renderResearch();
+});
+document.getElementById('research-view-list').addEventListener('click', ()=>{
+  researchView = 'list';
+  document.getElementById('research-view-list').classList.add('active');
+  document.getElementById('research-view-patients').classList.remove('active');
+  renderResearch();
+});
+document.getElementById('research-export-btn').addEventListener('click', exportResearchCsv);
+
+function renderResearch(){
+  const all = getAllNotesEnriched();
+  const filtered = filteredResearchNotes();
+  const uniquePatients = new Set(all.filter(n => n.patient).map(n => patientKeyNorm(n.patient)));
+  const uniqueStrains = new Set(all.map(n => n.strainKey));
+
+  document.getElementById('research-sub').textContent =
+    `${all.length} ${all.length===1?'notatka':'notatek'} łącznie`;
+
+  document.getElementById('research-stats').innerHTML = `
+    <span><b>${all.length}</b>notatek</span>
+    <span><b>${uniquePatients.size}</b>pacjentów</span>
+    <span><b>${uniqueStrains.size}</b>odmian z notatkami</span>
+  `;
+
+  const wrap = document.getElementById('research-content');
+
+  if(all.length === 0){
+    wrap.innerHTML = `<div class="notes-empty">Brak zapisanych notatek klinicznych. Dodaj pierwszą notatkę z poziomu karty odmiany (przycisk „📝 Notatki kliniczne").</div>`;
+    return;
+  }
+  if(filtered.length === 0){
+    wrap.innerHTML = `<div class="notes-empty">Brak wyników dla „${escapeHtml(researchQuery)}".</div>`;
+    return;
+  }
+
+  if(researchView === 'patients'){
+    renderResearchByPatient(filtered, wrap);
+  } else {
+    renderResearchList(filtered, wrap);
+  }
+}
+
+function renderResearchByPatient(notes, wrap){
+  const groups = new Map(); // normKey -> {label, items:[]}
+  notes.forEach(n=>{
+    const key = n.patient ? patientKeyNorm(n.patient) : '__NOINIT__';
+    if(!groups.has(key)) groups.set(key, { label: n.patient ? n.patient.trim().toUpperCase() : 'bez inicjałów', items: [] });
+    groups.get(key).items.push(n);
+  });
+
+  const sortedGroups = [...groups.entries()].sort((a,b)=>{
+    if(a[0] === '__NOINIT__') return 1;
+    if(b[0] === '__NOINIT__') return -1;
+    return a[1].label.localeCompare(b[1].label, 'pl');
+  });
+
+  wrap.innerHTML = sortedGroups.map(([key, g])=>{
+    const items = g.items.slice().sort((a,b)=> b.ts - a.ts);
+    return `
+      <div class="patient-group">
+        <div class="patient-group-head" data-key="${key}">
+          <span><b>${escapeHtml(g.label)}</b> <span class="patient-group-count">— ${items.length} ${items.length===1?'notatka':'notatek'}</span></span>
+          <span class="patient-group-caret">▾</span>
+        </div>
+        <div class="patient-group-body">
+          ${items.map(n=>`
+            <div class="research-note-row">
+              <div class="rn-head">
+                <span class="rn-strain">${escapeHtml(n.strainName)} <span>(${escapeHtml(n.strainProducer)})</span></span>
+                <span>${n.dateLabel}${n.dose ? ' · D: ' + escapeHtml(n.dose) : ''}</span>
+              </div>
+              <div class="rn-text">${escapeHtml(n.text)}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  wrap.querySelectorAll('.patient-group-head').forEach(h=>{
+    h.addEventListener('click', ()=>{
+      h.nextElementSibling.classList.toggle('collapsed');
+    });
+  });
+}
+
+function renderResearchList(notes, wrap){
+  const sorted = notes.slice().sort((a,b)=> b.ts - a.ts);
+  wrap.innerHTML = `
+    <div class="research-table-wrap">
+      <table class="research-table">
+        <thead>
+          <tr>
+            <th>Data</th><th>Pacjent</th><th>Odmiana</th><th>Producent</th><th>Dawka</th><th>Notatka</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${sorted.map(n=>`
+            <tr>
+              <td>${n.dateLabel}</td>
+              <td>${n.patient ? escapeHtml(n.patient.trim().toUpperCase()) : '—'}</td>
+              <td>${escapeHtml(n.strainName)}</td>
+              <td>${escapeHtml(n.strainProducer)}</td>
+              <td>${n.dose ? escapeHtml(n.dose) : '—'}</td>
+              <td>${escapeHtml(n.text)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function csvEscape(val){
+  const s = String(val ?? '');
+  if(/[;"\n]/.test(s)) return '"' + s.replace(/"/g,'""') + '"';
+  return s;
+}
+
+function exportResearchCsv(){
+  const notes = filteredResearchNotes().slice().sort((a,b)=> a.ts - b.ts);
+  if(notes.length === 0){ alert('Brak danych do eksportu.'); return; }
+
+  const strainMeta = new Map(strains.map(s => [strainKey(s), s]));
+  const header = ['Data','Pacjent','Odmiana','Producent','THC','Dawka','Notatka'];
+
+  const rows = notes.map(n=>{
+    const meta = strainMeta.get(n.strainKey);
+    return [
+      n.dateLabel,
+      n.patient ? n.patient.trim().toUpperCase() : '',
+      n.strainName,
+      n.strainProducer,
+      meta ? meta.thc : '',
+      n.dose || '',
+      n.text
+    ].map(csvEscape).join(';');
+  });
+
+  // BOM na początku, żeby Excel poprawnie odczytał polskie znaki; średnik jako separator (domyślny w polskim Excelu)
+  const csv = '\uFEFF' + [header.join(';'), ...rows].join('\r\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const today = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `notatki_kliniczne_${today}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 // ---------- PWA: rejestracja service workera (offline) ----------
