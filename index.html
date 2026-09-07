@@ -758,10 +758,11 @@ function matchesFilter(strain){
 function render(){
   renderTerpList();
 
-  const filtered = strains.filter(matchesFilter).sort((a,b)=>{
-    const rank = v => v===true ? 0 : v==="partial" ? 1 : 2;
-    return rank(a.verified) - rank(b.verified);
-  });
+    // Zawsze sortuj alfabetycznie po nazwie (PL) — zarówno bez filtrów, jak i po ich zastosowaniu.
+  // Producent jako tiebreaker przy identycznych nazwach (np. kilka rejestracji "Pink Kush").
+  const filtered = strains.filter(matchesFilter).sort((a,b)=>
+    a.name.localeCompare(b.name, 'pl') || a.producer.localeCompare(b.producer, 'pl')
+  );
   document.getElementById('count-num').textContent = filtered.length;
 
   const activeWrap = document.getElementById('active-filters');
