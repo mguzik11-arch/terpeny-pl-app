@@ -27,6 +27,7 @@
     --indica:#a97cc9;
     --sativa:#d9a441;
     --hybrid:#6bb0bf;
+    --lab:#7aa6e0;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -296,6 +297,7 @@
     border-radius:20px;
     margin-left:auto;
   }
+  .v-lab{background:rgba(122,166,224,0.18); color:var(--lab); font-weight:700;}
   .v-yes{background:rgba(143,191,107,0.16); color:var(--accent);}
   .v-part{background:rgba(201,161,90,0.16); color:var(--accent-2);}
   .v-no{background:var(--panel-2); color:var(--ink-faint); border:1px solid var(--line);}
@@ -768,7 +770,7 @@
 </div>
 
 <footer>
-  Źródła: URPL (Lista Surowców Farmaceutycznych), BudCare.pl (baza odmian — jedyne źródło z podanym % udziałem każdego terpenu, wyliczonym jako średnia z wielu partii), materiały producentów (Aurora, Canopy Growth, Cantourage, COSMA, Suprobion, PhytoPūr Bio, Four20 Pharma, Tilray, S-Lab), agregacja branżowa (Cannabis Spot, MedCan Clinics). <b>NR</b> = Niezapominajka Rzeszów Rejtana, cotygodniowy cennik przekazywany prywatnie — ceny i dostępność aktualne na dzień podany przy cenie, nie odświeżają się automatycznie. Stan ogólny: sierpień 2026 — dostępność apteczna rotuje miesięcznie, sprawdź bieżąco w GdziePoLek/KtoMaLek. BudCare zastrzega, że nawet ich dane to średnie z partii, nie certyfikat konkretnego opakowania — traktuj jako punkt wyjścia do rozmowy z pacjentem, nie jako CoA. Związek terpen→efekt w większości oparty na danych przedklinicznych, nie RCT.
+  Źródła: URPL (Lista Surowców Farmaceutycznych), BudCare.pl (baza odmian — jedyne źródło z podanym % udziałem każdego terpenu, wyliczonym jako średnia z wielu partii), materiały producentów (Aurora, Canopy Growth, Cantourage, COSMA, Suprobion, PhytoPūr Bio, Four20 Pharma, Tilray, S-Lab), agregacja branżowa (Cannabis Spot, MedCan Clinics). Znacznik <b style="color:var(--lab)">🔬 CoA lab</b> oznacza profil terpenowy potwierdzony niezależną analizą laboratoryjną (CoA) — najwyższy poziom pewności, nadpisuje dane z BudCare gdy oba są dostępne. <b>NR</b> = Niezapominajka Rzeszów Rejtana, cotygodniowy cennik przekazywany prywatnie — ceny i dostępność aktualne na dzień podany przy cenie, nie odświeżają się automatycznie. Stan ogólny: sierpień 2026 — dostępność apteczna rotuje miesięcznie, sprawdź bieżąco w GdziePoLek/KtoMaLek. BudCare zastrzega, że nawet ich dane to średnie z partii, nie certyfikat konkretnego opakowania — traktuj jako punkt wyjścia do rozmowy z pacjentem, nie jako CoA. Związek terpen→efekt w większości oparty na danych przedklinicznych, nie RCT.
 </footer>
 
 <div class="modal-overlay" id="notes-modal">
@@ -1012,18 +1014,23 @@ function render(){
   filtered.forEach(s=>{
     const card = document.createElement('div');
     card.className = 'card';
+    // Profil % z niezależnego CoA laboratoryjnego (jeśli dostarczony) ma pierwszeństwo nad BudCare.
+    const pctSource = (s.lab && s.lab.pct) ? s.lab.pct : s.pct;
     const terpTagsHtml = s.terpenes.length
       ? s.terpenes.map(t => {
-          const pctLabel = (s.pct && s.pct[t]) ? ` ${s.pct[t]}%` : "";
+          const pctLabel = (pctSource && pctSource[t]) ? ` ${pctSource[t]}%` : "";
           return `<span class="terp-tag ${selected.has(t)?'match':''}">${t}${pctLabel}</span>`;
         }).join('')
       : `<span class="terp-tag">profil niepublikowany</span>`;
 
-    const badge = s.verified === true
-      ? `<span class="verify-badge v-yes" title="Udziały % potwierdzone na BudCare.pl">✓ BudCare</span>`
-      : s.verified === "partial"
-        ? `<span class="verify-badge v-part" title="Kolejność terpenów potwierdzona branżowo, bez %">~ częściowo</span>`
-        : `<span class="verify-badge v-no" title="Dane wyłącznie z materiałów producenta/branżowych">producent</span>`;
+    // Hierarchia wiarygodności źródła: CoA laboratoryjne (najwyższa) > BudCare (ilościowo) > branżowe (jakościowo) > tylko producent.
+    const badge = (s.lab && s.lab.pct)
+      ? `<span class="verify-badge v-lab" title="${s.lab.source ? escapeHtml(s.lab.source) : 'Niezależne CoA laboratoryjne'}${s.lab.date ? ' · ' + s.lab.date : ''}">🔬 CoA lab</span>`
+      : s.verified === true
+        ? `<span class="verify-badge v-yes" title="Udziały % potwierdzone na BudCare.pl">✓ BudCare</span>`
+        : s.verified === "partial"
+          ? `<span class="verify-badge v-part" title="Kolejność terpenów potwierdzona branżowo, bez %">~ częściowo</span>`
+          : `<span class="verify-badge v-no" title="Dane wyłącznie z materiałów producenta/branżowych">producent</span>`;
 
     card.innerHTML = `
       <div class="card-top">

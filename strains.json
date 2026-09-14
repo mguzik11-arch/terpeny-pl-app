@@ -9,7 +9,7 @@
       "materiały producentów",
       "NR = Niezapominajka Rzeszów Rejtana (cotygodniowy cennik apteczny, przekazywany prywatnie)"
     ],
-    "note": "verified:true = udział % terpenów potwierdzony na BudCare.pl. verified:'partial' = kolejność terpenów potwierdzona branżowo, bez wag %. verified:false = dane niepotwierdzone, sprawdź CoA. Status 'WYCOFANA' oznacza brak nowych dostaw od producenta — istniejące partie mogą pozostawać w lokalnym obrocie do wyczerpania zapasu (aktywny numer rejestru pozwala aptekom sprzedawać posiadany zapas)."
+    "note": "verified:true = udział % terpenów potwierdzony na BudCare.pl. verified:'partial' = kolejność terpenów potwierdzona branżowo, bez wag %. verified:false = dane niepotwierdzone, sprawdź CoA. Status 'WYCOFANA' oznacza brak nowych dostaw od producenta — istniejące partie mogą pozostawać w lokalnym obrocie do wyczerpania zapasu (aktywny numer rejestru pozwala aptekom sprzedawać posiadany zapas). Od teraz każda NOWA odmiana pojawiająca się w cenniku NR jest automatycznie sprawdzana na BudCare.pl przy najbliższej aktualizacji — potwierdzenie tożsamości i/lub profil % (jeśli publikowany), inaczej pozostaje jako 'do weryfikacji'. Planowane trzecie, najwyższe źródło weryfikacji: niezależne CoA laboratoryjne (PDF-y od konopnego farmaceuty) — pole 'lab' pojawi się przy odmianach, dla których użytkownik dostarczy raport."
   },
   "strains": [
     {
@@ -1630,9 +1630,9 @@
       "type": "Hybryda 50/50",
       "terpenes": [],
       "pct": null,
-      "effect": "Uspokojenie, poprawa nastroju, wsparcie snu, działanie przeciwlękowe (opis producenta/apteki) — profil terpenowy nieopublikowany na BudCare, do weryfikacji",
+      "effect": "Uspokojenie, poprawa nastroju, wsparcie snu, działanie przeciwlękowe (opis producenta/apteki). BudCare potwierdza tę odmianę pod nazwą „Somango Skunk” (Hybryda, THC 22%, CBD ≤1%) — zgodność THC i producenta, ale terpenowy profil % nie jest tam publikowany — do weryfikacji.",
       "verified": false,
-      "source": "—",
+      "source": "BudCare (potwierdzenie tożsamości, bez profilu %) + opis apteki",
       "status": "NOWOŚĆ w NR (09.09.2026)",
       "prices": [
         {
@@ -1643,19 +1643,32 @@
           "package_g": 10,
           "date": "2026-09-09"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/producent/cosma/"
     },
     {
-      "name": "FLM",
+      "name": "Frozen Lemon Mints (FLM)",
       "producer": "Four20 Pharma",
       "thc": "27%",
       "cbd": "—",
-      "type": "Sativa",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Skrót niezidentyfikowany — potwierdź pełną nazwę na opakowaniu. Profil terpenowy do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "type": "Hybryda (przewaga sativa)",
+      "terpenes": [
+        "Terpinolen",
+        "Limonen",
+        "Beta-kariofilen",
+        "Mircen",
+        "Linalol"
+      ],
+      "pct": {
+        "Terpinolen": 36,
+        "Limonen": 10,
+        "Beta-kariofilen": 13,
+        "Mircen": 9,
+        "Linalol": 6
+      },
+      "effect": "Zrównoważone działanie między energią a relaksem — pobudzający początek, łagodniejsze wygaszanie, dobra do stosowania w ciągu dnia (opis BudCare). Kod „FLM” z cennika NR = Frozen Lemon Mints (potwierdzone dopasowaniem THC 27% i producenta na BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "NOWOŚĆ w NR (09.09.2026)",
       "prices": [
         {
@@ -1667,7 +1680,8 @@
           "date": "2026-09-09",
           "code": "FLM"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/four20-pharma-27-frozen-lemon-mints/"
     },
     {
       "name": "Ghost Gelato",
@@ -1677,9 +1691,9 @@
       "type": "Indica",
       "terpenes": [],
       "pct": null,
-      "effect": "Aktywacja umysłu, uspokojenie (opis apteki) — profil terpenowy nieopublikowany na BudCare, do weryfikacji",
+      "effect": "Aktywacja umysłu, uspokojenie (opis apteki). BudCare potwierdza tę odmianę pod tą samą nazwą w rejestracji S-Lab 22% (razem z m.in. Blueberry 22%, Lemon Haze Gelato, Cataract Kush) — ale profil terpenowy % nie jest tam publikowany — do weryfikacji.",
       "verified": false,
-      "source": "—",
+      "source": "BudCare (potwierdzenie tożsamości, bez profilu %) + opis apteki",
       "status": "NOWOŚĆ w NR (09.09.2026), indica 55%",
       "prices": [
         {
@@ -1691,7 +1705,8 @@
           "date": "2026-09-09",
           "code": "GHG"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/odmiany-dostepne-jako-cannabis-flos-s-lab-22/"
     }
   ]
 }
