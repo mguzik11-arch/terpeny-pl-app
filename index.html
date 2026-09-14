@@ -731,12 +731,19 @@
     </div>
     <button class="research-nav-btn" id="research-btn">📊 Panel badawczy — notatki</button>
   </div>
-  <div class="sub">Zaznacz terpeny — lista odmian zawęzi się do surowców, które je zawierają. Odmiany z <span style="color:var(--accent)">zielonym znacznikiem „✓ BudCare"</span> mają udział procentowy terpenów potwierdzony na budcare.pl — pozostałe to dane jakościowe (kolejność, bez %) z materiałów producenta/branży. Żadne z tych źródeł nie zastępują CoA konkretnej partii.</div>
+  <div class="sub">Zawęź listę po producencie (np. sama Aurora), a potem doprecyzuj terpenami — liczniki terpenów przeliczają się wtedy tylko w obrębie wybranych producentów. Odmiany z <span style="color:var(--accent)">zielonym znacznikiem „✓ BudCare"</span> mają udział procentowy terpenów potwierdzony na budcare.pl — pozostałe to dane jakościowe (kolejność, bez %) z materiałów producenta/branży. Żadne z tych źródeł nie zastępują CoA konkretnej partii.</div>
 </header>
 
 <div class="layout">
   <aside>
     <div class="panel-label">
+      <span>Producenci</span>
+      <span id="producer-total"></span>
+    </div>
+
+    <div class="terp-list" id="producer-list"></div>
+
+    <div class="panel-label" style="margin-top:24px;">
       <span>Terpeny</span>
       <span id="terp-total"></span>
     </div>
@@ -868,7 +875,9 @@
 <script>
 let strains = [];
 let allTerpenes = [];
+let allProducers = [];
 let selected = new Set();
+let selectedProducers = new Set();
 let mode = "any"; // any | all
 
 async function loadStrains(){
@@ -885,6 +894,8 @@ async function loadStrains(){
   normalizeStrains();
   allTerpenes = [...new Set(strains.flatMap(s => s.terpenes))].sort((a,b)=>a.localeCompare(b,'pl'));
   terpTotal.textContent = allTerpenes.length + " poz.";
+  allProducers = [...new Set(strains.map(s => s.producer))].sort((a,b)=>a.localeCompare(b,'pl'));
+  producerTotal.textContent = allProducers.length + " poz.";
   render();
 }
 
@@ -899,8 +910,33 @@ function normalizeStrains(){
 
 const terpList = document.getElementById('terp-list');
 const terpTotal = document.getElementById('terp-total');
+const producerList = document.getElementById('producer-list');
+const producerTotal = document.getElementById('producer-total');
 
-function terpCount(t){ return strains.filter(s=>s.terpenes.includes(t)).length; }
+// Liczba odmian danego producenta — niezależna od filtrów terpenowych (producent to filtr nadrzędny).
+function producerCount(p){ return strains.filter(s=>s.producer === p).length; }
+
+// Liczba odmian z danym terpenem — policzona TYLKO wśród już wybranych producentów,
+// żeby liczniki terpenów były trafne po zawężeniu do np. samej Aurory.
+function terpCount(t){ return strains.filter(s=>s.terpenes.includes(t) && matchesProducerFilter(s)).length; }
+
+function renderProducerList(){
+  producerList.innerHTML = "";
+  allProducers.forEach(p=>{
+    const row = document.createElement('label');
+    row.className = 'terp-item' + (selectedProducers.has(p) ? ' checked' : '');
+    row.innerHTML = `
+      <input type="checkbox" ${selectedProducers.has(p)?'checked':''} data-producer="${p}">
+      <span class="terp-name">${p}</span>
+      <span class="terp-count">${producerCount(p)}</span>
+    `;
+    row.querySelector('input').addEventListener('change', (e)=>{
+      if(e.target.checked) selectedProducers.add(p); else selectedProducers.delete(p);
+      render();
+    });
+    producerList.appendChild(row);
+  });
+}
 
 function renderTerpList(){
   terpList.innerHTML = "";
@@ -920,7 +956,12 @@ function renderTerpList(){
   });
 }
 
-function matchesFilter(strain){
+// Filtr producenta: brak zaznaczenia = wszyscy. Kilku zaznaczonych = logika "którykolwiek z nich" (OR).
+function matchesProducerFilter(strain){
+  return selectedProducers.size === 0 || selectedProducers.has(strain.producer);
+}
+
+function matchesTerpeneFilter(strain){
   if(selected.size === 0) return true;
   const terps = strain.terpenes;
   if(mode === "any"){
@@ -930,7 +971,12 @@ function matchesFilter(strain){
   }
 }
 
+function matchesFilter(strain){
+  return matchesProducerFilter(strain) && matchesTerpeneFilter(strain);
+}
+
 function render(){
+  renderProducerList();
   renderTerpList();
 
     // Zawsze sortuj alfabetycznie po nazwie (PL) — zarówno bez filtrów, jak i po ich zastosowaniu.
@@ -942,6 +988,12 @@ function render(){
 
   const activeWrap = document.getElementById('active-filters');
   activeWrap.innerHTML = "";
+  selectedProducers.forEach(p=>{
+    const c = document.createElement('span');
+    c.className = 'chip';
+    c.textContent = "🏭 " + p;
+    activeWrap.appendChild(c);
+  });
   selected.forEach(t=>{
     const c = document.createElement('span');
     c.className = 'chip';
@@ -953,7 +1005,7 @@ function render(){
   cardsWrap.innerHTML = "";
 
   if(filtered.length === 0){
-    cardsWrap.innerHTML = `<div class="empty">Brak odmian spełniających ten zestaw kryteriów.<br>Zmień tryb na „którykolwiek" lub odznacz część terpenów.</div>`;
+    cardsWrap.innerHTML = `<div class="empty">Brak odmian spełniających ten zestaw kryteriów.<br>Zmień tryb na „którykolwiek", odznacz część terpenów lub poszerz wybór producentów.</div>`;
     return;
   }
 
@@ -1016,6 +1068,7 @@ document.getElementById('mode-all').addEventListener('click', ()=>{
 });
 document.getElementById('clear-btn').addEventListener('click', ()=>{
   selected.clear();
+  selectedProducers.clear();
   render();
 });
 
