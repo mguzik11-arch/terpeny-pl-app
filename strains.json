@@ -9,7 +9,7 @@
       "materiały producentów",
       "NR = Niezapominajka Rzeszów Rejtana (cotygodniowy cennik apteczny, przekazywany prywatnie)"
     ],
-    "note": "verified:true = udział % terpenów potwierdzony na BudCare.pl. verified:'partial' = kolejność terpenów potwierdzona branżowo, bez wag %. verified:false = dane niepotwierdzone, sprawdź CoA. Status 'WYCOFANA' oznacza brak nowych dostaw od producenta — istniejące partie mogą pozostawać w lokalnym obrocie do wyczerpania zapasu (aktywny numer rejestru pozwala aptekom sprzedawać posiadany zapas). Od teraz każda NOWA odmiana pojawiająca się w cenniku NR jest automatycznie sprawdzana na BudCare.pl przy najbliższej aktualizacji — potwierdzenie tożsamości i/lub profil % (jeśli publikowany), inaczej pozostaje jako 'do weryfikacji'. Planowane trzecie, najwyższe źródło weryfikacji: niezależne CoA laboratoryjne (PDF-y od konopnego farmaceuty) — pole 'lab' pojawi się przy odmianach, dla których użytkownik dostarczy raport."
+    "note": "verified:true = udział % terpenów potwierdzony na BudCare.pl. verified:'partial' = terpeny obecne potwierdzone (branżowo lub jako dominujące wg BudCare), bez wiarygodnych wag % (np. BudCare pokazuje sztuczny równy podział / zastrzega \"nie znamy dokładnego profilu\"). verified:false = dane niepotwierdzone, sprawdź CoA. Status 'WYCOFANA' oznacza brak nowych dostaw od producenta — istniejące partie mogą pozostawać w lokalnym obrocie do wyczerpania zapasu (aktywny numer rejestru pozwala aptekom sprzedawać posiadany zapas). Od teraz każda NOWA odmiana pojawiająca się w cenniku NR jest automatycznie sprawdzana na BudCare.pl przy najbliższej aktualizacji — potwierdzenie tożsamości i/lub profil % (jeśli publikowany), inaczej pozostaje jako 'do weryfikacji'. 14.09.2026: przeprowadzono pełny przegląd (sweep) ~52 dotąd niezweryfikowanych/częściowo zweryfikowanych odmian względem BudCare.pl — zaktualizowano dane dla większości z nich (patrz pola budcare_url i effect przy każdej pozycji dla szczegółów i zastrzeżeń, w tym dot. rozbieżności nazw/producentów i danych typu placeholder). Planowane trzecie, najwyższe źródło weryfikacji: niezależne CoA laboratoryjne (PDF-y od konopnego farmaceuty) — pole 'lab' pojawi się przy odmianach, dla których użytkownik dostarczy raport."
   },
   "strains": [
     {
@@ -188,15 +188,24 @@
       "cbd": "<1%",
       "type": "Indica",
       "terpenes": [
-        "Limonen",
-        "Beta-kariofilen",
         "Mircen",
-        "Nerolidol"
+        "Kariofilen",
+        "Limonen",
+        "Linalol",
+        "Nerolidol",
+        "Bisabolol"
       ],
-      "pct": null,
-      "effect": "Głęboki relaks — ból, stres, bezsenność",
-      "verified": "partial",
-      "source": "BudCare (opis jakościowy, bez %)",
+      "pct": {
+        "Mircen": 25,
+        "Kariofilen": 18,
+        "Limonen": 18,
+        "Linalol": 10,
+        "Nerolidol": 9,
+        "Bisabolol": 7
+      },
+      "effect": "Relaksacja z poczuciem radości; wyraźne działanie przeciwbólowe przy migrenach, nudnościach, stresie, lęku, wspiera sen (opis BudCare). Uwaga: BudCare wcześniej informował o możliwym wycofywaniu tej odmiany z rynku — zweryfikuj bieżącą dostępność przy kolejnej aktualizacji.",
+      "verified": true,
+      "source": "BudCare",
       "status": "Wycofana ogólnopolsko przez producenta (BudCare, XI 2025) — nowe dostawy nie są planowane. Resztki starych partii nadal w lokalnym obrocie (potwierdzone w NR, 26.08.2026) — do wyczerpania zapasu.",
       "prices": [
         {
@@ -208,7 +217,8 @@
           "date": "2026-08-26",
           "thc_nr": "20%"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-aurora-20-pink-kush/"
     },
     {
       "name": "8/8 zrównoważona",
@@ -216,12 +226,23 @@
       "thc": "8%",
       "cbd": "8%",
       "type": "Hybryda",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Lęk, seniorzy, start terapii — profil terpenowy niepublikowany",
-      "verified": false,
-      "source": "—",
-      "status": "sprawdź dostępność"
+      "terpenes": [
+        "Mircen",
+        "Pinen",
+        "Kariofilen",
+        "Limonen"
+      ],
+      "pct": {
+        "Mircen": 47,
+        "Pinen": 28,
+        "Kariofilen": 6,
+        "Limonen": 4
+      },
+      "effect": "Zrównoważona 8%THC:8%CBD — działanie relaksujące przy zachowaniu funkcjonowania w ciągu dnia, bez nadmiernej sedacji (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
+      "status": "sprawdź dostępność",
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-aurora-8-deutschland-gmbh-thc-8-cbd-8/"
     },
     {
       "name": "Red Velvet Cake",
@@ -232,13 +253,18 @@
       "terpenes": [
         "Limonen",
         "Mircen",
-        "Beta-kariofilen"
+        "Kariofilen"
       ],
-      "pct": null,
-      "effect": "Pobudzające — energia, nastrój, koncentracja bez przeciążenia",
-      "verified": "partial",
-      "source": "BudCare (opis jakościowy, bez %)",
-      "status": "dostępna"
+      "pct": {
+        "Limonen": 35,
+        "Mircen": 30,
+        "Kariofilen": 25
+      },
+      "effect": "Połączenie świeżości, relaksacji i łagodnej stymulacji mentalnej, do stosowania w dzień (opis BudCare). Wartości uśrednione z partii wg BudCare (nie oznaczone jako „profil nieznany”) — potraktowane jako realne dane.",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna",
+      "budcare_url": "https://budcare.pl/odmiany/red-velvet-cake-canopy-growth-27/"
     },
     {
       "name": "Kush Mints",
@@ -247,15 +273,15 @@
       "cbd": "<1%",
       "type": "Hybryda",
       "terpenes": [
-        "Limonen",
-        "Beta-kariofilen",
         "Linalol",
+        "Kariofilen",
+        "Limonen",
         "Selinadien"
       ],
       "pct": null,
-      "effect": "Zrównoważone — selinadien nadaje rzadszy chmielowo-korzenny aromat",
+      "effect": "BudCare wprost zaznacza: „Nie znamy dokładnego profilu terpenowego – podane terpeny wskazują jedynie terpeny dominujące” (na stronie progu 28% THC; strona 30% pokazuje identyczny wzorzec 25/25/25/25%). Realne wartości % oczekują na niezależną analizę CoA (laboratorium, po dostarczeniu przez konopnego farmaceutę).",
       "verified": "partial",
-      "source": "BudCare (opis jakościowy, bez %)",
+      "source": "BudCare (profil orientacyjny, bez %)",
       "status": "dostępna",
       "prices": [
         {
@@ -267,7 +293,8 @@
           "date": "2026-08-26",
           "thc_nr": "30%"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/kush-mints-canopy-growth-28/"
     },
     {
       "name": "Krypton / Snowtorious Krypton",
@@ -277,13 +304,13 @@
       "type": "Indica",
       "terpenes": [
         "Mircen",
-        "Limonen",
-        "Beta-kariofilen"
+        "Kariofilen",
+        "Limonen"
       ],
       "pct": null,
-      "effect": "Relaksujące — silny ból, sen, ciężki cielesny efekt",
+      "effect": "BudCare wprost zaznacza: „Nie znamy dokładnego profilu terpenowego – podane terpeny wskazują jedynie terpeny dominujące” (wyświetlany równy podział 33/33/33% to placeholder, nie dane laboratoryjne). Realne wartości % oczekują na niezależną analizę CoA (laboratorium, po dostarczeniu przez konopnego farmaceutę).",
       "verified": "partial",
-      "source": "BudCare (opis jakościowy, bez %)",
+      "source": "BudCare (profil orientacyjny, bez %)",
       "status": "dostępna [brak w cenniku NR z 09.09.2026 — sprawdź dostępność]",
       "prices": [
         {
@@ -294,7 +321,8 @@
           "package_g": 15,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/snowtorious-krypton-canopy-growth-25/"
     },
     {
       "name": "Bakerstreet",
@@ -302,11 +330,21 @@
       "thc": "20%",
       "cbd": "≤0,5%",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Sen, uspokojenie — profil terpenowy niepotwierdzony na BudCare",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Mircen",
+        "Terpinolen",
+        "Ocymen",
+        "Pinen"
+      ],
+      "pct": {
+        "Mircen": 40,
+        "Terpinolen": 22,
+        "Ocymen": 12,
+        "Pinen": 6
+      },
+      "effect": "Silne rozluźnienie mięśni, poleca się na wieczór — pomaga przy stresie, depresji, lęku i bólu przewlekłym (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "sprawdź dostępność [brak w cenniku NR z 09.09.2026 — sprawdź dostępność]",
       "prices": [
         {
@@ -317,7 +355,8 @@
           "package_g": 15,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-canopy-growth-20-thc-20-cbd-05/"
     },
     {
       "name": "Penelope 8/7",
@@ -325,12 +364,23 @@
       "thc": "8%",
       "cbd": "7%",
       "type": "Zrównoważona",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Lęk, seniorzy, start terapii — profil terpenowy niepublikowany",
-      "verified": false,
-      "source": "—",
-      "status": "sprawdź dostępność"
+      "terpenes": [
+        "Pinen",
+        "Mircen",
+        "Kariofilen",
+        "Guaiol"
+      ],
+      "pct": {
+        "Pinen": 24,
+        "Mircen": 23,
+        "Kariofilen": 13,
+        "Guaiol": 5
+      },
+      "effect": "Początkowa stymulacja mentalna przechodząca w wyciszenie i poprawę nastroju, do stosowania w dzień. Uwaga: BudCare oznacza status jako „Wycofana” (brak nowych dostaw od producenta) — sprawdź bieżącą dostępność.",
+      "verified": true,
+      "source": "BudCare",
+      "status": "sprawdź dostępność",
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-canopy-growth-8-7-thc-8-10-cbd-7-10/"
     },
     {
       "name": "Gelato 33",
@@ -341,12 +391,13 @@
       "terpenes": [
         "Linalol",
         "Mircen",
-        "Limonen"
+        "Limonen",
+        "Farnezen"
       ],
       "pct": null,
-      "effect": "Zrównoważone — lęk, depresja, brak apetytu",
+      "effect": "BudCare wprost zaznacza: „Nie znamy dokładnego profilu terpenowego – podane terpeny wskazują jedynie terpeny dominujące” (wyświetlany równy podział 25/25/25/25% to placeholder, nie dane laboratoryjne). Realne wartości % oczekują na niezależną analizę CoA (laboratorium, po dostarczeniu przez konopnego farmaceutę).",
       "verified": "partial",
-      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "source": "BudCare (profil orientacyjny, bez %)",
       "status": "dostępna",
       "prices": [
         {
@@ -357,7 +408,8 @@
           "package_g": 10,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/cantourage-gelato-33/"
     },
     {
       "name": "MAC 1",
@@ -368,13 +420,13 @@
       "terpenes": [
         "Linalol",
         "Pinen",
-        "Beta-kariofilen",
+        "Kariofilen",
         "Limonen"
       ],
       "pct": null,
-      "effect": "Zrównoważone — ból, obniżony nastrój",
+      "effect": "BudCare wprost zaznacza: „Nie znamy dokładnego profilu terpenowego – podane terpeny wskazują jedynie terpeny dominujące” (wyświetlany równy podział 25/25/25/25% to placeholder, nie dane laboratoryjne). Realne wartości % oczekują na niezależną analizę CoA (laboratorium, po dostarczeniu przez konopnego farmaceutę).",
       "verified": "partial",
-      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "source": "BudCare (profil orientacyjny, bez %)",
       "status": "dostępna",
       "prices": [
         {
@@ -385,7 +437,8 @@
           "package_g": 10,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-cantourage-thc-25-cbd-1-mac-1/"
     },
     {
       "name": "Gorilla Girl",
@@ -394,20 +447,30 @@
       "cbd": "≤1%",
       "type": "Sativa",
       "terpenes": [
-        "Linalol",
-        "Mircen",
-        "Pinen",
-        "Humulen",
-        "Beta-kariofilen",
+        "Kariofilen",
         "Limonen",
-        "Terpinolen",
-        "Bisabolol"
+        "Mircen",
+        "Linalol",
+        "Humulen",
+        "Bisabolol",
+        "Pinen",
+        "Terpinolen"
       ],
-      "pct": null,
-      "effect": "Pobudzające/zrównoważone — nastrój, odprężenie",
-      "verified": "partial",
-      "source": "Cannabis Spot / branża (nie BudCare %)",
-      "status": "dostępna"
+      "pct": {
+        "Kariofilen": 25,
+        "Limonen": 20,
+        "Mircen": 18,
+        "Linalol": 11,
+        "Humulen": 9,
+        "Bisabolol": 4,
+        "Pinen": 2,
+        "Terpinolen": 2
+      },
+      "effect": "Genetyka sativa-dominująca (Gorilla Glue #4 × GSC Thin Mint), działanie euforyczne, do stosowania w dzień (opis BudCare). BudCare rejestruje pod podwójną nazwą „Gorilla Girl / Balasa”.",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna",
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-cosma-thc-20-cbd-1-balasa-gorilla-girl/"
     },
     {
       "name": "Blue Monkey / Mac Monkey",
@@ -416,19 +479,28 @@
       "cbd": "1%",
       "type": "Indica",
       "terpenes": [
-        "Linalol",
-        "Mircen",
-        "Pinen",
-        "Humulen",
-        "Beta-kariofilen",
         "Limonen",
-        "Terpinolen",
-        "Bisabolol"
+        "Pinen",
+        "Kariofilen",
+        "Mircen",
+        "Linalol",
+        "Bisabolol",
+        "Humulen",
+        "Terpinolen"
       ],
-      "pct": null,
-      "effect": "Relaksujące/zrównoważone — ból, relaks",
-      "verified": "partial",
-      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "pct": {
+        "Limonen": 35,
+        "Pinen": 14,
+        "Kariofilen": 11,
+        "Mircen": 10,
+        "Linalol": 9,
+        "Bisabolol": 6,
+        "Humulen": 4,
+        "Terpinolen": 3
+      },
+      "effect": "Relaksujące i wyciszające, polecane na wieczór i do łagodzenia bólu (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna",
       "prices": [
         {
@@ -440,7 +512,8 @@
           "date": "2026-08-26"
         }
       ],
-      "type_nr": "Indica 70%"
+      "type_nr": "Indica 70%",
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-cosma-thc-21-cbd-%E2%89%A41/"
     },
     {
       "name": "Gorilla Glue #4",
@@ -449,15 +522,22 @@
       "cbd": "<1%",
       "type": "Indica",
       "terpenes": [
-        "Mircen",
+        "Kariofilen",
         "Humulen",
-        "Beta-kariofilen",
-        "Limonen"
+        "Limonen",
+        "Bisabolol",
+        "Mircen"
       ],
-      "pct": null,
-      "effect": "Relaksujące — ból, stany zapalne",
-      "verified": "partial",
-      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "pct": {
+        "Kariofilen": 42,
+        "Humulen": 18,
+        "Limonen": 10,
+        "Bisabolol": 7,
+        "Mircen": 6
+      },
+      "effect": "Relaksujące, zrównoważone działanie; aromat drzewny, pieprzowy, ziemisty (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna",
       "prices": [
         {
@@ -469,7 +549,8 @@
           "date": "2026-08-26",
           "code": "GG"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-thc-22-cbd-1-four-20-pharma-gmbh/"
     },
     {
       "name": "MAC 1",
@@ -478,15 +559,22 @@
       "cbd": "<1%",
       "type": "Indica",
       "terpenes": [
-        "Linalol",
+        "Farnezen",
+        "Limonen",
+        "Kariofilen",
         "Pinen",
-        "Beta-kariofilen",
-        "Limonen"
+        "Linalol"
       ],
-      "pct": null,
-      "effect": "Relaksujące/zrównoważone",
-      "verified": "partial",
-      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "pct": {
+        "Farnezen": 27,
+        "Limonen": 20,
+        "Kariofilen": 11,
+        "Pinen": 8,
+        "Linalol": 7
+      },
+      "effect": "Relaksujące, zrównoważone działanie; aromat kwiatowo-owocowy (opis BudCare). Uwaga: istnieje osobna „Cantourage MAC 1” (25% THC, inny producent) — nie mylić.",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna",
       "prices": [
         {
@@ -499,7 +587,8 @@
           "code": "MAC",
           "thc_nr": "22%"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-thc-22-cbd-1-420-evolution/"
     },
     {
       "name": "Humble Warrior",
@@ -509,14 +598,19 @@
       "type": "Sativa",
       "terpenes": [
         "Mircen",
-        "Beta-kariofilen",
+        "Kariofilen",
         "Ocymen"
       ],
-      "pct": null,
-      "effect": "Pobudzające/zrównoważone",
-      "verified": "partial",
-      "source": "Cannabis Spot / branża (nie BudCare %)",
-      "status": "dostępna"
+      "pct": {
+        "Mircen": 30,
+        "Kariofilen": 25,
+        "Ocymen": 20
+      },
+      "effect": "Energetyzujące, do stosowania w dzień; nuty sosnowe, cytrusowe, skunkowe, mentolowe (opis BudCare). Profil częściowy — podane 3 dominujące terpeny (suma <100%).",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna",
+      "budcare_url": "https://budcare.pl/odmiany/suprobion-humble-warrior/"
     },
     {
       "name": "Gorilla Glue",
@@ -525,16 +619,22 @@
       "cbd": "≤1%",
       "type": "Indica",
       "terpenes": [
+        "Kariofilen",
         "Mircen",
-        "Humulen",
-        "Beta-kariofilen",
         "Limonen",
-        "Bisabolol"
+        "Bisabolol",
+        "Humulen"
       ],
-      "pct": null,
-      "effect": "Relaksujące/zrównoważone — diesel, ziemisty",
-      "verified": "partial",
-      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "pct": {
+        "Kariofilen": 40,
+        "Mircen": 10,
+        "Limonen": 7,
+        "Bisabolol": 7,
+        "Humulen": 3
+      },
+      "effect": "Intensywna relaksacja fizyczna; nuty ziemiste, sosnowe, dieslowe (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna",
       "prices": [
         {
@@ -545,7 +645,8 @@
           "package_g": 10,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/suprobion-gorilla-glue/"
     },
     {
       "name": "Mystic Wonder",
@@ -556,14 +657,14 @@
       "terpenes": [
         "Mircen",
         "Pinen",
-        "Beta-kariofilen",
+        "Kariofilen",
         "Limonen",
         "Farnezen"
       ],
       "pct": null,
-      "effect": "Relaksujące/zrównoważone",
+      "effect": "BudCare pokazuje wszystkie 5 terpenów przy dokładnie równym udziale 20/20/20/20/20% — nietypowo jednolity rozkład sugerujący dane orientacyjne (placeholder), a nie pomiar laboratoryjny. Realne wartości % oczekują na niezależną analizę CoA (laboratorium, po dostarczeniu przez konopnego farmaceutę).",
       "verified": "partial",
-      "source": "Cannabis Spot / branża (nie BudCare %)",
+      "source": "BudCare (profil orientacyjny, bez %)",
       "status": "dostępna [brak w cenniku NR z 09.09.2026 — sprawdź dostępność]",
       "prices": [
         {
@@ -575,7 +676,8 @@
           "date": "2026-08-26"
         }
       ],
-      "type_nr": "Indica 60%"
+      "type_nr": "Indica 60%",
+      "budcare_url": "https://budcare.pl/odmiany/suprobion-mystic-wonder/"
     },
     {
       "name": "Frosted Lemon Angel",
@@ -584,19 +686,28 @@
       "cbd": "≤1%",
       "type": "Indica",
       "terpenes": [
+        "Kariofilen",
         "Mircen",
-        "Pinen",
-        "Humulen",
-        "Beta-kariofilen",
         "Limonen",
+        "Humulen",
         "Terpinolen",
+        "Pinen",
         "Bisabolol"
       ],
-      "pct": null,
-      "effect": "Relaksujące/zrównoważone — nastrój, ból, energia",
-      "verified": "partial",
-      "source": "Cannabis Spot / branża (nie BudCare %)",
-      "status": "dostępna"
+      "pct": {
+        "Kariofilen": 41,
+        "Mircen": 17,
+        "Limonen": 13,
+        "Humulen": 12,
+        "Terpinolen": 10,
+        "Pinen": 4,
+        "Bisabolol": 2
+      },
+      "effect": "Szybkie mentalne pobudzenie przechodzące w głęboki relaks; nuty cytrusowe, ziołowe, korzenne (opis BudCare). Genetyka: Lemon Skunk × Kosher Kush.",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna",
+      "budcare_url": "https://budcare.pl/odmiany/phytopur-bio-frosted-lemon-angel/"
     },
     {
       "name": "Big Purple Dragon",
@@ -605,19 +716,30 @@
       "cbd": "≤1%",
       "type": "Hybryda",
       "terpenes": [
-        "Linalol",
+        "Kariofilen",
         "Mircen",
-        "Pinen",
-        "Humulen",
-        "Beta-kariofilen",
         "Limonen",
-        "Guaiol"
+        "Guaiol",
+        "Humulen",
+        "Linalol",
+        "Pinen",
+        "Farnezen"
       ],
-      "pct": null,
-      "effect": "Pobudzające/zrównoważone",
-      "verified": "partial",
-      "source": "Cannabis Spot / branża (nie BudCare %)",
-      "status": "dostępna"
+      "pct": {
+        "Kariofilen": 43,
+        "Mircen": 13,
+        "Limonen": 13,
+        "Guaiol": 12,
+        "Humulen": 8,
+        "Linalol": 4,
+        "Pinen": 4,
+        "Farnezen": 1
+      },
+      "effect": "Relaksacja fizyczna i jasność umysłu; profil pieprzowo-ziemisto-ziołowy (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna",
+      "budcare_url": "https://budcare.pl/odmiany/phytopur-bio-big-purple-dragon/"
     },
     {
       "name": "Pink Certz",
@@ -626,15 +748,22 @@
       "cbd": "—",
       "type": "Hybryda 50/50",
       "terpenes": [
-        "Beta-kariofilen",
+        "Nerolidol",
         "Limonen",
-        "Linalol"
+        "Kariofilen",
+        "Humulen"
       ],
-      "pct": null,
-      "effect": "Zrównoważone — łagodna stymulacja + relaksacja ciała",
-      "verified": "partial",
-      "source": "branża (nie BudCare %)",
-      "status": "dostępna"
+      "pct": {
+        "Nerolidol": 27,
+        "Limonen": 14,
+        "Kariofilen": 14,
+        "Humulen": 12
+      },
+      "effect": "Stymulujące, sprzyja koncentracji, do stosowania w dzień; nuty dieslowo-lukrecjowo-miętowe (opis BudCare). Identyczny profil na obu progach THC (18% i 22%) na BudCare.",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna",
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-22-pink-certz/"
     },
     {
       "name": "Jack Herer",
@@ -732,14 +861,25 @@
       "type": "Sativa",
       "terpenes": [
         "Terpinolen",
-        "Beta-kariofilen",
+        "Kariofilen",
+        "Mircen",
         "Pinen",
-        "Linalol"
+        "Limonen",
+        "Humulen",
+        "Bisabolol"
       ],
-      "pct": null,
-      "effect": "Energia, poprawa nastroju, lekkość — udziały % niepublikowane",
-      "verified": "partial",
-      "source": "branżowe (nie BudCare %)",
+      "pct": {
+        "Terpinolen": 23,
+        "Kariofilen": 8,
+        "Mircen": 8,
+        "Pinen": 7,
+        "Limonen": 6,
+        "Humulen": 3,
+        "Bisabolol": 3
+      },
+      "effect": "Energetyzujące i pobudzające; nuty cytrusowo-dieslowo-kwiatowo-lawendowe (opis BudCare). Profil zgodny (identyczny) dla progów 18% i 22% pod marką S-Lab.",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna [brak w cenniku NR z 09.09.2026 — sprawdź dostępność]",
       "prices": [
         {
@@ -752,7 +892,8 @@
           "code": "LD",
           "thc_nr": "22% (Tilray)"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-lilac-diesel/"
     },
     {
       "name": "Headband",
@@ -876,11 +1017,23 @@
       "thc": "27%",
       "cbd": "<1%",
       "type": "Sativa",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Mircen",
+        "Limonen",
+        "Kariofilen",
+        "Nerolidol",
+        "Linalol"
+      ],
+      "pct": {
+        "Mircen": 31,
+        "Limonen": 15,
+        "Kariofilen": 13,
+        "Nerolidol": 12,
+        "Linalol": 8
+      },
+      "effect": "Odmiana o działaniu energetyzującym/stymulującym (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -891,7 +1044,8 @@
           "package_g": 10,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/aurora-electric-honeydew-thc-27-10-cbd-%e2%89%a41/"
     },
     {
       "name": "Chemango Kush",
@@ -899,11 +1053,25 @@
       "thc": "29%",
       "cbd": "<1%",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji (nowość w ofercie)",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Kariofilen",
+        "Nerolidol",
+        "Limonen",
+        "Mircen",
+        "Humulen",
+        "Linalol"
+      ],
+      "pct": {
+        "Kariofilen": 25,
+        "Nerolidol": 16,
+        "Limonen": 15,
+        "Mircen": 14,
+        "Humulen": 9,
+        "Linalol": 5
+      },
+      "effect": "Działanie relaksujące/sedatywne, polecana na wieczór (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "NOWOŚĆ w NR (26.08.2026)",
       "prices": [
         {
@@ -914,7 +1082,8 @@
           "package_g": 10,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/aurora-29-chemango-kush/"
     },
     {
       "name": "Pavé S1",
@@ -922,11 +1091,17 @@
       "thc": "27,3%",
       "cbd": "≤1%",
       "type": "Hybryda 50/50",
-      "terpenes": [],
+      "terpenes": [
+        "Linalol",
+        "Pinen",
+        "Kariofilen",
+        "Limonen",
+        "Farnezen"
+      ],
       "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "effect": "BudCare wprost zaznacza: „Nie znamy dokładnego profilu terpenowego – podane terpeny wskazują jedynie terpeny dominujące” (wyświetlany równy podział 25/25/25/25% to placeholder, nie dane laboratoryjne). Realne wartości % oczekują na niezależną analizę CoA (laboratorium, po dostarczeniu przez konopnego farmaceutę).",
+      "verified": "partial",
+      "source": "BudCare (profil orientacyjny, bez %)",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -937,7 +1112,8 @@
           "package_g": 10,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/cantourage-pave-s1/"
     },
     {
       "name": "Modified Gas",
@@ -945,11 +1121,23 @@
       "thc": "26,3%",
       "cbd": "≤1%",
       "type": "Hybryda 50/50",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Limonen",
+        "Farnezen",
+        "Linalol",
+        "Mircen",
+        "Kariofilen"
+      ],
+      "pct": {
+        "Limonen": 26,
+        "Farnezen": 25,
+        "Linalol": 24,
+        "Mircen": 23,
+        "Kariofilen": 20
+      },
+      "effect": "Zrównoważona hybryda (First Class Funk × Grape Gasoline); nuty słodko-cytrusowo-owocowe (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -960,7 +1148,8 @@
           "package_g": 10,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/cantourage-263-modified-gas/"
     },
     {
       "name": "Orange Cake",
@@ -968,11 +1157,21 @@
       "thc": "27,9%",
       "cbd": "≤1%",
       "type": "Hybryda 50/50",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Limonen",
+        "Farnezen",
+        "Pinen",
+        "Mircen"
+      ],
+      "pct": {
+        "Limonen": 26,
+        "Farnezen": 25,
+        "Pinen": 24,
+        "Mircen": 20
+      },
+      "effect": "Genetyka Mimosa × Orangeade; wyraźny, świeży aromat cytrusowy (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR [brak w cenniku NR z 09.09.2026 — sprawdź dostępność]",
       "prices": [
         {
@@ -983,7 +1182,8 @@
           "package_g": 10,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/cantourage-279-orange-cake/"
     },
     {
       "name": "Jack Haze",
@@ -991,11 +1191,16 @@
       "thc": "19%",
       "cbd": "—",
       "type": "Sativa",
-      "terpenes": [],
+      "terpenes": [
+        "Mircen",
+        "Pinen",
+        "Ocymen",
+        "Terpinolen"
+      ],
       "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "effect": "BudCare pokazuje równy podział 25/25/25/25% bez jawnego zastrzeżenia „profil nieznany” — mimo braku disclaimera, wzorzec jest podejrzanie identyczny jak przy potwierdzonych placeholderach innych odmian, więc potraktowano ostrożnie jako dane orientacyjne. Realne wartości % oczekują na niezależną analizę CoA (laboratorium, po dostarczeniu przez konopnego farmaceutę).",
+      "verified": "partial",
+      "source": "BudCare (profil orientacyjny, bez %)",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1006,7 +1211,8 @@
           "package_g": 5,
           "date": "2026-09-09"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-sativa-l-red-no-2-jack-haze/"
     },
     {
       "name": "Afgan Kush",
@@ -1014,11 +1220,16 @@
       "thc": "25%",
       "cbd": "<1%",
       "type": "Indica",
-      "terpenes": [],
+      "terpenes": [
+        "Mircen",
+        "Pinen",
+        "Humulen",
+        "Kariofilen"
+      ],
       "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "effect": "BudCare pokazuje równy podział 25/25/25/25% bez jawnego zastrzeżenia „profil nieznany” — mimo braku disclaimera, wzorzec jest podejrzanie identyczny jak przy potwierdzonych placeholderach innych odmian, więc potraktowano ostrożnie jako dane orientacyjne. Realne wartości % oczekują na niezależną analizę CoA (laboratorium, po dostarczeniu przez konopnego farmaceutę).",
+      "verified": "partial",
+      "source": "BudCare (profil orientacyjny, bez %)",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1029,7 +1240,8 @@
           "package_g": 15,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/afghan-kush-canopy-growth-25/"
     },
     {
       "name": "Ultra Jack",
@@ -1037,11 +1249,16 @@
       "thc": "30%",
       "cbd": "<0,5%",
       "type": "Sativa",
-      "terpenes": [],
+      "terpenes": [
+        "Mircen",
+        "Ocymen",
+        "Terpinolen",
+        "Farnezen"
+      ],
       "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji (nowość)",
-      "verified": false,
-      "source": "—",
+      "effect": "BudCare pokazuje równy podział 25/25/25/25% bez jawnego zastrzeżenia „profil nieznany” (dodatkowy wpis na subdomenie dc.budcare.pl w ogóle nie publikuje %) — potraktowano ostrożnie jako dane orientacyjne. Realne wartości % oczekują na niezależną analizę CoA (laboratorium, po dostarczeniu przez konopnego farmaceutę).",
+      "verified": "partial",
+      "source": "BudCare (profil orientacyjny, bez %)",
       "status": "NOWOŚĆ w NR (26.08.2026)",
       "prices": [
         {
@@ -1052,7 +1269,8 @@
           "package_g": 15,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/ultra-jack-canopy-growth-30/"
     },
     {
       "name": "Orange Cream Pop",
@@ -1060,11 +1278,21 @@
       "thc": "20%",
       "cbd": "≤1%",
       "type": "Sativa",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Mircen",
+        "Kariofilen",
+        "Humulen",
+        "Limonen"
+      ],
+      "pct": {
+        "Mircen": 32,
+        "Kariofilen": 30,
+        "Humulen": 13,
+        "Limonen": 12
+      },
+      "effect": "Energetyzujące, zrównoważone działanie; cytrusowo-kremowo-słodki aromat (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1075,7 +1303,8 @@
           "package_g": 10,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/cosma-20-orange-cream-pop/"
     },
     {
       "name": "Hindu Kush",
@@ -1083,11 +1312,21 @@
       "thc": "22%",
       "cbd": "≤1%",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Mircen",
+        "Terpinolen",
+        "Ocymen",
+        "Pinen"
+      ],
+      "pct": {
+        "Mircen": 50,
+        "Terpinolen": 21,
+        "Ocymen": 19,
+        "Pinen": 3
+      },
+      "effect": "Silnie relaksujące, sprzyja wyciszeniu i zasypianiu (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1098,7 +1337,8 @@
           "package_g": 10,
           "date": "2026-09-09"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/cosma-22-hindu-kush/"
     },
     {
       "name": "Black R.",
@@ -1106,11 +1346,21 @@
       "thc": "22%",
       "cbd": "≤1%",
       "type": "Hybryda 50/50",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji (nazwa skrócona przez aptekę, potwierdź pełną nazwę na opakowaniu)",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Kariofilen",
+        "Humulen",
+        "Mircen",
+        "Limonen"
+      ],
+      "pct": {
+        "Kariofilen": 45,
+        "Humulen": 20,
+        "Mircen": 10,
+        "Limonen": 10
+      },
+      "effect": "Działanie przeciwbólowe, relaksujące, wspomaga koncentrację; profil zrównoważony/funkcjonalny (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1121,19 +1371,30 @@
           "package_g": 10,
           "date": "2026-09-09"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/cosma-22-black-r/"
     },
     {
       "name": "Wedding Pop Triangle",
-      "producer": "Four20 Pharma",
+      "producer": "Medalchemy",
       "thc": "24%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji. UWAGA: ta sama nazwa wcześniej pojawiła się jako nowość u Medalchemy — możliwe że to inny producent/rejestracja, sprawdź opakowanie",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Kariofilen",
+        "Limonen",
+        "Linalol",
+        "Mircen"
+      ],
+      "pct": {
+        "Kariofilen": 46,
+        "Limonen": 25,
+        "Linalol": 19,
+        "Mircen": 10
+      },
+      "effect": "Genetyka Wedding Pop × Triangle Kush; nuty cytrusowo-waniliowo-słodko-ziemiste (opis BudCare). Producenta poprawiono z „Four20 Pharma” na „Medalchemy” zgodnie z rejestracją BudCare (nazwa i THC 24% pasują dokładnie).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR [brak w cenniku NR z 09.09.2026 — sprawdź dostępność]",
       "prices": [
         {
@@ -1145,19 +1406,30 @@
           "date": "2026-08-26",
           "code": "WPT"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/wedding-pop-triangle-medalchemy-24/"
     },
     {
       "name": "Zookies",
-      "producer": "Four20 Pharma",
+      "producer": "Medalchemy",
       "thc": "25%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji. UWAGA: ta sama nazwa wcześniej pojawiła się jako nowość u Medalchemy — sprawdź opakowanie",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Kariofilen",
+        "Linalol",
+        "Limonen",
+        "Mircen"
+      ],
+      "pct": {
+        "Kariofilen": 46,
+        "Linalol": 33,
+        "Limonen": 16,
+        "Mircen": 5
+      },
+      "effect": "Genetyka Animal Cookies × Gorilla Glue #4; nuty ziemisto-korzenno-ziołowo-słodko-cytrusowe (opis BudCare). Producenta poprawiono z „Four20 Pharma” na „Medalchemy” zgodnie z rejestracją BudCare (nazwa i THC 25% pasują dokładnie).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1169,7 +1441,8 @@
           "date": "2026-08-26",
           "code": "ZK"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/zookies-medalchemy-25/"
     },
     {
       "name": "GMO",
@@ -1177,11 +1450,23 @@
       "thc": "27%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Farnezen",
+        "Mircen",
+        "Kariofilen",
+        "Limonen",
+        "Humulen"
+      ],
+      "pct": {
+        "Farnezen": 25,
+        "Mircen": 20,
+        "Kariofilen": 19,
+        "Limonen": 16,
+        "Humulen": 8
+      },
+      "effect": "Znana też jako „Garlic Cookies”/„GMO Cookies” (Girl Scout Cookies × Chemdawg); słodkie nuty ciasteczkowe z ostrym paliwowo-chemicznym akcentem (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1192,7 +1477,8 @@
           "package_g": 15,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/four20-pharma-27-gmo/"
     },
     {
       "name": "MSP",
@@ -1200,11 +1486,21 @@
       "thc": "27%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Skrót niezidentyfikowany — potwierdź pełną nazwę na opakowaniu. Profil terpenowy do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Limonen",
+        "Mircen",
+        "Linalol",
+        "Kariofilen"
+      ],
+      "pct": {
+        "Limonen": 30,
+        "Mircen": 14,
+        "Linalol": 9,
+        "Kariofilen": 6
+      },
+      "effect": "BudCare potwierdza, że „MSP” to skrót od „Masterpiece”.",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1216,7 +1512,8 @@
           "date": "2026-08-26",
           "code": "MSP"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/four20-pharma-27-masterpiece/"
     },
     {
       "name": "Gorilla Glue",
@@ -1224,11 +1521,25 @@
       "thc": "24%",
       "cbd": "≤1%",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Kariofilen",
+        "Limonen",
+        "Bisabolol",
+        "Linalol",
+        "Mircen",
+        "Pinen"
+      ],
+      "pct": {
+        "Kariofilen": 49,
+        "Limonen": 13,
+        "Bisabolol": 7,
+        "Linalol": 4,
+        "Mircen": 3,
+        "Pinen": 2
+      },
+      "effect": "Wyraźne działanie relaksujące i głęboko odprężające (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR [brak w cenniku NR z 09.09.2026 — sprawdź dostępność]",
       "prices": [
         {
@@ -1239,7 +1550,8 @@
           "package_g": 10,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/phytopur-bio-24-gorilla-glue/"
     },
     {
       "name": "OG Kush",
@@ -1247,11 +1559,21 @@
       "thc": "22%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Pinen",
+        "Selinadien",
+        "Eucalyptol",
+        "Mircen"
+      ],
+      "pct": {
+        "Pinen": 64,
+        "Selinadien": 17,
+        "Eucalyptol": 11,
+        "Mircen": 8
+      },
+      "effect": "Klasyczna hybryda z dominacją indica, działanie relaksujące na wieczór; aromat cytrusowo-sosnowo-żywiczny (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1262,7 +1584,8 @@
           "package_g": 10,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/bliss-pharma-22-og-kush/"
     },
     {
       "name": "Strawberry Kush",
@@ -1270,11 +1593,25 @@
       "thc": "25%",
       "cbd": "—",
       "type": "Hybryda",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Energia, poprawa nastroju (opis producenta) — profil terpenowy nieopublikowany na BudCare",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Nerolidol",
+        "Cedren",
+        "Pinen",
+        "Walencen",
+        "Humulen",
+        "Limonen"
+      ],
+      "pct": {
+        "Nerolidol": 24,
+        "Cedren": 24,
+        "Pinen": 20,
+        "Walencen": 15,
+        "Humulen": 10,
+        "Limonen": 7
+      },
+      "effect": "Uwaga nazewnicza: BudCare rejestruje tę odmianę (ten sam producent, ten sam THC 25%) jako „Strawberry OG”, nie „Strawberry Kush” — potraktowano jako tę samą odmianę (decyzja użytkownika, prawdopodobna różnica nazewnictwa apteka NR vs. BudCare). Cedren i Walencen to seskwiterpeny z rodziny Selinadien.",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1285,19 +1622,30 @@
           "package_g": 10,
           "date": "2026-09-09"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/bliss-pharma-25-strawberry-og/"
     },
     {
       "name": "Blueberry",
       "producer": "S-Lab",
-      "thc": "18–22%",
+      "thc": "18%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare dla wersji S-Lab (BudCare ma zweryfikowany profil dla wersji Tilray 18% — prawdopodobnie inna genetyka mimo tej samej nazwy) S-Lab posiada dwie osobne rejestracje tej odmiany w Polsce (18% i 22%) — rozrozniaj po THC na opakowaniu/CoA.",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Mircen",
+        "Humulen",
+        "Linalol",
+        "Bisabolol"
+      ],
+      "pct": {
+        "Mircen": 26,
+        "Humulen": 13,
+        "Linalol": 5,
+        "Bisabolol": 3
+      },
+      "effect": "Efekt fizycznego odprężenia przechodzący w terapeutyczny relaks, dobra na wieczór (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1309,7 +1657,24 @@
           "date": "2026-08-26",
           "code": "BB",
           "thc_nr": "18%"
-        },
+        }
+      ],
+      "serial_note": "S-Lab ma dwie osobne rejestracje 'Blueberry' w Polsce: 18% i 22% (ten sam kod NR: BB). Sprawdz THC na opakowaniu, nie polegaj wylacznie na kodzie.",
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-blueberry-thc-18-10-cbd-1/"
+    },
+    {
+      "name": "Blueberry",
+      "producer": "S-Lab",
+      "thc": "22%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Brak dedykowanej strony na BudCare dla tej rejestracji. Odmiana S-Lab 22% z genetyką \"berry\" na BudCare to inny, odrębnie nazwany kultywar — „Northern Berry” (Northern Lights #5 × Blueberry) — nie należy mylić z tym wpisem. Rozdzielono z poprzedniego połączonego wpisu 18–22%, ponieważ dane różnią się między progami THC.",
+      "verified": false,
+      "source": "—",
+      "status": "dostępna w NR",
+      "prices": [
         {
           "source": "NR",
           "label": "Niezapominajka Rzeszów Rejtana",
@@ -1329,11 +1694,25 @@
       "thc": "18%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Mircen",
+        "Kariofilen",
+        "Limonen",
+        "Pinen",
+        "Linalol",
+        "Humulen"
+      ],
+      "pct": {
+        "Mircen": 28,
+        "Kariofilen": 20,
+        "Limonen": 17,
+        "Pinen": 14,
+        "Linalol": 9,
+        "Humulen": 6
+      },
+      "effect": "Klasyczna gęsta odmiana kush o relaksującym, ciężkim (body-focused) działaniu indica (opis BudCare). Profil liczbowo identyczny z Tilray Cataract Kush 18% — prawdopodobnie ta sama bazowa genetyka/dane laboratoryjne licencjonowane obu producentom.",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1345,7 +1724,8 @@
           "date": "2026-09-09",
           "code": "CK"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-18-cataract-kush/"
     },
     {
       "name": "Lemon Haze Gelato",
@@ -1353,11 +1733,23 @@
       "thc": "18%",
       "cbd": "—",
       "type": "Sativa 70%",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Humulen",
+        "Kariofilen",
+        "Guaiol",
+        "Limonen",
+        "Mircen"
+      ],
+      "pct": {
+        "Humulen": 35,
+        "Kariofilen": 29,
+        "Guaiol": 9,
+        "Limonen": 7,
+        "Mircen": 4
+      },
+      "effect": "Energetyzujące i poprawiające nastrój, wspiera koncentrację, do stosowania w dzień (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR [brak w cenniku NR z 09.09.2026 — sprawdź dostępność]",
       "prices": [
         {
@@ -1369,7 +1761,8 @@
           "date": "2026-08-26",
           "code": "LHG"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-18-lemon-haze-gelato/"
     },
     {
       "name": "Galaxy Walker",
@@ -1377,11 +1770,29 @@
       "thc": "18%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Nerolidol",
+        "Kariofilen",
+        "Bisabolol",
+        "Limonen",
+        "Humulen",
+        "Linalol",
+        "Mircen",
+        "Pinen"
+      ],
+      "pct": {
+        "Nerolidol": 32,
+        "Kariofilen": 26,
+        "Bisabolol": 12,
+        "Limonen": 8,
+        "Humulen": 7,
+        "Linalol": 7,
+        "Mircen": 6,
+        "Pinen": 4
+      },
+      "effect": "Zrównoważona relaksacja fizyczna i jasność umysłu, pomocna przy przewlekłym stresie i bólu (opis BudCare). Oficjalna nazwa na BudCare to „Galaxy Walker OG”.",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1393,7 +1804,8 @@
           "date": "2026-08-26",
           "code": "GWO"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-galaxy-walker-og-thc-18-10-cbd-1/"
     },
     {
       "name": "Headband",
@@ -1401,11 +1813,21 @@
       "thc": "18%",
       "cbd": "—",
       "type": "Sativa",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare dla wersji S-Lab (BudCare ma zweryfikowany profil dla wersji Tilray 18%, oznaczonej tam jako Hybryda — możliwa inna genetyka mimo tej samej nazwy)",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Nerolidol",
+        "Kariofilen",
+        "Bisabolol",
+        "Limonen"
+      ],
+      "pct": {
+        "Nerolidol": 25,
+        "Kariofilen": 21,
+        "Bisabolol": 16,
+        "Limonen": 8
+      },
+      "effect": "Długotrwałe działanie przeciwbólowe wspierające relaksację i redukcję stresu (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1417,19 +1839,38 @@
           "date": "2026-08-26",
           "code": "HB"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-headband-thc-18-10-cbd-1/"
     },
     {
       "name": "Purps",
       "producer": "S-Lab",
-      "thc": "18–22%",
+      "thc": "18%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji. Dostępna w dwóch wersjach THC (18% i 22%) w NR",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Kariofilen",
+        "Nerolidol",
+        "Limonen",
+        "Bisabolol",
+        "Humulen",
+        "Linalol",
+        "Mircen",
+        "Pinen"
+      ],
+      "pct": {
+        "Kariofilen": 25,
+        "Nerolidol": 24,
+        "Limonen": 11,
+        "Bisabolol": 11,
+        "Humulen": 9,
+        "Linalol": 8,
+        "Mircen": 6,
+        "Pinen": 5
+      },
+      "effect": "Głęboki, wyciszający, zrównoważony relaks wieczorny bez nadmiernej sedacji (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1441,7 +1882,37 @@
           "date": "2026-09-09",
           "code": "PPS",
           "thc_nr": "18%"
-        },
+        }
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-purps-thc-18-10-cbd-1/"
+    },
+    {
+      "name": "Purps",
+      "producer": "S-Lab",
+      "thc": "22%",
+      "cbd": "—",
+      "type": "Indica",
+      "terpenes": [
+        "Kariofilen",
+        "Nerolidol",
+        "Limonen",
+        "Bisabolol",
+        "Linalol",
+        "Humulen"
+      ],
+      "pct": {
+        "Kariofilen": 25,
+        "Nerolidol": 24,
+        "Limonen": 12,
+        "Bisabolol": 12,
+        "Linalol": 8,
+        "Humulen": 8
+      },
+      "effect": "Głęboki, wyciszający relaks z intensywnym ziemisto-kwiatowym aromatem, na wieczór (opis BudCare). Profil zbliżony, ale nie identyczny z wersją 18% (obecność Mircenu/Pinenu różni progi THC) — dwie odrębne rejestracje, nie duplikat.",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna w NR",
+      "prices": [
         {
           "source": "NR",
           "label": "Niezapominajka Rzeszów Rejtana",
@@ -1452,19 +1923,34 @@
           "code": "PPS",
           "thc_nr": "22%"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-purps-thc-22-10-cbd-1/"
     },
     {
-      "name": "Beach Crascher",
+      "name": "Beach Crasher",
       "producer": "S-Lab",
       "thc": "22%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Beta-kariofilen",
+        "Limonen",
+        "Humulen",
+        "Linalol",
+        "Pinen",
+        "Bisabolol"
+      ],
+      "pct": {
+        "Beta-kariofilen": 43,
+        "Limonen": 13,
+        "Humulen": 11,
+        "Linalol": 9,
+        "Pinen": 5,
+        "Bisabolol": 5
+      },
+      "effect": "Łagodny, relaksujący charakter — dominują kariofilen, humulen i linalol. Opis BudCare: hybryda z przewagą genów indica (od Tilray Brands, dystrybuowana przez S-Lab), efekt głębokiego odprężenia i wyciszenia, dobra na wieczór.",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1476,7 +1962,8 @@
           "date": "2026-09-09",
           "code": "BCH"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-beach-crasher-thc-22-10-cbd-%E2%89%A41/"
     },
     {
       "name": "Pink Kush",
@@ -1484,11 +1971,21 @@
       "thc": "22%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji. UWAGA: to INNA rejestracja niż Pink Kush od Aurory — ta sama nazwa, inny producent",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Nerolidol",
+        "Kariofilen",
+        "Bisabolol",
+        "Humulen"
+      ],
+      "pct": {
+        "Nerolidol": 6,
+        "Kariofilen": 5,
+        "Bisabolol": 2,
+        "Humulen": 1
+      },
+      "effect": "Stosowana w łagodzeniu bólu, sprzyja relaksacji, pomocna wieczorem i przy zasypianiu (opis BudCare). Uwaga: suma podanych % wynosi tylko 14% — to jedyne opublikowane na BudCare wartości (niekompletny profil na samej stronie źródłowej, nie błąd odczytu). Identyczny wzorzec (suma 14%) widoczny też przy Tilray Pink Kush 22%.",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1500,7 +1997,8 @@
           "date": "2026-08-26",
           "code": "PK"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-22-pink-kush/"
     },
     {
       "name": "Powdered Donuts",
@@ -1508,11 +2006,23 @@
       "thc": "25%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Kariofilen",
+        "Mircen",
+        "Linalol",
+        "Limonen",
+        "Pinen"
+      ],
+      "pct": {
+        "Kariofilen": 31,
+        "Mircen": 19,
+        "Linalol": 11,
+        "Limonen": 11,
+        "Pinen": 8
+      },
+      "effect": "Głęboka relaksacja przy jednoczesnej poprawie nastroju i koncentracji, do popołudnia/wieczora (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR [brak w cenniku NR z 09.09.2026 — sprawdź dostępność]",
       "prices": [
         {
@@ -1524,7 +2034,8 @@
           "date": "2026-08-26",
           "code": "PDD"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/synoptis-pharma-25-powdered-donuts/"
     },
     {
       "name": "Cataract Kush",
@@ -1532,11 +2043,25 @@
       "thc": "18%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Mircen",
+        "Kariofilen",
+        "Limonen",
+        "Pinen",
+        "Linalol",
+        "Humulen"
+      ],
+      "pct": {
+        "Mircen": 28,
+        "Kariofilen": 20,
+        "Limonen": 17,
+        "Pinen": 14,
+        "Linalol": 9,
+        "Humulen": 6
+      },
+      "effect": "Silny, przyjemny relaks z wyraźnym działaniem sedatywnym wieczorem (opis BudCare). Profil liczbowo identyczny z S-Lab Cataract Kush 18% — prawdopodobnie ta sama bazowa genetyka/dane laboratoryjne licencjonowane obu producentom.",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR [brak w cenniku NR z 09.09.2026 — sprawdź dostępność]",
       "prices": [
         {
@@ -1548,7 +2073,8 @@
           "date": "2026-08-26",
           "code": "CK"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/tilray-18-cataract-kush/"
     },
     {
       "name": "Blueberry 22%",
@@ -1558,7 +2084,7 @@
       "type": "Indica",
       "terpenes": [],
       "pct": null,
-      "effect": "UWAGA: to inna rejestracja (22%) niż zweryfikowana na BudCare wersja 18% tego samego producenta — sprawdź numer serii, profil terpenowy może się różnić",
+      "effect": "Nie znaleziono na BudCare pod tą nazwą/THC — katalog Tilray zawiera tylko „Blueberry” przy THC 18% oraz odrębnie nazwaną „Tilray Purps” przy 22%. Nie należy mylić żadnej z nich z tą pozycją.",
       "verified": false,
       "source": "—",
       "status": "dostępna w NR [brak w cenniku NR z 09.09.2026 — sprawdź dostępność]",
@@ -1580,11 +2106,29 @@
       "thc": "22%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare dla wersji Tilray — do weryfikacji (BudCare ma zweryfikowaną wersję S-Lab 18%)",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Kariofilen",
+        "Nerolidol",
+        "Limonen",
+        "Bisabolol",
+        "Linalol",
+        "Mircen",
+        "Humulen",
+        "Pinen"
+      ],
+      "pct": {
+        "Kariofilen": 26,
+        "Nerolidol": 24,
+        "Limonen": 10,
+        "Bisabolol": 10,
+        "Linalol": 4,
+        "Mircen": 4,
+        "Humulen": 4,
+        "Pinen": 2
+      },
+      "effect": "Silna, ale nie przytłaczająca euforia, zgłaszany wzrost kreatywności i ciekawości poznawczej (opis BudCare).",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1596,7 +2140,8 @@
           "date": "2026-08-26",
           "code": "MK"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/tilray-22-master-kush/"
     },
     {
       "name": "Pink Kush",
@@ -1604,11 +2149,21 @@
       "thc": "22%",
       "cbd": "—",
       "type": "Indica",
-      "terpenes": [],
-      "pct": null,
-      "effect": "Profil terpenowy nieopublikowany na BudCare — do weryfikacji. UWAGA: trzecia rejestracja Pink Kush (obok Aurora i S-Lab) — ta sama nazwa, różni producenci",
-      "verified": false,
-      "source": "—",
+      "terpenes": [
+        "Kariofilen",
+        "Nerolidol",
+        "Bisabolol",
+        "Humulen"
+      ],
+      "pct": {
+        "Kariofilen": 5,
+        "Nerolidol": 6,
+        "Bisabolol": 2,
+        "Humulen": 1
+      },
+      "effect": "Relaksujące, pomocne przy bólu/lęku oraz wieczorem/przy zasypianiu (opis BudCare). Uwaga: suma podanych % wynosi tylko 14% — to jedyne opublikowane na BudCare wartości, identyczny wzorzec jak S-Lab Pink Kush 22%.",
+      "verified": true,
+      "source": "BudCare",
       "status": "dostępna w NR",
       "prices": [
         {
@@ -1620,7 +2175,8 @@
           "date": "2026-08-26",
           "code": "PK"
         }
-      ]
+      ],
+      "budcare_url": "https://budcare.pl/odmiany/tilray-pink-kush-22/"
     },
     {
       "name": "SoMango",

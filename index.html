@@ -894,6 +894,7 @@ async function loadStrains(){
     return;
   }
   normalizeStrains();
+  computeDuplicateStrainNames();
   allTerpenes = [...new Set(strains.flatMap(s => s.terpenes))].sort((a,b)=>a.localeCompare(b,'pl'));
   terpTotal.textContent = allTerpenes.length + " poz.";
   allProducers = [...new Set(strains.map(s => s.producer))].sort((a,b)=>a.localeCompare(b,'pl'));
@@ -908,6 +909,21 @@ function normalizeStrains(){
     if(s.verified === undefined) s.verified = false;
     if(s.source === undefined) s.source = "branżowe / producent (Cannabis Spot, MedCan i in.)";
   });
+}
+
+// Some strains exist as multiple separate THC-threshold registrations under the
+// same producer+name (e.g. S-Lab Blueberry 18% / 22%, with different BudCare data).
+// Track which producer|name combos are ambiguous so strainKey() can disambiguate
+// them by THC — while leaving every other strain's key (and existing saved notes
+// tied to it) untouched.
+let duplicateStrainNames = new Set();
+function computeDuplicateStrainNames(){
+  const counts = new Map();
+  strains.forEach(s=>{
+    const base = s.producer + '|' + s.name;
+    counts.set(base, (counts.get(base)||0) + 1);
+  });
+  duplicateStrainNames = new Set([...counts.entries()].filter(([,n])=>n>1).map(([k])=>k));
 }
 
 const terpList = document.getElementById('terp-list');
@@ -1082,7 +1098,10 @@ document.getElementById('clear-btn').addEventListener('click', ()=>{
 // ---------- NOTATKI KLINICZNE (localStorage, offline, tylko na tym urządzeniu) ----------
 const NOTES_KEY = 'terpeny_pl_notes_v1';
 
-function strainKey(s){ return s.producer + '|' + s.name; }
+function strainKey(s){
+  const base = s.producer + '|' + s.name;
+  return duplicateStrainNames.has(base) ? base + '|' + s.thc : base;
+}
 
 function loadAllNotes(){
   try{
@@ -1215,8 +1234,11 @@ function refreshPatientDatalist(){
 function patientKeyNorm(p){ return (p || '').trim().toUpperCase(); }
 
 function parseStrainKey(key){
-  const idx = key.indexOf('|');
-  return { producer: key.slice(0, idx), name: key.slice(idx + 1) };
+  const parts = key.split('|');
+  // parts[2], when present, disambiguates two same-name registrations by THC
+  // (e.g. S-Lab Blueberry 18% vs 22%) — fold it into the displayed name.
+  const name = parts.length > 2 ? `${parts[1]} (${parts[2]})` : parts[1];
+  return { producer: parts[0], name };
 }
 
 let researchView = 'patients'; // 'patients' | 'list'
