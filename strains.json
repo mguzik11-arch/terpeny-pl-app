@@ -9,7 +9,7 @@
       "materiały producentów",
       "NR = Niezapominajka Rzeszów Rejtana (cotygodniowy cennik apteczny, przekazywany prywatnie)"
     ],
-    "note": "verified:true = udział % terpenów potwierdzony na BudCare.pl. verified:'partial' = terpeny obecne potwierdzone (branżowo lub jako dominujące wg BudCare), bez wiarygodnych wag % (np. BudCare pokazuje sztuczny równy podział / zastrzega \"nie znamy dokładnego profilu\"). verified:false = dane niepotwierdzone, sprawdź CoA. Status 'WYCOFANA' oznacza brak nowych dostaw od producenta — istniejące partie mogą pozostawać w lokalnym obrocie do wyczerpania zapasu (aktywny numer rejestru pozwala aptekom sprzedawać posiadany zapas). Od teraz każda NOWA odmiana pojawiająca się w cenniku NR jest automatycznie sprawdzana na BudCare.pl przy najbliższej aktualizacji — potwierdzenie tożsamości i/lub profil % (jeśli publikowany), inaczej pozostaje jako 'do weryfikacji'. 14.09.2026: przeprowadzono pełny przegląd (sweep) ~52 dotąd niezweryfikowanych/częściowo zweryfikowanych odmian względem BudCare.pl — zaktualizowano dane dla większości z nich (patrz pola budcare_url i effect przy każdej pozycji dla szczegółów i zastrzeżeń, w tym dot. rozbieżności nazw/producentów i danych typu placeholder). Planowane trzecie, najwyższe źródło weryfikacji: niezależne CoA laboratoryjne (PDF-y od konopnego farmaceuty) — pole 'lab' pojawi się przy odmianach, dla których użytkownik dostarczy raport."
+    "note": "verified:true = udział % terpenów potwierdzony na BudCare.pl. verified:'partial' = terpeny obecne potwierdzone (branżowo lub jako dominujące wg BudCare), bez wiarygodnych wag % (np. BudCare pokazuje sztuczny równy podział / zastrzega \"nie znamy dokładnego profilu\"). verified:false = dane niepotwierdzone, sprawdź CoA. Status 'WYCOFANA' oznacza brak nowych dostaw od producenta — istniejące partie mogą pozostawać w lokalnym obrocie do wyczerpania zapasu (aktywny numer rejestru pozwala aptekom sprzedawać posiadany zapas). Od teraz każda NOWA odmiana pojawiająca się w cenniku NR jest automatycznie sprawdzana na BudCare.pl przy najbliższej aktualizacji — potwierdzenie tożsamości i/lub profil % (jeśli publikowany), inaczej pozostaje jako 'do weryfikacji'. 14.09.2026: przeprowadzono pełny przegląd (sweep) ~52 dotąd niezweryfikowanych/częściowo zweryfikowanych odmian względem BudCare.pl — zaktualizowano dane dla większości z nich (patrz pola budcare_url i effect przy każdej pozycji dla szczegółów i zastrzeżeń, w tym dot. rozbieżności nazw/producentów i danych typu placeholder). Planowane trzecie, najwyższe źródło weryfikacji: niezależne CoA laboratoryjne (PDF-y od konopnego farmaceuty) — pole 'lab' pojawi się przy odmianach, dla których użytkownik dostarczy raport. 15.09.2026: usunięto z bazy 4 odmiany trwale wycofane z polskiego rynku (brak dostępności od dłuższego czasu): Aurora 8/8 zrównoważona, Medezin Amnesia Haze (Desert Flame), ODI Pharma Jean Guy, Canopy Growth Penelope 8/7."
   },
   "strains": [
     {
@@ -221,30 +221,6 @@
       "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-aurora-20-pink-kush/"
     },
     {
-      "name": "8/8 zrównoważona",
-      "producer": "Aurora",
-      "thc": "8%",
-      "cbd": "8%",
-      "type": "Hybryda",
-      "terpenes": [
-        "Mircen",
-        "Pinen",
-        "Kariofilen",
-        "Limonen"
-      ],
-      "pct": {
-        "Mircen": 47,
-        "Pinen": 28,
-        "Kariofilen": 6,
-        "Limonen": 4
-      },
-      "effect": "Zrównoważona 8%THC:8%CBD — działanie relaksujące przy zachowaniu funkcjonowania w ciągu dnia, bez nadmiernej sedacji (opis BudCare).",
-      "verified": true,
-      "source": "BudCare",
-      "status": "sprawdź dostępność",
-      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-aurora-8-deutschland-gmbh-thc-8-cbd-8/"
-    },
-    {
       "name": "Red Velvet Cake",
       "producer": "Canopy Growth",
       "thc": "27%",
@@ -357,30 +333,6 @@
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-canopy-growth-20-thc-20-cbd-05/"
-    },
-    {
-      "name": "Penelope 8/7",
-      "producer": "Canopy Growth",
-      "thc": "8%",
-      "cbd": "7%",
-      "type": "Zrównoważona",
-      "terpenes": [
-        "Pinen",
-        "Mircen",
-        "Kariofilen",
-        "Guaiol"
-      ],
-      "pct": {
-        "Pinen": 24,
-        "Mircen": 23,
-        "Kariofilen": 13,
-        "Guaiol": 5
-      },
-      "effect": "Początkowa stymulacja mentalna przechodząca w wyciszenie i poprawę nastroju, do stosowania w dzień. Uwaga: BudCare oznacza status jako „Wycofana” (brak nowych dostaw od producenta) — sprawdź bieżącą dostępność.",
-      "verified": true,
-      "source": "BudCare",
-      "status": "sprawdź dostępność",
-      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-canopy-growth-8-7-thc-8-10-cbd-7-10/"
     },
     {
       "name": "Gelato 33",
@@ -959,57 +911,6 @@
       "source": "BudCare",
       "status": "niska dostępność",
       "serial_note": "Pod tym samym rejestrem (Tilray THC18/CBD1) występuje 10 odmian — rozróżnia tylko numer serii na opakowaniu"
-    },
-    {
-      "name": "Jean Guy",
-      "producer": "ODI Pharma",
-      "thc": "20%",
-      "cbd": "1%",
-      "type": "Hybryda/Sativa",
-      "terpenes": [
-        "Kariofilen",
-        "Terpinolen",
-        "Bisabolol",
-        "Nerolidol",
-        "Guaiol"
-      ],
-      "pct": {
-        "Kariofilen": 18,
-        "Terpinolen": 15,
-        "Bisabolol": 8,
-        "Nerolidol": 9,
-        "Guaiol": 10
-      },
-      "effect": "Zmęczenie przewlekłe, fibromialgia, ból neuropatyczny, ADHD (małe dawki) — pobudzające bez sedacji",
-      "verified": true,
-      "source": "BudCare",
-      "status": "niska dostępność",
-      "serial_note": "Ta sama nazwa 'Jean Guy' występuje też pod rejestrem S-Lab THC18 — inny producent, sprawdź który masz"
-    },
-    {
-      "name": "Amnesia Haze (Desert Flame)",
-      "producer": "Medezin",
-      "thc": "20%",
-      "cbd": "1%",
-      "type": "Hybryda/Sativa",
-      "terpenes": [
-        "Mircen",
-        "Pinen",
-        "Humulen",
-        "Kariofilen",
-        "Limonen"
-      ],
-      "pct": {
-        "Mircen": 27,
-        "Pinen": 4,
-        "Humulen": 8,
-        "Kariofilen": 22,
-        "Limonen": 17
-      },
-      "effect": "ADHD, depresja, koncentracja, stymulacja apetytu — u osób podatnych na lęk możliwa paranoja przy wyższych dawkach",
-      "verified": true,
-      "source": "BudCare",
-      "status": "niska dostępność"
     },
     {
       "name": "Electric Honeydew",
