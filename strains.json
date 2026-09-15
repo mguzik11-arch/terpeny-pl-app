@@ -9,7 +9,7 @@
       "materiały producentów",
       "NR = Niezapominajka Rzeszów Rejtana (cotygodniowy cennik apteczny, przekazywany prywatnie)"
     ],
-    "note": "verified:true = udział % terpenów potwierdzony na BudCare.pl. verified:'partial' = terpeny obecne potwierdzone (branżowo lub jako dominujące wg BudCare), bez wiarygodnych wag % (np. BudCare pokazuje sztuczny równy podział / zastrzega \"nie znamy dokładnego profilu\"). verified:false = dane niepotwierdzone, sprawdź CoA. Status 'WYCOFANA' oznacza brak nowych dostaw od producenta — istniejące partie mogą pozostawać w lokalnym obrocie do wyczerpania zapasu (aktywny numer rejestru pozwala aptekom sprzedawać posiadany zapas). Od teraz każda NOWA odmiana pojawiająca się w cenniku NR jest automatycznie sprawdzana na BudCare.pl przy najbliższej aktualizacji — potwierdzenie tożsamości i/lub profil % (jeśli publikowany), inaczej pozostaje jako 'do weryfikacji'. 14.09.2026: przeprowadzono pełny przegląd (sweep) ~52 dotąd niezweryfikowanych/częściowo zweryfikowanych odmian względem BudCare.pl — zaktualizowano dane dla większości z nich (patrz pola budcare_url i effect przy każdej pozycji dla szczegółów i zastrzeżeń, w tym dot. rozbieżności nazw/producentów i danych typu placeholder). Planowane trzecie, najwyższe źródło weryfikacji: niezależne CoA laboratoryjne (PDF-y od konopnego farmaceuty) — pole 'lab' pojawi się przy odmianach, dla których użytkownik dostarczy raport. 15.09.2026: usunięto z bazy 4 odmiany trwale wycofane z polskiego rynku (brak dostępności od dłuższego czasu): Aurora 8/8 zrównoważona, Medezin Amnesia Haze (Desert Flame), ODI Pharma Jean Guy, Canopy Growth Penelope 8/7."
+    "note": "verified:true = udział % terpenów potwierdzony na BudCare.pl. verified:'partial' = terpeny obecne potwierdzone (branżowo lub jako dominujące wg BudCare), bez wiarygodnych wag % (np. BudCare pokazuje sztuczny równy podział / zastrzega \"nie znamy dokładnego profilu\"). verified:false = dane niepotwierdzone, sprawdź CoA. Status 'WYCOFANA' oznacza brak nowych dostaw od producenta — istniejące partie mogą pozostawać w lokalnym obrocie do wyczerpania zapasu (aktywny numer rejestru pozwala aptekom sprzedawać posiadany zapas). Od teraz każda NOWA odmiana pojawiająca się w cenniku NR jest automatycznie sprawdzana na BudCare.pl przy najbliższej aktualizacji — potwierdzenie tożsamości i/lub profil % (jeśli publikowany), inaczej pozostaje jako 'do weryfikacji'. 14.09.2026: przeprowadzono pełny przegląd (sweep) ~52 dotąd niezweryfikowanych/częściowo zweryfikowanych odmian względem BudCare.pl — zaktualizowano dane dla większości z nich (patrz pola budcare_url i effect przy każdej pozycji dla szczegółów i zastrzeżeń, w tym dot. rozbieżności nazw/producentów i danych typu placeholder). Planowane trzecie, najwyższe źródło weryfikacji: niezależne CoA laboratoryjne (PDF-y od konopnego farmaceuty) — pole 'lab' pojawi się przy odmianach, dla których użytkownik dostarczy raport. 15.09.2026: usunięto z bazy 4 odmiany trwale wycofane z polskiego rynku (brak dostępności od dłuższego czasu): Aurora 8/8 zrównoważona, Medezin Amnesia Haze (Desert Flame), ODI Pharma Jean Guy, Canopy Growth Penelope 8/7. 15.09.2026: dodano pole 'nr_current' (true/false) — rozdziela odmiany faktycznie dostępne w aptece NR (Rzeszów, potwierdzone cennikiem, bez flagi 'brak w cenniku') od tych znanych ogólnopolsko wyłącznie z BudCare/materiałów producenta. Widok domyślny (zakładka „Rzeszów”) pokazuje tylko nr_current:true; zakładka „Cała Polska” pokazuje wszystkie."
   },
   "strains": [
     {
@@ -45,7 +45,8 @@
           "package_g": 10,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "nr_current": true
     },
     {
       "name": "Farm Gas",
@@ -80,7 +81,8 @@
           "package_g": 10,
           "date": "2026-09-09"
         }
-      ]
+      ],
+      "nr_current": true
     },
     {
       "name": "Black Jelly",
@@ -117,7 +119,8 @@
           "package_g": 10,
           "date": "2026-08-26"
         }
-      ]
+      ],
+      "nr_current": true
     },
     {
       "name": "Ghost Train Haze",
@@ -154,7 +157,8 @@
           "package_g": 15,
           "date": "2026-09-09"
         }
-      ]
+      ],
+      "nr_current": true
     },
     {
       "name": "Delahaze",
@@ -179,7 +183,8 @@
       "effect": "Pobudzające — energia, koncentracja, depresja, spadek energii",
       "verified": true,
       "source": "BudCare",
-      "status": "WYCOFANA (XI 2025)"
+      "status": "WYCOFANA (XI 2025)",
+      "nr_current": false
     },
     {
       "name": "Pink Kush",
@@ -218,7 +223,8 @@
           "thc_nr": "20%"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-aurora-20-pink-kush/"
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-aurora-20-pink-kush/",
+      "nr_current": true
     },
     {
       "name": "Red Velvet Cake",
@@ -240,7 +246,8 @@
       "verified": true,
       "source": "BudCare",
       "status": "dostępna",
-      "budcare_url": "https://budcare.pl/odmiany/red-velvet-cake-canopy-growth-27/"
+      "budcare_url": "https://budcare.pl/odmiany/red-velvet-cake-canopy-growth-27/",
+      "nr_current": true
     },
     {
       "name": "Kush Mints",
@@ -270,7 +277,8 @@
           "thc_nr": "30%"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/kush-mints-canopy-growth-28/"
+      "budcare_url": "https://budcare.pl/odmiany/kush-mints-canopy-growth-28/",
+      "nr_current": true
     },
     {
       "name": "Krypton / Snowtorious Krypton",
@@ -298,7 +306,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/snowtorious-krypton-canopy-growth-25/"
+      "budcare_url": "https://budcare.pl/odmiany/snowtorious-krypton-canopy-growth-25/",
+      "nr_current": false
     },
     {
       "name": "Bakerstreet",
@@ -332,7 +341,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-canopy-growth-20-thc-20-cbd-05/"
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-canopy-growth-20-thc-20-cbd-05/",
+      "nr_current": false
     },
     {
       "name": "Gelato 33",
@@ -361,7 +371,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/cantourage-gelato-33/"
+      "budcare_url": "https://budcare.pl/odmiany/cantourage-gelato-33/",
+      "nr_current": true
     },
     {
       "name": "MAC 1",
@@ -390,7 +401,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-cantourage-thc-25-cbd-1-mac-1/"
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-cantourage-thc-25-cbd-1-mac-1/",
+      "nr_current": true
     },
     {
       "name": "Gorilla Girl",
@@ -422,7 +434,8 @@
       "verified": true,
       "source": "BudCare",
       "status": "dostępna",
-      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-cosma-thc-20-cbd-1-balasa-gorilla-girl/"
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-cosma-thc-20-cbd-1-balasa-gorilla-girl/",
+      "nr_current": true
     },
     {
       "name": "Blue Monkey / Mac Monkey",
@@ -465,7 +478,8 @@
         }
       ],
       "type_nr": "Indica 70%",
-      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-cosma-thc-21-cbd-%E2%89%A41/"
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-cosma-thc-21-cbd-%E2%89%A41/",
+      "nr_current": true
     },
     {
       "name": "Gorilla Glue #4",
@@ -502,7 +516,8 @@
           "code": "GG"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-thc-22-cbd-1-four-20-pharma-gmbh/"
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-thc-22-cbd-1-four-20-pharma-gmbh/",
+      "nr_current": true
     },
     {
       "name": "MAC 1",
@@ -540,7 +555,8 @@
           "thc_nr": "22%"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-thc-22-cbd-1-420-evolution/"
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-thc-22-cbd-1-420-evolution/",
+      "nr_current": true
     },
     {
       "name": "Humble Warrior",
@@ -562,7 +578,8 @@
       "verified": true,
       "source": "BudCare",
       "status": "dostępna",
-      "budcare_url": "https://budcare.pl/odmiany/suprobion-humble-warrior/"
+      "budcare_url": "https://budcare.pl/odmiany/suprobion-humble-warrior/",
+      "nr_current": true
     },
     {
       "name": "Gorilla Glue",
@@ -598,7 +615,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/suprobion-gorilla-glue/"
+      "budcare_url": "https://budcare.pl/odmiany/suprobion-gorilla-glue/",
+      "nr_current": true
     },
     {
       "name": "Mystic Wonder",
@@ -629,7 +647,8 @@
         }
       ],
       "type_nr": "Indica 60%",
-      "budcare_url": "https://budcare.pl/odmiany/suprobion-mystic-wonder/"
+      "budcare_url": "https://budcare.pl/odmiany/suprobion-mystic-wonder/",
+      "nr_current": false
     },
     {
       "name": "Frosted Lemon Angel",
@@ -659,7 +678,8 @@
       "verified": true,
       "source": "BudCare",
       "status": "dostępna",
-      "budcare_url": "https://budcare.pl/odmiany/phytopur-bio-frosted-lemon-angel/"
+      "budcare_url": "https://budcare.pl/odmiany/phytopur-bio-frosted-lemon-angel/",
+      "nr_current": true
     },
     {
       "name": "Big Purple Dragon",
@@ -691,7 +711,8 @@
       "verified": true,
       "source": "BudCare",
       "status": "dostępna",
-      "budcare_url": "https://budcare.pl/odmiany/phytopur-bio-big-purple-dragon/"
+      "budcare_url": "https://budcare.pl/odmiany/phytopur-bio-big-purple-dragon/",
+      "nr_current": true
     },
     {
       "name": "Pink Certz",
@@ -715,7 +736,8 @@
       "verified": true,
       "source": "BudCare",
       "status": "dostępna",
-      "budcare_url": "https://budcare.pl/odmiany/s-lab-22-pink-certz/"
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-22-pink-certz/",
+      "nr_current": true
     },
     {
       "name": "Jack Herer",
@@ -738,7 +760,8 @@
       "effect": "Kreatywność, łagodny lęk/depresja, ból migrenowy — nie zalecana przy bezsenności",
       "verified": true,
       "source": "BudCare",
-      "status": "dostępna"
+      "status": "dostępna",
+      "nr_current": true
     },
     {
       "name": "Master Kush",
@@ -780,7 +803,8 @@
           "date": "2026-09-09",
           "thc_nr": "22%"
         }
-      ]
+      ],
+      "nr_current": true
     },
     {
       "name": "Blueberry",
@@ -803,7 +827,8 @@
       "effect": "Ból (ostry i przewlekły/neuropatyczny), PTSD, bezsenność",
       "verified": true,
       "source": "BudCare",
-      "status": "niska dostępność"
+      "status": "niska dostępność",
+      "nr_current": true
     },
     {
       "name": "Lilac Diesel",
@@ -845,7 +870,8 @@
           "thc_nr": "22% (Tilray)"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/s-lab-lilac-diesel/"
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-lilac-diesel/",
+      "nr_current": false
     },
     {
       "name": "Headband",
@@ -880,7 +906,8 @@
           "date": "2026-08-26",
           "code": "HB"
         }
-      ]
+      ],
+      "nr_current": false
     },
     {
       "name": "Rockstar",
@@ -910,7 +937,8 @@
       "verified": true,
       "source": "BudCare",
       "status": "niska dostępność",
-      "serial_note": "Pod tym samym rejestrem (Tilray THC18/CBD1) występuje 10 odmian — rozróżnia tylko numer serii na opakowaniu"
+      "serial_note": "Pod tym samym rejestrem (Tilray THC18/CBD1) występuje 10 odmian — rozróżnia tylko numer serii na opakowaniu",
+      "nr_current": true
     },
     {
       "name": "Electric Honeydew",
@@ -946,7 +974,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/aurora-electric-honeydew-thc-27-10-cbd-%e2%89%a41/"
+      "budcare_url": "https://budcare.pl/odmiany/aurora-electric-honeydew-thc-27-10-cbd-%e2%89%a41/",
+      "nr_current": true
     },
     {
       "name": "Chemango Kush",
@@ -984,7 +1013,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/aurora-29-chemango-kush/"
+      "budcare_url": "https://budcare.pl/odmiany/aurora-29-chemango-kush/",
+      "nr_current": true
     },
     {
       "name": "Pavé S1",
@@ -1014,7 +1044,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/cantourage-pave-s1/"
+      "budcare_url": "https://budcare.pl/odmiany/cantourage-pave-s1/",
+      "nr_current": true
     },
     {
       "name": "Modified Gas",
@@ -1050,7 +1081,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/cantourage-263-modified-gas/"
+      "budcare_url": "https://budcare.pl/odmiany/cantourage-263-modified-gas/",
+      "nr_current": true
     },
     {
       "name": "Orange Cake",
@@ -1084,7 +1116,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/cantourage-279-orange-cake/"
+      "budcare_url": "https://budcare.pl/odmiany/cantourage-279-orange-cake/",
+      "nr_current": false
     },
     {
       "name": "Jack Haze",
@@ -1113,7 +1146,8 @@
           "date": "2026-09-09"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/cannabis-sativa-l-red-no-2-jack-haze/"
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-sativa-l-red-no-2-jack-haze/",
+      "nr_current": true
     },
     {
       "name": "Afgan Kush",
@@ -1142,7 +1176,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/afghan-kush-canopy-growth-25/"
+      "budcare_url": "https://budcare.pl/odmiany/afghan-kush-canopy-growth-25/",
+      "nr_current": true
     },
     {
       "name": "Ultra Jack",
@@ -1171,7 +1206,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/ultra-jack-canopy-growth-30/"
+      "budcare_url": "https://budcare.pl/odmiany/ultra-jack-canopy-growth-30/",
+      "nr_current": true
     },
     {
       "name": "Orange Cream Pop",
@@ -1205,7 +1241,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/cosma-20-orange-cream-pop/"
+      "budcare_url": "https://budcare.pl/odmiany/cosma-20-orange-cream-pop/",
+      "nr_current": true
     },
     {
       "name": "Hindu Kush",
@@ -1239,7 +1276,8 @@
           "date": "2026-09-09"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/cosma-22-hindu-kush/"
+      "budcare_url": "https://budcare.pl/odmiany/cosma-22-hindu-kush/",
+      "nr_current": true
     },
     {
       "name": "Black R.",
@@ -1273,7 +1311,8 @@
           "date": "2026-09-09"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/cosma-22-black-r/"
+      "budcare_url": "https://budcare.pl/odmiany/cosma-22-black-r/",
+      "nr_current": true
     },
     {
       "name": "Wedding Pop Triangle",
@@ -1308,7 +1347,8 @@
           "code": "WPT"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/wedding-pop-triangle-medalchemy-24/"
+      "budcare_url": "https://budcare.pl/odmiany/wedding-pop-triangle-medalchemy-24/",
+      "nr_current": false
     },
     {
       "name": "Zookies",
@@ -1343,7 +1383,8 @@
           "code": "ZK"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/zookies-medalchemy-25/"
+      "budcare_url": "https://budcare.pl/odmiany/zookies-medalchemy-25/",
+      "nr_current": true
     },
     {
       "name": "GMO",
@@ -1379,7 +1420,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/four20-pharma-27-gmo/"
+      "budcare_url": "https://budcare.pl/odmiany/four20-pharma-27-gmo/",
+      "nr_current": true
     },
     {
       "name": "MSP",
@@ -1414,7 +1456,8 @@
           "code": "MSP"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/four20-pharma-27-masterpiece/"
+      "budcare_url": "https://budcare.pl/odmiany/four20-pharma-27-masterpiece/",
+      "nr_current": true
     },
     {
       "name": "Gorilla Glue",
@@ -1452,7 +1495,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/phytopur-bio-24-gorilla-glue/"
+      "budcare_url": "https://budcare.pl/odmiany/phytopur-bio-24-gorilla-glue/",
+      "nr_current": false
     },
     {
       "name": "OG Kush",
@@ -1486,7 +1530,8 @@
           "date": "2026-08-26"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/bliss-pharma-22-og-kush/"
+      "budcare_url": "https://budcare.pl/odmiany/bliss-pharma-22-og-kush/",
+      "nr_current": true
     },
     {
       "name": "Strawberry Kush",
@@ -1524,7 +1569,8 @@
           "date": "2026-09-09"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/bliss-pharma-25-strawberry-og/"
+      "budcare_url": "https://budcare.pl/odmiany/bliss-pharma-25-strawberry-og/",
+      "nr_current": true
     },
     {
       "name": "Blueberry",
@@ -1561,7 +1607,8 @@
         }
       ],
       "serial_note": "S-Lab ma dwie osobne rejestracje 'Blueberry' w Polsce: 18% i 22% (ten sam kod NR: BB). Sprawdz THC na opakowaniu, nie polegaj wylacznie na kodzie.",
-      "budcare_url": "https://budcare.pl/odmiany/s-lab-blueberry-thc-18-10-cbd-1/"
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-blueberry-thc-18-10-cbd-1/",
+      "nr_current": true
     },
     {
       "name": "Blueberry",
@@ -1587,7 +1634,8 @@
           "thc_nr": "22%"
         }
       ],
-      "serial_note": "S-Lab ma dwie osobne rejestracje 'Blueberry' w Polsce: 18% i 22% (ten sam kod NR: BB). Sprawdz THC na opakowaniu, nie polegaj wylacznie na kodzie."
+      "serial_note": "S-Lab ma dwie osobne rejestracje 'Blueberry' w Polsce: 18% i 22% (ten sam kod NR: BB). Sprawdz THC na opakowaniu, nie polegaj wylacznie na kodzie.",
+      "nr_current": true
     },
     {
       "name": "Cataract Kush",
@@ -1626,7 +1674,8 @@
           "code": "CK"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/s-lab-18-cataract-kush/"
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-18-cataract-kush/",
+      "nr_current": true
     },
     {
       "name": "Lemon Haze Gelato",
@@ -1663,7 +1712,8 @@
           "code": "LHG"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/s-lab-18-lemon-haze-gelato/"
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-18-lemon-haze-gelato/",
+      "nr_current": false
     },
     {
       "name": "Galaxy Walker",
@@ -1706,7 +1756,8 @@
           "code": "GWO"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/s-lab-galaxy-walker-og-thc-18-10-cbd-1/"
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-galaxy-walker-og-thc-18-10-cbd-1/",
+      "nr_current": true
     },
     {
       "name": "Headband",
@@ -1741,7 +1792,8 @@
           "code": "HB"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/s-lab-headband-thc-18-10-cbd-1/"
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-headband-thc-18-10-cbd-1/",
+      "nr_current": true
     },
     {
       "name": "Purps",
@@ -1785,7 +1837,8 @@
           "thc_nr": "18%"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-purps-thc-18-10-cbd-1/"
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-purps-thc-18-10-cbd-1/",
+      "nr_current": true
     },
     {
       "name": "Purps",
@@ -1825,7 +1878,8 @@
           "thc_nr": "22%"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/s-lab-purps-thc-22-10-cbd-1/"
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-purps-thc-22-10-cbd-1/",
+      "nr_current": true
     },
     {
       "name": "Beach Crasher",
@@ -1864,7 +1918,8 @@
           "code": "BCH"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/s-lab-beach-crasher-thc-22-10-cbd-%E2%89%A41/"
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-beach-crasher-thc-22-10-cbd-%E2%89%A41/",
+      "nr_current": true
     },
     {
       "name": "Pink Kush",
@@ -1899,7 +1954,8 @@
           "code": "PK"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/s-lab-22-pink-kush/"
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-22-pink-kush/",
+      "nr_current": true
     },
     {
       "name": "Powdered Donuts",
@@ -1936,7 +1992,8 @@
           "code": "PDD"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/synoptis-pharma-25-powdered-donuts/"
+      "budcare_url": "https://budcare.pl/odmiany/synoptis-pharma-25-powdered-donuts/",
+      "nr_current": false
     },
     {
       "name": "Cataract Kush",
@@ -1975,7 +2032,8 @@
           "code": "CK"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/tilray-18-cataract-kush/"
+      "budcare_url": "https://budcare.pl/odmiany/tilray-18-cataract-kush/",
+      "nr_current": false
     },
     {
       "name": "Blueberry 22%",
@@ -1999,7 +2057,8 @@
           "date": "2026-08-26",
           "code": "BB"
         }
-      ]
+      ],
+      "nr_current": false
     },
     {
       "name": "Master Kush",
@@ -2042,7 +2101,8 @@
           "code": "MK"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/tilray-22-master-kush/"
+      "budcare_url": "https://budcare.pl/odmiany/tilray-22-master-kush/",
+      "nr_current": true
     },
     {
       "name": "Pink Kush",
@@ -2077,7 +2137,8 @@
           "code": "PK"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/tilray-pink-kush-22/"
+      "budcare_url": "https://budcare.pl/odmiany/tilray-pink-kush-22/",
+      "nr_current": true
     },
     {
       "name": "SoMango",
@@ -2101,7 +2162,8 @@
           "date": "2026-09-09"
         }
       ],
-      "budcare_url": "https://budcare.pl/producent/cosma/"
+      "budcare_url": "https://budcare.pl/producent/cosma/",
+      "nr_current": true
     },
     {
       "name": "Frozen Lemon Mints (FLM)",
@@ -2138,7 +2200,8 @@
           "code": "FLM"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/four20-pharma-27-frozen-lemon-mints/"
+      "budcare_url": "https://budcare.pl/odmiany/four20-pharma-27-frozen-lemon-mints/",
+      "nr_current": true
     },
     {
       "name": "Ghost Gelato",
@@ -2163,7 +2226,8 @@
           "code": "GHG"
         }
       ],
-      "budcare_url": "https://budcare.pl/odmiany/odmiany-dostepne-jako-cannabis-flos-s-lab-22/"
+      "budcare_url": "https://budcare.pl/odmiany/odmiany-dostepne-jako-cannabis-flos-s-lab-22/",
+      "nr_current": true
     }
   ]
 }

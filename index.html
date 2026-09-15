@@ -107,6 +107,42 @@
     align-items:center;
   }
 
+  .scope-tabs{
+    display:flex;
+    gap:8px;
+    margin-top:16px;
+    flex-wrap:wrap;
+  }
+  .scope-tab{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--ink-dim);
+    padding:9px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:all .15s;
+    display:flex;
+    align-items:center;
+    gap:7px;
+  }
+  .scope-tab:hover{border-color:var(--ink-faint); color:var(--ink);}
+  .scope-tab.active{
+    background:rgba(143,191,107,0.14);
+    border-color:var(--accent);
+    color:var(--accent);
+    font-weight:600;
+  }
+  .scope-tab .scope-count{
+    font-size:10.5px;
+    color:var(--ink-faint);
+    background:var(--bg);
+    padding:1px 7px;
+    border-radius:10px;
+  }
+  .scope-tab.active .scope-count{color:var(--accent-2);}
+
   .mode-toggle{
     display:flex;
     background:var(--panel-2);
@@ -734,6 +770,10 @@
     <button class="research-nav-btn" id="research-btn">📊 Panel badawczy — notatki</button>
   </div>
   <div class="sub">Zawęź listę po producencie (np. sama Aurora), a potem doprecyzuj terpenami — liczniki terpenów przeliczają się wtedy tylko w obrębie wybranych producentów. Odmiany z <span style="color:var(--accent)">zielonym znacznikiem „✓ BudCare"</span> mają udział procentowy terpenów potwierdzony na budcare.pl — pozostałe to dane jakościowe (kolejność, bez %) z materiałów producenta/branży. Żadne z tych źródeł nie zastępują CoA konkretnej partii.</div>
+  <div class="scope-tabs">
+    <button class="scope-tab active" id="scope-nr" data-scope="nr">📍 W Rzeszowie (NR) <span class="scope-count" id="scope-nr-count"></span></button>
+    <button class="scope-tab" id="scope-pl" data-scope="pl">🇵🇱 Cała Polska (BudCare) <span class="scope-count" id="scope-pl-count"></span></button>
+  </div>
 </header>
 
 <div class="layout">
@@ -770,7 +810,7 @@
 </div>
 
 <footer>
-  Źródła: URPL (Lista Surowców Farmaceutycznych), BudCare.pl (baza odmian — jedyne źródło z podanym % udziałem każdego terpenu, wyliczonym jako średnia z wielu partii), materiały producentów (Aurora, Canopy Growth, Cantourage, COSMA, Suprobion, PhytoPūr Bio, Four20 Pharma, Tilray, S-Lab), agregacja branżowa (Cannabis Spot, MedCan Clinics). Znacznik <b style="color:var(--lab)">🔬 CoA lab</b> oznacza profil terpenowy potwierdzony niezależną analizą laboratoryjną (CoA) — najwyższy poziom pewności, nadpisuje dane z BudCare gdy oba są dostępne. <b>NR</b> = Niezapominajka Rzeszów Rejtana, cotygodniowy cennik przekazywany prywatnie — ceny i dostępność aktualne na dzień podany przy cenie, nie odświeżają się automatycznie. Stan ogólny: sierpień 2026 — dostępność apteczna rotuje miesięcznie, sprawdź bieżąco w GdziePoLek/KtoMaLek. BudCare zastrzega, że nawet ich dane to średnie z partii, nie certyfikat konkretnego opakowania — traktuj jako punkt wyjścia do rozmowy z pacjentem, nie jako CoA. Związek terpen→efekt w większości oparty na danych przedklinicznych, nie RCT.
+  Zakładka <b style="color:var(--accent)">📍 W Rzeszowie (NR)</b> pokazuje wyłącznie odmiany aktualnie potwierdzone cennikiem apteki NR (bez pozycji oznaczonych jako brakujące w najnowszym cenniku lub wycofanych ogólnopolsko bez potwierdzonego lokalnego zapasu). Zakładka <b>🇵🇱 Cała Polska (BudCare)</b> pokazuje wszystkie odmiany w bazie, niezależnie od bieżącej dostępności w NR — do orientacji ogólnopolskiej i porównań. Źródła: URPL (Lista Surowców Farmaceutycznych), BudCare.pl (baza odmian — jedyne źródło z podanym % udziałem każdego terpenu, wyliczonym jako średnia z wielu partii), materiały producentów (Aurora, Canopy Growth, Cantourage, COSMA, Suprobion, PhytoPūr Bio, Four20 Pharma, Tilray, S-Lab), agregacja branżowa (Cannabis Spot, MedCan Clinics). Znacznik <b style="color:var(--lab)">🔬 CoA lab</b> oznacza profil terpenowy potwierdzony niezależną analizą laboratoryjną (CoA) — najwyższy poziom pewności, nadpisuje dane z BudCare gdy oba są dostępne. <b>NR</b> = Niezapominajka Rzeszów Rejtana, cotygodniowy cennik przekazywany prywatnie — ceny i dostępność aktualne na dzień podany przy cenie, nie odświeżają się automatycznie. Stan ogólny: sierpień 2026 — dostępność apteczna rotuje miesięcznie, sprawdź bieżąco w GdziePoLek/KtoMaLek. BudCare zastrzega, że nawet ich dane to średnie z partii, nie certyfikat konkretnego opakowania — traktuj jako punkt wyjścia do rozmowy z pacjentem, nie jako CoA. Związek terpen→efekt w większości oparty na danych przedklinicznych, nie RCT.
 </footer>
 
 <div class="modal-overlay" id="notes-modal">
@@ -881,6 +921,7 @@ let allProducers = [];
 let selected = new Set();
 let selectedProducers = new Set();
 let mode = "any"; // any | all
+let viewScope = "nr"; // "nr" = tylko dostępne w aptece NR (Rzeszów) | "pl" = wszystkie (cała Polska, wg BudCare)
 
 async function loadStrains(){
   try{
@@ -895,10 +936,9 @@ async function loadStrains(){
   }
   normalizeStrains();
   computeDuplicateStrainNames();
-  allTerpenes = [...new Set(strains.flatMap(s => s.terpenes))].sort((a,b)=>a.localeCompare(b,'pl'));
-  terpTotal.textContent = allTerpenes.length + " poz.";
-  allProducers = [...new Set(strains.map(s => s.producer))].sort((a,b)=>a.localeCompare(b,'pl'));
-  producerTotal.textContent = allProducers.length + " poz.";
+  document.getElementById('scope-nr-count').textContent = strains.filter(s=>s.nr_current).length;
+  document.getElementById('scope-pl-count').textContent = strains.length;
+  refreshScopeLists();
   render();
 }
 
@@ -908,8 +948,41 @@ function normalizeStrains(){
     if(s.pct === undefined) s.pct = null;
     if(s.verified === undefined) s.verified = false;
     if(s.source === undefined) s.source = "branżowe / producent (Cannabis Spot, MedCan i in.)";
+    if(s.nr_current === undefined) s.nr_current = true; // brak pola = traktuj jako dostępną (bezpieczny domyślny stan dla starszych wpisów)
   });
 }
+
+// Odmiana faktycznie dostępna w aptece NR (Rzeszów) — pole nr_current w strains.json.
+// W zakładce "Cała Polska" filtr zakresu jest nieaktywny (widać wszystko).
+function inScope(s){ return viewScope !== "nr" || s.nr_current === true; }
+
+// Podzbiór strains.json widoczny w aktualnie wybranej zakładce — z niego liczone są
+// listy producentów/terpenów i ich liczniki, żeby np. producent obecny tylko poza
+// Rzeszowem nie zaśmiecał panelu w widoku lokalnym.
+function scopedStrains(){ return strains.filter(inScope); }
+
+function refreshScopeLists(){
+  const scoped = scopedStrains();
+  allTerpenes = [...new Set(scoped.flatMap(s => s.terpenes))].sort((a,b)=>a.localeCompare(b,'pl'));
+  terpTotal.textContent = allTerpenes.length + " poz.";
+  allProducers = [...new Set(scoped.map(s => s.producer))].sort((a,b)=>a.localeCompare(b,'pl'));
+  producerTotal.textContent = allProducers.length + " poz.";
+}
+
+document.querySelectorAll('.scope-tab').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const scope = btn.dataset.scope;
+    if(scope === viewScope) return;
+    viewScope = scope;
+    document.querySelectorAll('.scope-tab').forEach(b=>b.classList.toggle('active', b===btn));
+    // Czyścimy zaznaczone filtry przy zmianie zakładki — producent/terpen wybrany
+    // w jednym zakresie może w ogóle nie istnieć w drugim.
+    selected.clear();
+    selectedProducers.clear();
+    refreshScopeLists();
+    render();
+  });
+});
 
 // Some strains exist as multiple separate THC-threshold registrations under the
 // same producer+name (e.g. S-Lab Blueberry 18% / 22%, with different BudCare data).
@@ -931,12 +1004,13 @@ const terpTotal = document.getElementById('terp-total');
 const producerList = document.getElementById('producer-list');
 const producerTotal = document.getElementById('producer-total');
 
-// Liczba odmian danego producenta — niezależna od filtrów terpenowych (producent to filtr nadrzędny).
-function producerCount(p){ return strains.filter(s=>s.producer === p).length; }
+// Liczba odmian danego producenta w bieżącej zakładce (Rzeszów/Cała Polska) — niezależna
+// od filtrów terpenowych (producent to filtr nadrzędny).
+function producerCount(p){ return strains.filter(s=>s.producer === p && inScope(s)).length; }
 
-// Liczba odmian z danym terpenem — policzona TYLKO wśród już wybranych producentów,
-// żeby liczniki terpenów były trafne po zawężeniu do np. samej Aurory.
-function terpCount(t){ return strains.filter(s=>s.terpenes.includes(t) && matchesProducerFilter(s)).length; }
+// Liczba odmian z danym terpenem — policzona TYLKO wśród już wybranych producentów
+// i w obrębie bieżącej zakładki, żeby liczniki terpenów były trafne po zawężeniu np. do samej Aurory.
+function terpCount(t){ return strains.filter(s=>s.terpenes.includes(t) && matchesProducerFilter(s) && inScope(s)).length; }
 
 function renderProducerList(){
   producerList.innerHTML = "";
@@ -990,7 +1064,7 @@ function matchesTerpeneFilter(strain){
 }
 
 function matchesFilter(strain){
-  return matchesProducerFilter(strain) && matchesTerpeneFilter(strain);
+  return inScope(strain) && matchesProducerFilter(strain) && matchesTerpeneFilter(strain);
 }
 
 function render(){
@@ -1048,6 +1122,11 @@ function render(){
           ? `<span class="verify-badge v-part" title="Kolejność terpenów potwierdzona branżowo, bez %">~ częściowo</span>`
           : `<span class="verify-badge v-no" title="Dane wyłącznie z materiałów producenta/branżowych">producent</span>`;
 
+    // W zakładce "Cała Polska" warto od razu widzieć, które z tych odmian są też akurat w NR.
+    const nrChip = (viewScope === 'pl' && s.nr_current)
+      ? `<span class="verify-badge v-yes" title="Ta odmiana jest też aktualnie w aptece NR (Rzeszów)" style="margin-left:6px;">📍 też w NR</span>`
+      : '';
+
     card.innerHTML = `
       <div class="card-top">
         <div>
@@ -1056,7 +1135,7 @@ function render(){
         </div>
         <div class="type-badge type-${s.type}">${s.type}</div>
       </div>
-      <div class="thc-row">THC <span>${s.thc}</span> · CBD <span>${s.cbd}</span> · ${badge}</div>
+      <div class="thc-row">THC <span>${s.thc}</span> · CBD <span>${s.cbd}</span> · ${badge}${nrChip}</div>
       <div class="terp-tags">${terpTagsHtml}</div>
       <div class="card-effect">${s.effect}</div>
       ${s.serial_note ? `<div class="serial-warning">⚠️ ${s.serial_note}</div>` : ''}
