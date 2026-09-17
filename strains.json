@@ -9,7 +9,7 @@
       "materiały producentów",
       "NR = Niezapominajka Rzeszów Rejtana (cotygodniowy cennik apteczny, przekazywany prywatnie)"
     ],
-    "note": "verified:true = udział % terpenów potwierdzony na BudCare.pl. verified:'partial' = terpeny obecne potwierdzone (branżowo lub jako dominujące wg BudCare), bez wiarygodnych wag % (np. BudCare pokazuje sztuczny równy podział / zastrzega \"nie znamy dokładnego profilu\"). verified:false = dane niepotwierdzone, sprawdź CoA. Status 'WYCOFANA' oznacza brak nowych dostaw od producenta — istniejące partie mogą pozostawać w lokalnym obrocie do wyczerpania zapasu (aktywny numer rejestru pozwala aptekom sprzedawać posiadany zapas). Od teraz każda NOWA odmiana pojawiająca się w cenniku NR jest automatycznie sprawdzana na BudCare.pl przy najbliższej aktualizacji — potwierdzenie tożsamości i/lub profil % (jeśli publikowany), inaczej pozostaje jako 'do weryfikacji'. 14.09.2026: przeprowadzono pełny przegląd (sweep) ~52 dotąd niezweryfikowanych/częściowo zweryfikowanych odmian względem BudCare.pl — zaktualizowano dane dla większości z nich (patrz pola budcare_url i effect przy każdej pozycji dla szczegółów i zastrzeżeń, w tym dot. rozbieżności nazw/producentów i danych typu placeholder). Planowane trzecie, najwyższe źródło weryfikacji: niezależne CoA laboratoryjne (PDF-y od konopnego farmaceuty) — pole 'lab' pojawi się przy odmianach, dla których użytkownik dostarczy raport. 15.09.2026: usunięto z bazy 4 odmiany trwale wycofane z polskiego rynku (brak dostępności od dłuższego czasu): Aurora 8/8 zrównoważona, Medezin Amnesia Haze (Desert Flame), ODI Pharma Jean Guy, Canopy Growth Penelope 8/7. 15.09.2026: dodano pole 'nr_current' (true/false) — rozdziela odmiany faktycznie dostępne w aptece NR (Rzeszów, potwierdzone cennikiem, bez flagi 'brak w cenniku') od tych znanych ogólnopolsko wyłącznie z BudCare/materiałów producenta. Widok domyślny (zakładka „Rzeszów”) pokazuje tylko nr_current:true; zakładka „Cała Polska” pokazuje wszystkie."
+    "note": "verified:true = udział % terpenów potwierdzony na BudCare.pl. verified:'partial' = terpeny obecne potwierdzone (branżowo lub jako dominujące wg BudCare), bez wiarygodnych wag % (np. BudCare pokazuje sztuczny równy podział / zastrzega \"nie znamy dokładnego profilu\"). verified:false = dane niepotwierdzone, sprawdź CoA. Status 'WYCOFANA' oznacza brak nowych dostaw od producenta — istniejące partie mogą pozostawać w lokalnym obrocie do wyczerpania zapasu (aktywny numer rejestru pozwala aptekom sprzedawać posiadany zapas). Od teraz każda NOWA odmiana pojawiająca się w cenniku NR jest automatycznie sprawdzana na BudCare.pl przy najbliższej aktualizacji — potwierdzenie tożsamości i/lub profil % (jeśli publikowany), inaczej pozostaje jako 'do weryfikacji'. 14.09.2026: przeprowadzono pełny przegląd (sweep) ~52 dotąd niezweryfikowanych/częściowo zweryfikowanych odmian względem BudCare.pl — zaktualizowano dane dla większości z nich (patrz pola budcare_url i effect przy każdej pozycji dla szczegółów i zastrzeżeń, w tym dot. rozbieżności nazw/producentów i danych typu placeholder). Planowane trzecie, najwyższe źródło weryfikacji: niezależne CoA laboratoryjne (PDF-y od konopnego farmaceuty) — pole 'lab' pojawi się przy odmianach, dla których użytkownik dostarczy raport. 15.09.2026: usunięto z bazy 4 odmiany trwale wycofane z polskiego rynku (brak dostępności od dłuższego czasu): Aurora 8/8 zrównoważona, Medezin Amnesia Haze (Desert Flame), ODI Pharma Jean Guy, Canopy Growth Penelope 8/7. 15.09.2026: dodano pole 'nr_current' (true/false) — rozdziela odmiany faktycznie dostępne w aptece NR (Rzeszów, potwierdzone cennikiem, bez flagi 'brak w cenniku') od tych znanych ogólnopolsko wyłącznie z BudCare/materiałów producenta. Widok domyślny (zakładka „Rzeszów”) pokazuje tylko nr_current:true; zakładka „Cała Polska” pokazuje wszystkie. 16.09.2026: zmieniono model danych z pojedynczej flagi 'nr_current' na tablicę 'pharmacies' (nazwa apteki, miasto, available true/false, data aktualizacji) — przygotowanie pod dodanie kolejnych aptek z Rzeszowa (docelowo 6+). Zakładka „W Rzeszowie” pokazuje odmiany dostępne w co najmniej jednej aptece z miasta; karta odmiany pokazuje chip per apteka (dostępna/brak w cenniku, z ceną jeśli znana z pola 'prices'). Pole 'prices' pozostaje jako historyczny/referencyjny zapis cen per apteka (etykieta w 'label' odpowiada nazwie w 'pharmacies'). 17.09.2026: zaktualizowano ceny/dostępność w Niezapominajka Rzeszów Rejtana wg cennika z 16.09.2026 (wyciąg, nie pełny cennik — brak wzmianki w wyciągu NIE oznacza niedostępności, zaktualizowano tylko pozycje explicite wymienione). Dodano 2 nowe odmiany: Canopy Growth White Widow 27%, Canopy Growth Blood Orange 30% (obie oznaczone NOWOŚĆ, profil terpenowy do weryfikacji na BudCare). Bliss Pharma OG Kush oznaczona jako chwilowo niedostępna — wg cennika oczekiwana dostawa 18.09.2026. Odnotowano niejednoznaczność: cennik wymienia 'S-Lab 18% HB (Head Band) - 430 zł', ale w bazie istnieje tylko wpis Tilray Headband (370 zł) — różne ceny sugerują odrębny SKU, nie połączono automatycznie, wymaga ręcznej weryfikacji. Tego samego dnia napłynęły też cenniki z dwóch nowych aptek (Dr.Max ul. 3-go Maja 16 i Niezapominajka ul. Mickiewicza 12) jako załączniki (docx/odt) — nie zaimportowano automatycznie (brak narzędzia do odczytu załączników w tej sesji), do ręcznego uzupełnienia. | 17.09.2026: korekta błędu dopasowania producenta w skrypcie importu Dr.Max/Niezapominajka Mickiewicza (find_strain ignorował pole 'producer', dopasowując tylko po nazwie+THC — przy identycznych parach nazwa+THC występujących u dwóch różnych producentów, dane trafiały do pierwszego pasującego wpisu w kolejności pliku, niezależnie od producenta). Naprawiono 3 przypadki: Headband 18% (S-Lab, nie Tilray), Blueberry 18% (S-Lab, nie Tilray), Pink Kush 22% (Tilray, nie S-Lab) — dane Dr.Max/Niezapominajka Mickiewicza przeniesione na właściwego producenta zgodnie z zasadą 'S-Lab i Tilray to różni producenci'. Pełny audyt wszystkich par (nazwa, THC) współdzielonych przez >1 producenta nie wykazał dalszych kolizji. Dodano nowy szczep: Dosimosa (COSMA, THC 22%, hybryda sativa-dominująca) z cennika Niezapominajka Mickiewicza 16.09.2026, 360 zł/10g — niezweryfikowany na BudCare."
   },
   "strains": [
     {
@@ -44,9 +44,31 @@
           "price_per_g": 33,
           "package_g": 10,
           "date": "2026-08-26"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 324.6,
+          "price_per_g": 32.46,
+          "package_g": 10,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
         }
       ],
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-08-26"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        }
+      ]
     },
     {
       "name": "Farm Gas",
@@ -76,13 +98,41 @@
         {
           "source": "NR",
           "label": "Niezapominajka Rzeszów Rejtana",
-          "price_pln": 290,
-          "price_per_g": 29,
+          "price_pln": 260,
+          "price_per_g": 26,
           "package_g": 10,
-          "date": "2026-09-09"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 137.0,
+          "price_per_g": 27.4,
+          "package_g": 5,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
         }
       ],
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Black Jelly",
@@ -117,10 +167,31 @@
           "price_pln": 390,
           "price_per_g": 39,
           "package_g": 10,
-          "date": "2026-08-26"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 380,
+          "price_per_g": 38.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Ghost Train Haze",
@@ -152,13 +223,49 @@
         {
           "source": "NR",
           "label": "Niezapominajka Rzeszów Rejtana",
-          "price_pln": 430,
-          "price_per_g": 52,
-          "package_g": 15,
-          "date": "2026-09-09"
+          "price_pln": 440,
+          "price_per_g": 44,
+          "package_g": 10,
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 408.0,
+          "price_per_g": 40.8,
+          "package_g": 10,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 450,
+          "price_per_g": 45.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Delahaze",
@@ -184,7 +291,14 @@
       "verified": true,
       "source": "BudCare",
       "status": "WYCOFANA (XI 2025)",
-      "nr_current": false
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-09-09"
+        }
+      ]
     },
     {
       "name": "Pink Kush",
@@ -218,13 +332,49 @@
           "label": "Niezapominajka Rzeszów Rejtana",
           "price_pln": 550,
           "price_per_g": 55,
-          "package_g": 15,
-          "date": "2026-08-26",
+          "package_g": 10,
+          "date": "2026-09-16",
           "thc_nr": "20%"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 508.0,
+          "price_per_g": 50.8,
+          "package_g": 10,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 550,
+          "price_per_g": 55.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-aurora-20-pink-kush/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Red Velvet Cake",
@@ -247,7 +397,14 @@
       "source": "BudCare",
       "status": "dostępna",
       "budcare_url": "https://budcare.pl/odmiany/red-velvet-cake-canopy-growth-27/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-09"
+        }
+      ]
     },
     {
       "name": "Kush Mints",
@@ -273,12 +430,33 @@
           "price_pln": 580,
           "price_per_g": 38,
           "package_g": 15,
-          "date": "2026-08-26",
+          "date": "2026-09-16",
           "thc_nr": "30%"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 570,
+          "price_per_g": 38.0,
+          "package_g": 15,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/kush-mints-canopy-growth-28/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Krypton / Snowtorious Krypton",
@@ -304,10 +482,31 @@
           "price_per_g": 38,
           "package_g": 15,
           "date": "2026-08-26"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 550,
+          "price_per_g": 36.67,
+          "package_g": 15,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/snowtorious-krypton-canopy-growth-25/",
-      "nr_current": false
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-08-26"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Bakerstreet",
@@ -342,7 +541,14 @@
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-canopy-growth-20-thc-20-cbd-05/",
-      "nr_current": false
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-08-26"
+        }
+      ]
     },
     {
       "name": "Gelato 33",
@@ -368,11 +574,47 @@
           "price_pln": 450,
           "price_per_g": 45,
           "package_g": 10,
-          "date": "2026-08-26"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 283.0,
+          "price_per_g": 56.6,
+          "package_g": 5,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 540,
+          "price_per_g": 54.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cantourage-gelato-33/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "MAC 1",
@@ -398,11 +640,47 @@
           "price_pln": 450,
           "price_per_g": 45,
           "package_g": 10,
-          "date": "2026-08-26"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 455.3,
+          "price_per_g": 45.53,
+          "package_g": 10,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 470,
+          "price_per_g": 47.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-cantourage-thc-25-cbd-1-mac-1/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Gorilla Girl",
@@ -435,7 +713,14 @@
       "source": "BudCare",
       "status": "dostępna",
       "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-cosma-thc-20-cbd-1-balasa-gorilla-girl/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-09"
+        }
+      ]
     },
     {
       "name": "Blue Monkey / Mac Monkey",
@@ -474,12 +759,33 @@
           "price_pln": 300,
           "price_per_g": 30,
           "package_g": 10,
-          "date": "2026-08-26"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 300,
+          "price_per_g": 30.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
       "type_nr": "Indica 70%",
       "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-cosma-thc-21-cbd-%E2%89%A41/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Gorilla Glue #4",
@@ -512,12 +818,48 @@
           "price_pln": 540,
           "price_per_g": 36,
           "package_g": 15,
-          "date": "2026-08-26",
+          "date": "2026-09-16",
           "code": "GG"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 504.0,
+          "price_per_g": 50.4,
+          "package_g": 10,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 200,
+          "price_per_g": 40.0,
+          "package_g": 5,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-thc-22-cbd-1-four-20-pharma-gmbh/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "MAC 1",
@@ -550,13 +892,49 @@
           "price_pln": 540,
           "price_per_g": 36,
           "package_g": 15,
-          "date": "2026-08-26",
+          "date": "2026-09-16",
           "code": "MAC",
           "thc_nr": "22%"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 504.0,
+          "price_per_g": 50.4,
+          "package_g": 10,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 170,
+          "price_per_g": 34.0,
+          "package_g": 5,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-thc-22-cbd-1-420-evolution/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Humble Warrior",
@@ -579,7 +957,14 @@
       "source": "BudCare",
       "status": "dostępna",
       "budcare_url": "https://budcare.pl/odmiany/suprobion-humble-warrior/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-09"
+        }
+      ]
     },
     {
       "name": "Gorilla Glue",
@@ -612,11 +997,18 @@
           "price_pln": 420,
           "price_per_g": 42,
           "package_g": 10,
-          "date": "2026-08-26"
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/suprobion-gorilla-glue/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Mystic Wonder",
@@ -648,7 +1040,20 @@
       ],
       "type_nr": "Indica 60%",
       "budcare_url": "https://budcare.pl/odmiany/suprobion-mystic-wonder/",
-      "nr_current": false
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-08-26"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Frosted Lemon Angel",
@@ -679,7 +1084,14 @@
       "source": "BudCare",
       "status": "dostępna",
       "budcare_url": "https://budcare.pl/odmiany/phytopur-bio-frosted-lemon-angel/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-09"
+        }
+      ]
     },
     {
       "name": "Big Purple Dragon",
@@ -712,7 +1124,31 @@
       "source": "BudCare",
       "status": "dostępna",
       "budcare_url": "https://budcare.pl/odmiany/phytopur-bio-big-purple-dragon/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-09"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        }
+      ],
+      "prices": [
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 135.0,
+          "price_per_g": 27.0,
+          "package_g": 5,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        }
+      ]
     },
     {
       "name": "Pink Certz",
@@ -737,7 +1173,14 @@
       "source": "BudCare",
       "status": "dostępna",
       "budcare_url": "https://budcare.pl/odmiany/s-lab-22-pink-certz/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-09"
+        }
+      ]
     },
     {
       "name": "Jack Herer",
@@ -761,7 +1204,14 @@
       "verified": true,
       "source": "BudCare",
       "status": "dostępna",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-09"
+        }
+      ]
     },
     {
       "name": "Master Kush",
@@ -797,14 +1247,21 @@
         {
           "source": "NR",
           "label": "Niezapominajka Rzeszów Rejtana",
-          "price_pln": 390,
-          "price_per_g": 26,
+          "price_pln": 370,
+          "price_per_g": 24,
           "package_g": 15,
-          "date": "2026-09-09",
+          "date": "2026-09-16",
           "thc_nr": "22%"
         }
       ],
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Blueberry",
@@ -828,7 +1285,15 @@
       "verified": true,
       "source": "BudCare",
       "status": "niska dostępność",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-09"
+        }
+      ],
+      "prices": []
     },
     {
       "name": "Lilac Diesel",
@@ -871,7 +1336,14 @@
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/s-lab-lilac-diesel/",
-      "nr_current": false
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-08-26"
+        }
+      ]
     },
     {
       "name": "Headband",
@@ -907,7 +1379,14 @@
           "code": "HB"
         }
       ],
-      "nr_current": false
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-08-26"
+        }
+      ]
     },
     {
       "name": "Rockstar",
@@ -938,7 +1417,14 @@
       "source": "BudCare",
       "status": "niska dostępność",
       "serial_note": "Pod tym samym rejestrem (Tilray THC18/CBD1) występuje 10 odmian — rozróżnia tylko numer serii na opakowaniu",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-09"
+        }
+      ]
     },
     {
       "name": "Electric Honeydew",
@@ -971,11 +1457,47 @@
           "price_pln": 350,
           "price_per_g": 35,
           "package_g": 10,
-          "date": "2026-08-26"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 354.0,
+          "price_per_g": 35.4,
+          "package_g": 10,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 350,
+          "price_per_g": 35.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/aurora-electric-honeydew-thc-27-10-cbd-%e2%89%a41/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Chemango Kush",
@@ -1010,11 +1532,47 @@
           "price_pln": 450,
           "price_per_g": 45,
           "package_g": 10,
-          "date": "2026-08-26"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 436.29,
+          "price_per_g": 43.63,
+          "package_g": 10,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 460,
+          "price_per_g": 46.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/aurora-29-chemango-kush/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Pavé S1",
@@ -1041,11 +1599,47 @@
           "price_pln": 450,
           "price_per_g": 45,
           "package_g": 10,
-          "date": "2026-08-26"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 245.0,
+          "price_per_g": 49.0,
+          "package_g": 5,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 450,
+          "price_per_g": 45.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cantourage-pave-s1/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Modified Gas",
@@ -1078,11 +1672,47 @@
           "price_pln": 450,
           "price_per_g": 45,
           "package_g": 10,
-          "date": "2026-08-26"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 455.3,
+          "price_per_g": 45.53,
+          "package_g": 10,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 450,
+          "price_per_g": 45.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cantourage-263-modified-gas/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Orange Cake",
@@ -1114,10 +1744,32 @@
           "price_per_g": 45,
           "package_g": 10,
           "date": "2026-08-26"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 245.0,
+          "price_per_g": 49.0,
+          "package_g": 5,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cantourage-279-orange-cake/",
-      "nr_current": false
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-08-26"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        }
+      ]
     },
     {
       "name": "Jack Haze",
@@ -1143,11 +1795,47 @@
           "price_pln": 290,
           "price_per_g": 58,
           "package_g": 5,
-          "date": "2026-09-09"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 299.0,
+          "price_per_g": 59.8,
+          "package_g": 5,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 290,
+          "price_per_g": 58.0,
+          "package_g": 5,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cannabis-sativa-l-red-no-2-jack-haze/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Afgan Kush",
@@ -1173,11 +1861,32 @@
           "price_pln": 580,
           "price_per_g": 38,
           "package_g": 15,
-          "date": "2026-08-26"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 590,
+          "price_per_g": 39.33,
+          "package_g": 15,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/afghan-kush-canopy-growth-25/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Ultra Jack",
@@ -1203,11 +1912,47 @@
           "price_pln": 580,
           "price_per_g": 38,
           "package_g": 15,
-          "date": "2026-08-26"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 569.0,
+          "price_per_g": 37.93,
+          "package_g": 15,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 570,
+          "price_per_g": 38.0,
+          "package_g": 15,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/ultra-jack-canopy-growth-30/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Orange Cream Pop",
@@ -1238,11 +1983,32 @@
           "price_pln": 360,
           "price_per_g": 36,
           "package_g": 10,
-          "date": "2026-08-26"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 370,
+          "price_per_g": 37.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cosma-20-orange-cream-pop/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Hindu Kush",
@@ -1273,11 +2039,47 @@
           "price_pln": 320,
           "price_per_g": 32,
           "package_g": 10,
-          "date": "2026-09-09"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 349.58,
+          "price_per_g": 34.96,
+          "package_g": 10,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 320,
+          "price_per_g": 32.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cosma-22-hindu-kush/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Black R.",
@@ -1305,14 +2107,50 @@
         {
           "source": "NR",
           "label": "Niezapominajka Rzeszów Rejtana",
-          "price_pln": 300,
-          "price_per_g": 30,
+          "price_pln": 290,
+          "price_per_g": 29,
           "package_g": 10,
-          "date": "2026-09-09"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 349.58,
+          "price_per_g": 34.96,
+          "package_g": 10,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 260,
+          "price_per_g": 26.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cosma-22-black-r/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Wedding Pop Triangle",
@@ -1348,7 +2186,14 @@
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/wedding-pop-triangle-medalchemy-24/",
-      "nr_current": false
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-08-26"
+        }
+      ]
     },
     {
       "name": "Zookies",
@@ -1379,12 +2224,25 @@
           "price_pln": 280,
           "price_per_g": 28,
           "package_g": 10,
-          "date": "2026-08-26",
+          "date": "2026-09-16",
           "code": "ZK"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/zookies-medalchemy-25/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "GMO",
@@ -1414,14 +2272,21 @@
         {
           "source": "NR",
           "label": "Niezapominajka Rzeszów Rejtana",
-          "price_pln": 570,
-          "price_per_g": 38,
+          "price_pln": 540,
+          "price_per_g": 36,
           "package_g": 15,
-          "date": "2026-08-26"
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/four20-pharma-27-gmo/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "MSP",
@@ -1452,12 +2317,33 @@
           "price_pln": 540,
           "price_per_g": 36,
           "package_g": 15,
-          "date": "2026-08-26",
+          "date": "2026-09-16",
           "code": "MSP"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 355,
+          "price_per_g": 35.5,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/four20-pharma-27-masterpiece/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Gorilla Glue",
@@ -1493,10 +2379,46 @@
           "price_per_g": 37,
           "package_g": 10,
           "date": "2026-08-26"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 321.0,
+          "price_per_g": 32.1,
+          "package_g": 10,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 370,
+          "price_per_g": 37.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/phytopur-bio-24-gorilla-glue/",
-      "nr_current": false
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-08-26"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "OG Kush",
@@ -1519,7 +2441,7 @@
       "effect": "Klasyczna hybryda z dominacją indica, działanie relaksujące na wieczór; aromat cytrusowo-sosnowo-żywiczny (opis BudCare).",
       "verified": true,
       "source": "BudCare",
-      "status": "dostępna w NR",
+      "status": "sprawdź dostępność [wg cennika NR z 16.09.2026: oczekiwana dostawa 18.09.2026, jeszcze niedostępna]",
       "prices": [
         {
           "source": "NR",
@@ -1531,7 +2453,14 @@
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/bliss-pharma-22-og-kush/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Strawberry Kush",
@@ -1566,11 +2495,18 @@
           "price_pln": 410,
           "price_per_g": 41,
           "package_g": 10,
-          "date": "2026-09-09"
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/bliss-pharma-25-strawberry-og/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Blueberry",
@@ -1601,14 +2537,35 @@
           "price_pln": 460,
           "price_per_g": 30,
           "package_g": 15,
-          "date": "2026-08-26",
+          "date": "2026-09-16",
           "code": "BB",
           "thc_nr": "18%"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 450,
+          "price_per_g": 30.0,
+          "package_g": 15,
+          "date": "2026-09-16"
         }
       ],
       "serial_note": "S-Lab ma dwie osobne rejestracje 'Blueberry' w Polsce: 18% i 22% (ten sam kod NR: BB). Sprawdz THC na opakowaniu, nie polegaj wylacznie na kodzie.",
       "budcare_url": "https://budcare.pl/odmiany/s-lab-blueberry-thc-18-10-cbd-1/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Blueberry",
@@ -1629,13 +2586,49 @@
           "price_pln": 460,
           "price_per_g": 30,
           "package_g": 15,
-          "date": "2026-09-09",
+          "date": "2026-09-16",
           "code": "BB",
           "thc_nr": "22%"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 461.0,
+          "price_per_g": 30.73,
+          "package_g": 15,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 480,
+          "price_per_g": 32.0,
+          "package_g": 15,
+          "date": "2026-09-16"
         }
       ],
       "serial_note": "S-Lab ma dwie osobne rejestracje 'Blueberry' w Polsce: 18% i 22% (ten sam kod NR: BB). Sprawdz THC na opakowaniu, nie polegaj wylacznie na kodzie.",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Cataract Kush",
@@ -1670,12 +2663,34 @@
           "price_pln": 420,
           "price_per_g": 28,
           "package_g": 15,
-          "date": "2026-09-09",
+          "date": "2026-09-16",
           "code": "CK"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 425.6,
+          "price_per_g": 28.37,
+          "package_g": 15,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/s-lab-18-cataract-kush/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        }
+      ]
     },
     {
       "name": "Lemon Haze Gelato",
@@ -1713,7 +2728,14 @@
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/s-lab-18-lemon-haze-gelato/",
-      "nr_current": false
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-08-26"
+        }
+      ]
     },
     {
       "name": "Galaxy Walker",
@@ -1752,12 +2774,34 @@
           "price_pln": 420,
           "price_per_g": 28,
           "package_g": 15,
-          "date": "2026-08-26",
+          "date": "2026-09-16",
           "code": "GWO"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 426.78,
+          "price_per_g": 28.45,
+          "package_g": 15,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/s-lab-galaxy-walker-og-thc-18-10-cbd-1/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        }
+      ]
     },
     {
       "name": "Headband",
@@ -1790,10 +2834,46 @@
           "package_g": 15,
           "date": "2026-08-26",
           "code": "HB"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 443.4,
+          "price_per_g": 29.56,
+          "package_g": 15,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 440,
+          "price_per_g": 29.33,
+          "package_g": 15,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/s-lab-headband-thc-18-10-cbd-1/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-08-26"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Purps",
@@ -1832,13 +2912,20 @@
           "price_pln": 410,
           "price_per_g": 27,
           "package_g": 15,
-          "date": "2026-09-09",
+          "date": "2026-09-16",
           "code": "PPS",
           "thc_nr": "18%"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-purps-thc-18-10-cbd-1/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Purps",
@@ -1870,16 +2957,38 @@
         {
           "source": "NR",
           "label": "Niezapominajka Rzeszów Rejtana",
-          "price_pln": 460,
+          "price_pln": 450,
           "price_per_g": 30,
           "package_g": 15,
-          "date": "2026-08-26",
+          "date": "2026-09-16",
           "code": "PPS",
           "thc_nr": "22%"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 460.0,
+          "price_per_g": 30.67,
+          "package_g": 15,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/s-lab-purps-thc-22-10-cbd-1/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        }
+      ]
     },
     {
       "name": "Beach Crasher",
@@ -1914,12 +3023,40 @@
           "price_pln": 400,
           "price_per_g": 26,
           "package_g": 15,
-          "date": "2026-09-09",
+          "date": "2026-09-16",
           "code": "BCH"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 405.0,
+          "price_per_g": 27.0,
+          "package_g": 15,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/s-lab-beach-crasher-thc-22-10-cbd-%E2%89%A41/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Pink Kush",
@@ -1950,12 +3087,34 @@
           "price_pln": 450,
           "price_per_g": 30,
           "package_g": 15,
-          "date": "2026-08-26",
+          "date": "2026-09-16",
           "code": "PK"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 443.3,
+          "price_per_g": 29.55,
+          "package_g": 15,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/s-lab-22-pink-kush/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        }
+      ]
     },
     {
       "name": "Powdered Donuts",
@@ -1990,10 +3149,31 @@
           "package_g": 15,
           "date": "2026-08-26",
           "code": "PDD"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 490,
+          "price_per_g": 32.67,
+          "package_g": 15,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/synoptis-pharma-25-powdered-donuts/",
-      "nr_current": false
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-08-26"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Cataract Kush",
@@ -2033,7 +3213,14 @@
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/tilray-18-cataract-kush/",
-      "nr_current": false
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-08-26"
+        }
+      ]
     },
     {
       "name": "Blueberry 22%",
@@ -2056,9 +3243,30 @@
           "package_g": 15,
           "date": "2026-08-26",
           "code": "BB"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 400,
+          "price_per_g": 26.67,
+          "package_g": 15,
+          "date": "2026-09-16"
         }
       ],
-      "nr_current": false
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-08-26"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Master Kush",
@@ -2097,12 +3305,33 @@
           "price_pln": 360,
           "price_per_g": 24,
           "package_g": 15,
-          "date": "2026-08-26",
+          "date": "2026-09-16",
           "code": "MK"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 350,
+          "price_per_g": 23.33,
+          "package_g": 15,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/tilray-22-master-kush/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Pink Kush",
@@ -2133,12 +3362,25 @@
           "price_pln": 360,
           "price_per_g": 24,
           "package_g": 15,
-          "date": "2026-08-26",
+          "date": "2026-09-16",
           "code": "PK"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/tilray-pink-kush-22/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "SoMango",
@@ -2156,14 +3398,35 @@
         {
           "source": "NR",
           "label": "Niezapominajka Rzeszów Rejtana",
-          "price_pln": 340,
-          "price_per_g": 34,
+          "price_pln": 360,
+          "price_per_g": 36,
           "package_g": 10,
-          "date": "2026-09-09"
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 370,
+          "price_per_g": 37.0,
+          "package_g": 10,
+          "date": "2026-09-16"
         }
       ],
       "budcare_url": "https://budcare.pl/producent/cosma/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Frozen Lemon Mints (FLM)",
@@ -2196,12 +3459,19 @@
           "price_pln": 550,
           "price_per_g": 36,
           "package_g": 15,
-          "date": "2026-09-09",
+          "date": "2026-09-16",
           "code": "FLM"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/four20-pharma-27-frozen-lemon-mints/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     },
     {
       "name": "Ghost Gelato",
@@ -2219,15 +3489,165 @@
         {
           "source": "NR",
           "label": "Niezapominajka Rzeszów Rejtana",
-          "price_pln": 460,
-          "price_per_g": 30,
+          "price_pln": 470,
+          "price_per_g": 31,
           "package_g": 15,
-          "date": "2026-09-09",
+          "date": "2026-09-16",
           "code": "GHG"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 461.2,
+          "price_per_g": 30.75,
+          "package_g": 15,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
         }
       ],
       "budcare_url": "https://budcare.pl/odmiany/odmiany-dostepne-jako-cannabis-flos-s-lab-22/",
-      "nr_current": true
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": false,
+          "updated": "2026-09-16"
+        }
+      ]
+    },
+    {
+      "name": "White Widow",
+      "producer": "Canopy Growth",
+      "thc": "27%",
+      "cbd": "do weryfikacji",
+      "type": "Sativa",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Nowa pozycja w cenniku NR (16.09.2026) — profil terpenowy i typ do weryfikacji na BudCare.pl.",
+      "verified": false,
+      "source": "cennik NR (16.09.2026), do weryfikacji na BudCare",
+      "status": "NOWOŚĆ w NR (16.09.2026) — do weryfikacji",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 580,
+          "price_per_g": 38,
+          "package_g": 15,
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 580,
+          "price_per_g": 38.67,
+          "package_g": 15,
+          "date": "2026-09-16"
+        }
+      ],
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
+    },
+    {
+      "name": "Blood Orange",
+      "producer": "Canopy Growth",
+      "thc": "30%",
+      "cbd": "do weryfikacji",
+      "type": "Indica",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Nowa pozycja w cenniku NR (16.09.2026) — profil terpenowy i typ do weryfikacji na BudCare.pl.",
+      "verified": false,
+      "source": "cennik NR (16.09.2026), do weryfikacji na BudCare",
+      "status": "NOWOŚĆ w NR (16.09.2026) — do weryfikacji",
+      "prices": [
+        {
+          "source": "NR",
+          "label": "Niezapominajka Rzeszów Rejtana",
+          "price_pln": 580,
+          "price_per_g": 38,
+          "package_g": 15,
+          "date": "2026-09-16"
+        },
+        {
+          "source": "Dr.Max",
+          "label": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "price_pln": 569.0,
+          "price_per_g": 37.93,
+          "package_g": 15,
+          "date": "2026-09-17",
+          "note": "cena maksymalna (urzędowa), niekoniecznie rzeczywista cena sprzedaży"
+        }
+      ],
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        },
+        {
+          "name": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-17"
+        }
+      ]
+    },
+    {
+      "name": "Dosimosa",
+      "producer": "COSMA",
+      "thc": "22%",
+      "cbd": "do weryfikacji",
+      "type": "Hybryda (sativa-dominująca)",
+      "terpenes": [],
+      "pct": null,
+      "effect": "Nowa pozycja w cenniku Niezapominajka Mickiewicza (16.09.2026) — profil terpenowy do weryfikacji na BudCare.pl.",
+      "verified": false,
+      "source": "cennik Niezapominajka Rzeszów ul. Mickiewicza 12 (16.09.2026), do weryfikacji na BudCare",
+      "status": "NOWOŚĆ w Niezapominajka Mickiewicza (16.09.2026) — do weryfikacji",
+      "prices": [
+        {
+          "source": "Niezapominajka",
+          "label": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "price_pln": 360,
+          "price_per_g": 36.0,
+          "package_g": 10,
+          "date": "2026-09-16"
+        }
+      ],
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-16"
+        }
+      ]
     }
   ]
 }
