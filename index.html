@@ -143,6 +143,56 @@
   }
   .scope-tab.active .scope-count{color:var(--accent-2);}
 
+  .pharmacy-row{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-top:10px;
+    padding-left:6px;
+    flex-wrap:wrap;
+  }
+  .pharmacy-row-label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:var(--ink-faint);
+    white-space:nowrap;
+  }
+  .pharmacy-chips{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .pharmacy-chip{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11.5px;
+    background:var(--panel-2);
+    border:1px dashed var(--line);
+    color:var(--ink-dim);
+    padding:6px 11px;
+    border-radius:16px;
+    cursor:pointer;
+    transition:all .15s;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .pharmacy-chip:hover{border-color:var(--ink-faint); color:var(--ink);}
+  .pharmacy-chip.active{
+    background:rgba(122,166,224,0.14);
+    border:1px solid var(--lab);
+    color:var(--lab);
+    font-weight:600;
+  }
+  .pharmacy-chip .ph-short{font-weight:700;}
+  .pharmacy-chip .ph-count{
+    font-size:9.5px;
+    background:var(--bg);
+    padding:1px 6px;
+    border-radius:10px;
+    color:var(--ink-faint);
+  }
+  .pharmacy-chip.active .ph-count{color:var(--lab);}
+
   .mode-toggle{
     display:flex;
     background:var(--panel-2);
@@ -779,6 +829,10 @@
     <button class="scope-tab active" id="scope-nr" data-scope="nr">📍 W Rzeszowie <span class="scope-count" id="scope-nr-count"></span></button>
     <button class="scope-tab" id="scope-pl" data-scope="pl">🇵🇱 Cała Polska (BudCare) <span class="scope-count" id="scope-pl-count"></span></button>
   </div>
+  <div class="pharmacy-row" id="pharmacy-row" style="display:none;">
+    <span class="pharmacy-row-label">🏥 Apteka:</span>
+    <div class="pharmacy-chips" id="pharmacy-chips"></div>
+  </div>
 </header>
 
 <div class="layout">
@@ -815,7 +869,7 @@
 </div>
 
 <footer>
-  Zakładka <b style="color:var(--accent)">📍 W Rzeszowie</b> pokazuje odmiany aktualnie potwierdzone cennikiem co najmniej jednej rzeszowskiej apteki (bez pozycji oznaczonych jako brakujące w najnowszym cenniku lub wycofanych ogólnopolsko bez potwierdzonego lokalnego zapasu); przy każdej odmianie widać chip z nazwą apteki, ceną (jeśli znana) i statusem — docelowo więcej niż jedna apteka. Zakładka <b>🇵🇱 Cała Polska (BudCare)</b> pokazuje wszystkie odmiany w bazie, niezależnie od bieżącej dostępności w Rzeszowie — do orientacji ogólnopolskiej i porównań. Źródła: URPL (Lista Surowców Farmaceutycznych), BudCare.pl (baza odmian — jedyne źródło z podanym % udziałem każdego terpenu, wyliczonym jako średnia z wielu partii), materiały producentów (Aurora, Canopy Growth, Cantourage, COSMA, Suprobion, PhytoPūr Bio, Four20 Pharma, Tilray, S-Lab), agregacja branżowa (Cannabis Spot, MedCan Clinics). Znacznik <b style="color:var(--lab)">🔬 CoA lab</b> oznacza profil terpenowy potwierdzony niezależną analizą laboratoryjną (CoA) — najwyższy poziom pewności, nadpisuje dane z BudCare gdy oba są dostępne. <b>NR</b> = Niezapominajka Rzeszów Rejtana, cotygodniowy cennik przekazywany prywatnie — ceny i dostępność aktualne na dzień podany przy cenie, nie odświeżają się automatycznie. Stan ogólny: sierpień 2026 — dostępność apteczna rotuje miesięcznie, sprawdź bieżąco w GdziePoLek/KtoMaLek. BudCare zastrzega, że nawet ich dane to średnie z partii, nie certyfikat konkretnego opakowania — traktuj jako punkt wyjścia do rozmowy z pacjentem, nie jako CoA. Związek terpen→efekt w większości oparty na danych przedklinicznych, nie RCT.
+  Zakładka <b style="color:var(--accent)">📍 W Rzeszowie</b> pokazuje odmiany aktualnie potwierdzone cennikiem co najmniej jednej rzeszowskiej apteki (bez pozycji oznaczonych jako brakujące w najnowszym cenniku lub wycofanych ogólnopolsko bez potwierdzonego lokalnego zapasu); przy każdej odmianie widać chip z kodem apteki (pełna nazwa pod kursorem), ceną (jeśli znana) i statusem. Pod zakładkami, w tym widoku, pojawia się dodatkowo <b>filtr apteki</b> — zawęża listę i liczniki producentów/terpenów do wybranej apteki (lub kilku naraz). Zakładka <b>🇵🇱 Cała Polska (BudCare)</b> pokazuje wszystkie odmiany w bazie, niezależnie od bieżącej dostępności w Rzeszowie — do orientacji ogólnopolskiej i porównań. Źródła: URPL (Lista Surowców Farmaceutycznych), BudCare.pl (baza odmian — jedyne źródło z podanym % udziałem każdego terpenu, wyliczonym jako średnia z wielu partii), materiały producentów (Aurora, Canopy Growth, Cantourage, COSMA, Suprobion, PhytoPūr Bio, Four20 Pharma, Tilray, S-Lab), agregacja branżowa (Cannabis Spot, MedCan Clinics). Znacznik <b style="color:var(--lab)">🔬 CoA lab</b> oznacza profil terpenowy potwierdzony niezależną analizą laboratoryjną (CoA) — najwyższy poziom pewności, nadpisuje dane z BudCare gdy oba są dostępne. <b>NR</b> = Niezapominajka Rzeszów Rejtana, <b>NM</b> = Niezapominajka Rzeszów (ul. Mickiewicza 12), <b>DM</b> = Dr.Max (ul. 3-go Maja 16, Rzeszów) — cenniki przekazywane prywatnie lub udostępniane przez apteki, ceny i dostępność aktualne na dzień podany przy cenie, nie odświeżają się automatycznie. Stan ogólny: sierpień 2026 — dostępność apteczna rotuje miesięcznie, sprawdź bieżąco w GdziePoLek/KtoMaLek. BudCare zastrzega, że nawet ich dane to średnie z partii, nie certyfikat konkretnego opakowania — traktuj jako punkt wyjścia do rozmowy z pacjentem, nie jako CoA. Związek terpen→efekt w większości oparty na danych przedklinicznych, nie RCT.
 </footer>
 
 <div class="modal-overlay" id="notes-modal">
@@ -925,8 +979,31 @@ let allTerpenes = [];
 let allProducers = [];
 let selected = new Set();
 let selectedProducers = new Set();
+let selectedPharmacies = new Set();
+let allPharmacies = [];
 let mode = "any"; // any | all
 let viewScope = "nr"; // "nr" = tylko dostępne w aptece NR (Rzeszów) | "pl" = wszystkie (cała Polska, wg BudCare)
+
+// Krótkie kody aptek używane w chipach cenowych i filtrze — pełna nazwa zostaje
+// w strains.json (dopasowanie prices[].label <-> pharmacies[].name po pełnym stringu)
+// i jest nadal widoczna po najechaniu kursorem (title).
+const PHARMACY_META = {
+  "Niezapominajka Rzeszów Rejtana": { short: "NR", label: "Rejtana" },
+  "Niezapominajka Rzeszów (ul. Mickiewicza 12)": { short: "NM", label: "Mickiewicza" },
+  "Dr.Max (ul. 3-go Maja 16, Rzeszów)": { short: "DM", label: "3 Maja" }
+};
+const PHARMACY_ORDER = Object.keys(PHARMACY_META);
+
+function pharmacyMeta(name){
+  if(PHARMACY_META[name]) return PHARMACY_META[name];
+  // Nowa apteka jeszcze nie wpisana do PHARMACY_META powyżej — awaryjny skrót z inicjałów nazwy.
+  const short = name.split(/\s+/).map(w=>w[0]).filter(Boolean).join('').slice(0,3).toUpperCase();
+  return { short: short || "??", label: name };
+}
+
+function isAvailableAtPharmacy(s, name){
+  return (s.pharmacies || []).some(p => p.available === true && p.city === "Rzeszów" && p.name === name);
+}
 
 async function loadStrains(){
   try{
@@ -980,6 +1057,28 @@ function refreshScopeLists(){
   terpTotal.textContent = allTerpenes.length + " poz.";
   allProducers = [...new Set(scoped.map(s => s.producer))].sort((a,b)=>a.localeCompare(b,'pl'));
   producerTotal.textContent = allProducers.length + " poz.";
+
+  // Filtr aptek ma sens tylko w zakładce "W Rzeszowie" — w "Cała Polska" dostępność
+  // lokalna nie jest kryterium, więc chowamy cały rządek.
+  if(viewScope === 'nr'){
+    const names = new Set();
+    strains.forEach(s=>{
+      (s.pharmacies||[]).forEach(p=>{
+        if(p.available && p.city === 'Rzeszów') names.add(p.name);
+      });
+    });
+    allPharmacies = [...names].sort((a,b)=>{
+      const ia = PHARMACY_ORDER.indexOf(a), ib = PHARMACY_ORDER.indexOf(b);
+      if(ia !== -1 && ib !== -1) return ia - ib;
+      if(ia !== -1) return -1;
+      if(ib !== -1) return 1;
+      return a.localeCompare(b, 'pl');
+    });
+  } else {
+    allPharmacies = [];
+  }
+  document.getElementById('pharmacy-row').style.display =
+    (viewScope === 'nr' && allPharmacies.length > 0) ? 'flex' : 'none';
 }
 
 document.querySelectorAll('.scope-tab').forEach(btn=>{
@@ -992,6 +1091,7 @@ document.querySelectorAll('.scope-tab').forEach(btn=>{
     // w jednym zakresie może w ogóle nie istnieć w drugim.
     selected.clear();
     selectedProducers.clear();
+    selectedPharmacies.clear();
     refreshScopeLists();
     render();
   });
@@ -1018,12 +1118,15 @@ const producerList = document.getElementById('producer-list');
 const producerTotal = document.getElementById('producer-total');
 
 // Liczba odmian danego producenta w bieżącej zakładce (Rzeszów/Cała Polska) — niezależna
-// od filtrów terpenowych (producent to filtr nadrzędny).
-function producerCount(p){ return strains.filter(s=>s.producer === p && inScope(s)).length; }
+// od filtrów terpenowych, ale respektuje wybraną aptekę (drugi filtr nadrzędny, na równi z producentem).
+function producerCount(p){ return strains.filter(s=>s.producer === p && inScope(s) && matchesPharmacyFilter(s)).length; }
 
-// Liczba odmian z danym terpenem — policzona TYLKO wśród już wybranych producentów
+// Liczba odmian dostępnych w danej aptece — respektuje wybranego producenta, symetrycznie do producerCount.
+function pharmacyCount(name){ return strains.filter(s=>isAvailableAtPharmacy(s,name) && inScope(s) && matchesProducerFilter(s)).length; }
+
+// Liczba odmian z danym terpenem — policzona TYLKO wśród już wybranych producentów/aptek
 // i w obrębie bieżącej zakładki, żeby liczniki terpenów były trafne po zawężeniu np. do samej Aurory.
-function terpCount(t){ return strains.filter(s=>s.terpenes.includes(t) && matchesProducerFilter(s) && inScope(s)).length; }
+function terpCount(t){ return strains.filter(s=>s.terpenes.includes(t) && matchesProducerFilter(s) && matchesPharmacyFilter(s) && inScope(s)).length; }
 
 function renderProducerList(){
   producerList.innerHTML = "";
@@ -1066,6 +1169,13 @@ function matchesProducerFilter(strain){
   return selectedProducers.size === 0 || selectedProducers.has(strain.producer);
 }
 
+// Filtr apteki: aktywny tylko w zakładce "W Rzeszowie". Brak zaznaczenia = wszystkie apteki.
+// Kilka zaznaczonych = logika "którakolwiek z nich" (OR) — np. NR lub DM.
+function matchesPharmacyFilter(strain){
+  if(viewScope !== 'nr') return true;
+  return selectedPharmacies.size === 0 || [...selectedPharmacies].some(name => isAvailableAtPharmacy(strain, name));
+}
+
 function matchesTerpeneFilter(strain){
   if(selected.size === 0) return true;
   const terps = strain.terpenes;
@@ -1077,12 +1187,31 @@ function matchesTerpeneFilter(strain){
 }
 
 function matchesFilter(strain){
-  return inScope(strain) && matchesProducerFilter(strain) && matchesTerpeneFilter(strain);
+  return inScope(strain) && matchesProducerFilter(strain) && matchesPharmacyFilter(strain) && matchesTerpeneFilter(strain);
+}
+
+function renderPharmacyChips(){
+  const wrap = document.getElementById('pharmacy-chips');
+  wrap.innerHTML = "";
+  allPharmacies.forEach(name=>{
+    const meta = pharmacyMeta(name);
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'pharmacy-chip' + (selectedPharmacies.has(name) ? ' active' : '');
+    chip.title = name;
+    chip.innerHTML = `<span class="ph-short">${escapeHtml(meta.short)}</span> ${escapeHtml(meta.label)} <span class="ph-count">${pharmacyCount(name)}</span>`;
+    chip.addEventListener('click', ()=>{
+      if(selectedPharmacies.has(name)) selectedPharmacies.delete(name); else selectedPharmacies.add(name);
+      render();
+    });
+    wrap.appendChild(chip);
+  });
 }
 
 function render(){
   renderProducerList();
   renderTerpList();
+  renderPharmacyChips();
 
     // Zawsze sortuj alfabetycznie po nazwie (PL) — zarówno bez filtrów, jak i po ich zastosowaniu.
   // Producent jako tiebreaker przy identycznych nazwach (np. kilka rejestracji "Pink Kush").
@@ -1097,6 +1226,14 @@ function render(){
     const c = document.createElement('span');
     c.className = 'chip';
     c.textContent = "🏭 " + p;
+    activeWrap.appendChild(c);
+  });
+  selectedPharmacies.forEach(name=>{
+    const meta = pharmacyMeta(name);
+    const c = document.createElement('span');
+    c.className = 'chip';
+    c.title = name;
+    c.textContent = "🏥 " + meta.short;
     activeWrap.appendChild(c);
   });
   selected.forEach(t=>{
@@ -1155,17 +1292,18 @@ function render(){
       ${s.serial_note ? `<div class="serial-warning">⚠️ ${s.serial_note}</div>` : ''}
       ${(s.pharmacies && s.pharmacies.length) ? `<div class="price-row">${s.pharmacies.map(ph => {
         const priceEntry = (s.prices || []).find(p => p.label === ph.name);
+        const meta = pharmacyMeta(ph.name);
         if(ph.available){
           const priceHtml = priceEntry
             ? `<b>${priceEntry.price_pln} zł</b> / ${priceEntry.package_g}g (${priceEntry.price_per_g} zł/g)${priceEntry.thc_nr ? ` · THC ${priceEntry.thc_nr}` : ''}${priceEntry.code ? ` · kod: ${priceEntry.code}` : ''}`
             : 'dostępna';
-          return `<span class="price-chip">
-            <span class="price-source">${escapeHtml(ph.name)}</span>
+          return `<span class="price-chip" title="${escapeHtml(ph.name)}">
+            <span class="price-source">${escapeHtml(meta.short)}</span>
             ${priceHtml}
           </span>`;
         }
-        return `<span class="price-chip unavail">
-          <span class="price-source">${escapeHtml(ph.name)}</span>
+        return `<span class="price-chip unavail" title="${escapeHtml(ph.name)}">
+          <span class="price-source">${escapeHtml(meta.short)}</span>
           brak w cenniku${ph.updated ? ` (${ph.updated})` : ''}
         </span>`;
       }).join('')}</div>` : ''}
@@ -1196,6 +1334,7 @@ document.getElementById('mode-all').addEventListener('click', ()=>{
 document.getElementById('clear-btn').addEventListener('click', ()=>{
   selected.clear();
   selectedProducers.clear();
+  selectedPharmacies.clear();
   render();
 });
 
