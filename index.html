@@ -895,6 +895,14 @@
         </div>
       </div>
 
+      <div class="form-row">
+        <div style="flex:1;">
+          <label>Waporyzator</label>
+          <input type="text" id="note-vape" list="vape-datalist" placeholder="zacznij pisać (podpowiedzi z ~90 modeli) lub kliknij chip niżej...">
+          <datalist id="vape-datalist"></datalist>
+        </div>
+      </div>
+
       <div class="chip-groups">
         <div class="chip-group-label">Efekt</div>
         <div class="chip-row">
@@ -936,6 +944,10 @@
           <span class="quick-chip">waporyzacja</span>
           <span class="quick-chip">palenie</span>
         </div>
+        <div class="chip-group-label">Waporyzator — elektroniczny (szybki wybór)</div>
+        <div class="chip-row" id="vape-chips-electric"></div>
+        <div class="chip-group-label">Waporyzator — manualny / torch 🔥 (mocne, pojedyncze zaciągnięcie)</div>
+        <div class="chip-row" id="vape-chips-manual"></div>
       </div>
 
       <label>Notatka</label>
@@ -961,7 +973,7 @@
     <div class="research-stats" id="research-stats"></div>
 
     <div class="research-toolbar">
-      <input type="text" id="research-search" placeholder="Szukaj po inicjałach pacjenta, odmianie lub producencie...">
+      <input type="text" id="research-search" placeholder="Szukaj po inicjałach pacjenta, odmianie, producencie lub waporyzatorze...">
       <div class="research-view-toggle">
         <button id="research-view-patients" class="active">Wg pacjenta</button>
         <button id="research-view-list">Wszystkie notatki</button>
@@ -1341,6 +1353,56 @@ document.getElementById('clear-btn').addEventListener('click', ()=>{
 // ---------- NOTATKI KLINICZNE (localStorage, offline, tylko na tym urządzeniu) ----------
 const NOTES_KEY = 'terpeny_pl_notes_v1';
 
+// Waporyzatory — lista referencyjna zebrana z 4 sklepów (vapefully.com/pl, vaporshop.pl,
+// konopnysklep.com.pl, verdampftnochmal.de), poprawiona wg dr. Guzika. "Elektroniczne" =
+// bateryjne/grzałka własna. "Manualne/torch" = ogrzewane zapalniczką/palnikiem/heat-gunem —
+// klinicznie inna charakterystyka: pojedyncze, mocne zaciągnięcie zamiast sesji.
+const VAPE_ELECTRIC = [
+  // Storz & Bickel
+  "Mighty+","Crafty+","Venty","Veazy","Volcano Classic","Volcano Hybrid","Volcano Plenty",
+  // Arizer
+  "Arizer Solo 3","Arizer Solo 2 Max","Arizer Air Max","Arizer Air SE","Arizer ArGo","Arizer Go SRT",
+  "Arizer Extreme Q 6.0","Arizer XQ2","Arizer V-Tower 6.0",
+  // PAX
+  "PAX Plus","PAX Mini","PAX Four","PAX Flow",
+  // XMax
+  "XMax V3 Pro","XMax V3 Pro+","XMax V3 Nano","XMax V4 Pro","XMax Ace","XMax Starry 4.0",
+  // Fenix / 420Vape
+  "Fenix Mini+","Fenix NEO","Fenix Titanium Pro+","Fenix 2 Max","420Vape Svaty","420Vape MIKKRO",
+  // Smono
+  "Smono 3.4","Smono 4 Pro","Smono 5","Smono Lunari","Smono Balu","Smono Start","Smono Sunshine","Smono 70s","Smono Basic",
+  // DaVinci
+  "DaVinci IQ2","DaVinci IQ3","DaVinci IQC","DaVinci MIQRO-C",
+  // Tinymight
+  "Tinymight 2",
+  // Healthy Rips
+  "Healthy Rips Rogue 2","Healthy Rips FURY 3",
+  // Pozostałe elektroniczne
+  "XVape Fog Pro","Flowermate V5.0s Pro","Flowermate V5 Nano","Firefly 2+",
+  "Wolkenkraft Äris Ultra","Wolkenkraft FX Mini Ultra","Wolkenkraft LIVE",
+  "AirVape Legacy Pro","AirVape XS GO","Tafee Bowle Series 2","XLUX Roffu","Utillian 723",
+  "High Labs Trippy 2","INHALE Lotus","POTV Lobo","Limelight Frolic",
+  "Cuboo Stick","Cuboo Stick Pro","Cuboo Heater XL","Cuboo Heater Pro V2",
+  "Herborizer System Ti","Herborizer XL System","De Verdamper Deluxe","De Verdamper Luxury","Aromed 4.0"
+];
+const VAPE_MANUAL = [
+  // DynaVap
+  "DynaVap VapCap M","DynaVap The G3","DynaVap The B2","DynaVap The Woodwynd","DynaVap VonG","DynaVap HyperDyn","DynaVap UniDyn",
+  "420Vape BALLZ Vape",
+  "Vestratto Anvil","Vestratto Tornado",
+  "MAD Heaters Tempest 2",
+  "Vapman 2.0",
+  "MiniVAP Portable","MiniVAP Single",
+  "Weecke Rush",
+  "Sticky Brick OG",
+  "Brennix LiftOff",
+  "Vaponic"
+];
+// Szybki wybór (jednym kliknięciem) — najczęściej polecane wg dr. Guzika; reszta dostępna
+// przez podpowiedzi w polu (zacznij pisać).
+const VAPE_QUICK_ELECTRIC = ["Mighty+","Volcano Hybrid","Venty","PAX Plus","Arizer Solo 3","Tinymight 2","DaVinci IQC","Limelight Frolic","Healthy Rips FURY 3"];
+const VAPE_QUICK_MANUAL = ["DynaVap VapCap M","Vestratto Anvil","Vestratto Tornado","Sticky Brick OG"];
+
 function strainKey(s){
   const base = s.producer + '|' + s.name;
   return duplicateStrainNames.has(base) ? base + '|' + s.thc : base;
@@ -1368,8 +1430,10 @@ function openNotesModal(s){
   document.getElementById('modal-strain-sub').textContent = s.producer + ' · THC ' + s.thc + ' · CBD ' + s.cbd;
   document.getElementById('note-patient').value = '';
   document.getElementById('note-dose').value = '';
+  document.getElementById('note-vape').value = '';
   document.getElementById('note-text').value = '';
   refreshPatientDatalist();
+  refreshVapeDatalist();
   renderNotesList();
   document.getElementById('notes-modal').classList.add('open');
 }
@@ -1407,13 +1471,14 @@ document.getElementById('save-note-btn').addEventListener('click', ()=>{
   const text = document.getElementById('note-text').value.trim();
   const patient = document.getElementById('note-patient').value.trim();
   const dose = document.getElementById('note-dose').value.trim();
+  const vape = document.getElementById('note-vape').value.trim();
   if(!text){ alert('Wpisz treść notatki.'); return; }
 
   const notes = loadAllNotes();
   notes.push({
     id: Date.now() + '-' + Math.random().toString(36).slice(2,7),
     strainKey: strainKey(currentStrain),
-    patient, dose, text,
+    patient, dose, vape, text,
     ts: Date.now(),
     dateLabel: new Date().toLocaleDateString('pl-PL', {day:'2-digit', month:'2-digit', year:'numeric'})
   });
@@ -1421,7 +1486,9 @@ document.getElementById('save-note-btn').addEventListener('click', ()=>{
 
   document.getElementById('note-patient').value = '';
   document.getElementById('note-dose').value = '';
+  document.getElementById('note-vape').value = '';
   document.getElementById('note-text').value = '';
+  refreshVapeDatalist();
   renderNotesList();
 });
 
@@ -1437,7 +1504,7 @@ function renderNotesList(){
     <div class="note-item" data-id="${n.id}">
       <button class="note-del" title="Usuń notatkę">✕</button>
       <div class="note-item-head">
-        <span class="note-item-meta">${n.patient ? `<b>${escapeHtml(n.patient)}</b>` : '<span style="color:var(--ink-faint)">bez inicjałów</span>'} ${n.dose ? ' · D: ' + escapeHtml(n.dose) : ''}</span>
+        <span class="note-item-meta">${n.patient ? `<b>${escapeHtml(n.patient)}</b>` : '<span style="color:var(--ink-faint)">bez inicjałów</span>'} ${n.dose ? ' · D: ' + escapeHtml(n.dose) : ''}${n.vape ? ' · 💨 ' + escapeHtml(n.vape) : ''}</span>
         <span class="note-item-date">${n.dateLabel}</span>
       </div>
       <div class="note-item-text">${escapeHtml(n.text)}</div>
@@ -1470,6 +1537,31 @@ function refreshPatientDatalist(){
   dl.innerHTML = names.map(n => `<option value="${escapeHtml(n)}">`).join('');
 }
 
+// ---------- Waporyzatory: podpowiedzi (pełna lista referencyjna + własnoręcznie wpisane wcześniej) i chipy szybkiego wyboru ----------
+function refreshVapeDatalist(){
+  const dl = document.getElementById('vape-datalist');
+  const custom = loadAllNotes().map(n => n.vape).filter(Boolean);
+  const names = [...new Set([...VAPE_ELECTRIC, ...VAPE_MANUAL, ...custom])].sort((a,b)=>a.localeCompare(b,'pl'));
+  dl.innerHTML = names.map(n => `<option value="${escapeHtml(n)}">`).join('');
+}
+
+function renderVapeChips(){
+  const fill = (name)=>{ document.getElementById('note-vape').value = name; };
+
+  const elWrap = document.getElementById('vape-chips-electric');
+  elWrap.innerHTML = VAPE_QUICK_ELECTRIC.map(n => `<span class="quick-chip vape-chip">${escapeHtml(n)}</span>`).join('');
+  elWrap.querySelectorAll('.vape-chip').forEach((chip,i)=>{
+    chip.addEventListener('click', ()=> fill(VAPE_QUICK_ELECTRIC[i]));
+  });
+
+  const manWrap = document.getElementById('vape-chips-manual');
+  manWrap.innerHTML = VAPE_QUICK_MANUAL.map(n => `<span class="quick-chip vape-chip">🔥 ${escapeHtml(n)}</span>`).join('');
+  manWrap.querySelectorAll('.vape-chip').forEach((chip,i)=>{
+    chip.addEventListener('click', ()=> fill(VAPE_QUICK_MANUAL[i]));
+  });
+}
+renderVapeChips();
+
 // ---------- PANEL BADAWCZY: zbiorczy widok notatek klinicznych ----------
 // Cel: notatki dla tego samego pacjenta (po inicjałach) katalogują się razem,
 // niezależnie od odmiany i daty wizyty — do wykorzystania w analizie kohortowej.
@@ -1500,7 +1592,8 @@ function filteredResearchNotes(){
   return all.filter(n =>
     (n.patient || '').toLowerCase().includes(researchQuery) ||
     n.strainName.toLowerCase().includes(researchQuery) ||
-    n.strainProducer.toLowerCase().includes(researchQuery)
+    n.strainProducer.toLowerCase().includes(researchQuery) ||
+    (n.vape || '').toLowerCase().includes(researchQuery)
   );
 }
 
@@ -1623,7 +1716,7 @@ function renderResearchList(notes, wrap){
       <table class="research-table">
         <thead>
           <tr>
-            <th>Data</th><th>Pacjent</th><th>Odmiana</th><th>Producent</th><th>Dawka</th><th>Notatka</th>
+            <th>Data</th><th>Pacjent</th><th>Odmiana</th><th>Producent</th><th>Dawka</th><th>Waporyzator</th><th>Notatka</th>
           </tr>
         </thead>
         <tbody>
@@ -1634,6 +1727,7 @@ function renderResearchList(notes, wrap){
               <td>${escapeHtml(n.strainName)}</td>
               <td>${escapeHtml(n.strainProducer)}</td>
               <td>${n.dose ? escapeHtml(n.dose) : '—'}</td>
+              <td>${n.vape ? escapeHtml(n.vape) : '—'}</td>
               <td>${escapeHtml(n.text)}</td>
             </tr>
           `).join('')}
@@ -1654,7 +1748,7 @@ function exportResearchCsv(){
   if(notes.length === 0){ alert('Brak danych do eksportu.'); return; }
 
   const strainMeta = new Map(strains.map(s => [strainKey(s), s]));
-  const header = ['Data','Pacjent','Odmiana','Producent','THC','Dawka','Notatka'];
+  const header = ['Data','Pacjent','Odmiana','Producent','THC','Dawka','Waporyzator','Notatka'];
 
   const rows = notes.map(n=>{
     const meta = strainMeta.get(n.strainKey);
@@ -1665,6 +1759,7 @@ function exportResearchCsv(){
       n.strainProducer,
       meta ? meta.thc : '',
       n.dose || '',
+      n.vape || '',
       n.text
     ].map(csvEscape).join(';');
   });
