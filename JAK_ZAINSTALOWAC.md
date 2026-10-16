@@ -1,19 +1,14 @@
 # Instalacja na Androidzie (5 minut)
 
-## Krok 1 — wgraj pliki gdzieś, skąd telefon może je otworzyć przez HTTPS
-PWA (i localStorage, na którym stoją notatki) wymaga, żeby strona była serwowana przez **http(s)**, nie otwierana lokalnie jako `file://`. Najprostsze opcje, za darmo, bez konfiguracji serwera:
+## Krok 1 — hosting (już działa, nic nie trzeba robić)
+Aplikacja jest hostowana na **Cloudflare Workers** (Worker `apka-terpenowa`) i wdraża się automatycznie z tego repozytorium: każdy push na `main` = nowa wersja online w ok. 1 minutę.
+Adres: `https://apka-terpenowa.mguzik11.workers.dev`
 
-**Opcja A — Netlify Drop (najszybsza, poleca się)**
-1. Wejdź na `app.netlify.com/drop` na komputerze.
-2. Przeciągnij **cały folder** (index.html, manifest.json, sw.js, icons/) na stronę.
-3. Netlify da Ci adres typu `https://twoja-nazwa.netlify.app` — otwórz go na telefonie.
+Aktualizacja aplikacji lub bazy:
+1. Zmień pliki (`index.html`, `strains.json`) — najprościej poproś Claude, który zrobi to i wypchnie zmianę.
+2. Po zmianie `index.html` podbij `CACHE_NAME` w `sw.js` (np. `terpeny-pl-v2`), żeby telefony pobrały nową wersję. Sama zmiana `strains.json` tego nie wymaga (plik jest pobierany zawsze na świeżo).
 
-**Opcja B — GitHub Pages**
-1. Załóż repo na GitHub, wrzuć zawartość folderu.
-2. Settings → Pages → włącz dla brancha `main`.
-3. Adres: `https://twoj-user.github.io/nazwa-repo/`
-
-**Opcja C — dowolny hosting/serwer**, na który masz dostęp (wystarczy zwykły hosting statyczny).
+Pliki, które nie mają być publiczne (skrypty, dokumentacja), są wymienione w `.assetsignore`.
 
 ## Krok 2 — zainstaluj na telefonie
 1. Otwórz adres w **Chrome na Androidzie**.

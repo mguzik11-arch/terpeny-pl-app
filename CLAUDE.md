@@ -27,6 +27,6 @@ Cloudflare Worker `apka-terpenowa` (statyczne assets z katalogu głównego). Rep
 - Z `strains.json` korzysta też repo `dzienniczek-terapii` (`public/catalog.js`).
 
 ## Uwagi
-- `JAK_ZAINSTALOWAC.md` opisuje stary sposób hostingu (Netlify) — **nieaktualne, ignoruj tę część.**
+- `JAK_ZAINSTALOWAC.md` — instrukcja dla użytkownika (hosting, instalacja na Androidzie, skrypt URPL).
 - Nazwa w `wrangler.jsonc` (`apkaterpenowa`) różni się od nazwy Workera w Cloudflare (`apka-terpenowa`); deploy działa — nie zmieniaj bez potrzeby.
 - Plik `1` w katalogu głównym to prawdopodobnie śmieć (1 bajt).
