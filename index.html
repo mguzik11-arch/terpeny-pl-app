@@ -193,6 +193,71 @@
   }
   .pharmacy-chip.active .ph-count{color:var(--lab);}
 
+  .search-wrap{
+    position:relative;
+    margin-top:18px;
+    max-width:460px;
+  }
+  .search-input{
+    width:100%;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-size:14.5px;
+    padding:11px 14px;
+    border-radius:8px;
+    outline:none;
+    transition:border-color .15s;
+  }
+  .search-input:focus{border-color:var(--accent);}
+  .search-input::placeholder{color:var(--ink-faint);}
+  .search-suggestions{
+    position:absolute;
+    top:calc(100% + 6px);
+    left:0;
+    right:0;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    overflow:hidden;
+    z-index:30;
+    box-shadow:0 10px 30px rgba(0,0,0,0.45);
+    display:none;
+    max-height:360px;
+    overflow-y:auto;
+  }
+  .search-suggestions.open{display:block;}
+  .search-suggestion{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    padding:10px 14px;
+    cursor:pointer;
+    font-size:13.5px;
+    border-bottom:1px solid var(--line);
+  }
+  .search-suggestion:last-child{border-bottom:none;}
+  .search-suggestion:hover{background:var(--panel-2);}
+  .search-suggestion-name{color:var(--ink); font-weight:600;}
+  .search-suggestion-meta{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:10.5px;
+    color:var(--ink-faint);
+    white-space:nowrap;
+  }
+  .search-suggestion-empty{
+    padding:12px 14px;
+    color:var(--ink-faint);
+    font-size:12.5px;
+  }
+  @keyframes cardFlash{
+    0%{box-shadow:0 0 0 2px var(--accent); border-color:var(--accent);}
+    100%{box-shadow:0 0 0 0 rgba(143,191,107,0); border-color:var(--line);}
+  }
+  .card.flash{animation:cardFlash 1.4s ease-out;}
+
   .mode-toggle{
     display:flex;
     background:var(--panel-2);
@@ -825,6 +890,10 @@
     <button class="research-nav-btn" id="research-btn">📊 Panel badawczy — notatki</button>
   </div>
   <div class="sub">Zawęź listę po producencie (np. sama Aurora), a potem doprecyzuj terpenami — liczniki terpenów przeliczają się wtedy tylko w obrębie wybranych producentów. Odmiany z <span style="color:var(--accent)">zielonym znacznikiem „✓ BudCare"</span> mają udział procentowy terpenów potwierdzony na budcare.pl — pozostałe to dane jakościowe (kolejność, bez %) z materiałów producenta/branży. Żadne z tych źródeł nie zastępują CoA konkretnej partii.</div>
+  <div class="search-wrap">
+    <input type="text" id="strain-search" class="search-input" placeholder="🔍 Szukaj odmiany po nazwie lub producencie…" autocomplete="off">
+    <div class="search-suggestions" id="search-suggestions"></div>
+  </div>
   <div class="scope-tabs">
     <button class="scope-tab active" id="scope-nr" data-scope="nr">📍 W Rzeszowie <span class="scope-count" id="scope-nr-count"></span></button>
     <button class="scope-tab" id="scope-pl" data-scope="pl">🇵🇱 Cała Polska (BudCare) <span class="scope-count" id="scope-pl-count"></span></button>
@@ -995,6 +1064,7 @@ let selectedPharmacies = new Set();
 let allPharmacies = [];
 let mode = "any"; // any | all
 let viewScope = "nr"; // "nr" = tylko dostępne w aptece NR (Rzeszów) | "pl" = wszystkie (cała Polska, wg BudCare)
+let searchQuery = "";
 
 // Krótkie kody aptek używane w chipach cenowych i filtrze — pełna nazwa zostaje
 // w strains.json (dopasowanie prices[].label <-> pharmacies[].name po pełnym stringu)
@@ -1200,8 +1270,23 @@ function matchesTerpeneFilter(strain){
   }
 }
 
+function normalizeSearch(s){
+  return (s||'')
+    .toLowerCase()
+    .replace(/ą/g,'a').replace(/ć/g,'c').replace(/ę/g,'e').replace(/ł/g,'l')
+    .replace(/ń/g,'n').replace(/ó/g,'o').replace(/ś/g,'s').replace(/ź/g,'z').replace(/ż/g,'z');
+}
+
+// Szuka w nazwie ORAZ producencie — "monkey" złapie "Blue Monkey", "s-lab" złapie wszystkie
+// odmiany S-Lab. Diakrytyki i wielkość liter nie mają znaczenia.
+function matchesSearchFilter(strain){
+  if(!searchQuery.trim()) return true;
+  const q = normalizeSearch(searchQuery);
+  return normalizeSearch(strain.name).includes(q) || normalizeSearch(strain.producer).includes(q);
+}
+
 function matchesFilter(strain){
-  return inScope(strain) && matchesProducerFilter(strain) && matchesPharmacyFilter(strain) && matchesTerpeneFilter(strain);
+  return inScope(strain) && matchesProducerFilter(strain) && matchesPharmacyFilter(strain) && matchesTerpeneFilter(strain) && matchesSearchFilter(strain);
 }
 
 function renderPharmacyChips(){
@@ -1268,6 +1353,7 @@ function render(){
   filtered.forEach(s=>{
     const card = document.createElement('div');
     card.className = 'card';
+    card.dataset.key = strainKey(s);
     // Profil % z niezależnego CoA laboratoryjnego (jeśli dostarczony) ma pierwszeństwo nad BudCare.
     const pctSource = (s.lab && s.lab.pct) ? s.lab.pct : s.pct;
     const terpTagsHtml = s.terpenes.length
@@ -1349,7 +1435,80 @@ document.getElementById('clear-btn').addEventListener('click', ()=>{
   selected.clear();
   selectedProducers.clear();
   selectedPharmacies.clear();
+  searchQuery = "";
+  document.getElementById('strain-search').value = "";
+  document.getElementById('search-suggestions').classList.remove('open');
   render();
+});
+
+// ---------- WYSZUKIWARKA ODMIAN (podpowiedzi na żywo) ----------
+function strainSuggestions(limit){
+  const q = normalizeSearch(searchQuery);
+  if(!q) return [];
+  return strains
+    .filter(s => inScope(s) && matchesSearchFilter(s))
+    .sort((a,b)=> a.name.localeCompare(b.name,'pl'))
+    .slice(0, limit || 8);
+}
+
+function jumpToCard(key){
+  requestAnimationFrame(()=>{
+    const el = document.querySelector(`.card[data-key="${CSS.escape(key)}"]`);
+    if(!el) return;
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+    el.classList.add('flash');
+    setTimeout(()=> el.classList.remove('flash'), 1400);
+  });
+}
+
+function updateSearchSuggestions(){
+  const box = document.getElementById('search-suggestions');
+  const q = searchQuery.trim();
+  if(!q){ box.classList.remove('open'); box.innerHTML = ""; return; }
+  const matches = strainSuggestions(8);
+  if(matches.length === 0){
+    box.innerHTML = `<div class="search-suggestion-empty">Brak wyników dla „${escapeHtml(q)}"</div>`;
+    box.classList.add('open');
+    return;
+  }
+  box.innerHTML = matches.map(s => `
+    <div class="search-suggestion" data-key="${escapeHtml(strainKey(s))}" data-name="${escapeHtml(s.name)}">
+      <span class="search-suggestion-name">${escapeHtml(s.name)}</span>
+      <span class="search-suggestion-meta">${escapeHtml(s.producer)} · THC ${escapeHtml(s.thc)}</span>
+    </div>
+  `).join('');
+  box.classList.add('open');
+  box.querySelectorAll('.search-suggestion').forEach(row=>{
+    row.addEventListener('click', ()=>{
+      const input = document.getElementById('strain-search');
+      input.value = row.dataset.name;
+      searchQuery = row.dataset.name;
+      box.classList.remove('open');
+      render();
+      jumpToCard(row.dataset.key);
+    });
+  });
+}
+
+const strainSearchInput = document.getElementById('strain-search');
+strainSearchInput.addEventListener('input', (e)=>{
+  searchQuery = e.target.value;
+  updateSearchSuggestions();
+  render();
+});
+strainSearchInput.addEventListener('focus', ()=>{
+  if(searchQuery.trim()) updateSearchSuggestions();
+});
+strainSearchInput.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){
+    e.target.value = "";
+    searchQuery = "";
+    document.getElementById('search-suggestions').classList.remove('open');
+    render();
+  }
+});
+document.addEventListener('click', (e)=>{
+  if(!e.target.closest('.search-wrap')) document.getElementById('search-suggestions').classList.remove('open');
 });
 
 // ---------- NOTATKI KLINICZNE (localStorage, offline, tylko na tym urządzeniu) ----------
