@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Test połączenia — apteka</title>
+<style>
+  :root { --ink:#1d2a22; --muted:#5d6b62; --ok:#1f7a4d; --okbg:#e3f3ea; --bad:#a3271f; --badbg:#fbe6e4; --line:#d9e2dc; --bg:#f6f8f6; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family: Arial, Helvetica, sans-serif; font-size:16px; line-height:1.45; }
+  .wrap { max-width:640px; margin:0 auto; padding:24px 16px 48px; }
+  h1 { font-size:24px; margin:0 0 6px; }
+  .sub { color:var(--muted); margin:0 0 24px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:18px; margin-bottom:16px; }
+  .row { display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px solid var(--line); }
+  .row:last-child { border-bottom:0; }
+  .st { font-weight:bold; white-space:nowrap; }
+  .ok { color:var(--ok); } .bad { color:var(--bad); } .wait { color:var(--muted); }
+  .big { text-align:center; padding:22px 16px; border-radius:10px; font-size:20px; font-weight:bold; margin-bottom:16px; }
+  .big.ok { background:var(--okbg); } .big.bad { background:var(--badbg); }
+  button { font-size:18px; font-weight:bold; padding:14px 22px; border:0; border-radius:8px; background:var(--ok); color:#fff; cursor:pointer; width:100%; }
+  button:active { opacity:.85; }
+  .code { font-family: "Courier New", monospace; font-size:22px; letter-spacing:2px; text-align:center; padding:10px; background:var(--bg); border-radius:8px; margin-top:12px; }
+  .small { font-size:13px; color:var(--muted); word-break:break-all; }
+  .hide { display:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Test połączenia</h1>
+  <p class="sub">Sprawdzamy, czy komputer w aptece otwiera ten adres. Test trwa kilka sekund i niczego nie instaluje.</p>
+
+  <div id="summary" class="big wait">Sprawdzam…</div>
+
+  <div class="card">
+    <div class="row"><span>Strona się otworzyła</span><span class="st ok">tak</span></div>
+    <div class="row"><span>Skrypty w przeglądarce</span><span id="t-js" class="st bad">nie działają</span></div>
+    <div class="row"><span>Pobieranie danych z serwera</span><span id="t-data" class="st wait">sprawdzam…</span></div>
+    <div class="row"><span>Zapisywanie w przeglądarce</span><span id="t-store" class="st wait">sprawdzam…</span></div>
+  </div>
+
+  <div class="card">
+    <button id="btn" type="button">Kliknij: „Działa”</button>
+    <div id="done" class="hide">
+      <p style="margin:14px 0 0"><b>Dziękuję!</b> Proszę przesłać doktorowi Guzikowi SMS-em lub mailem ten kod:</p>
+      <div id="code" class="code"></div>
+    </div>
+  </div>
+
+  <p class="small" id="ua"></p>
+</div>
+
+<script>
+(function () {
+  var res = { js: true, data: null, store: null };
+  function set(id, ok, text) {
+    var el = document.getElementById(id);
+    el.className = 'st ' + (ok ? 'ok' : 'bad');
+    el.innerHTML = text;
+  }
+  set('t-js', true, 'tak');
+
+  try {
+    localStorage.setItem('__t', '1'); localStorage.removeItem('__t');
+    res.store = true; set('t-store', true, 'tak');
+  } catch (e) { res.store = false; set('t-store', false, 'nie (nie przeszkadza)'); }
+
+  function summary() {
+    if (res.data === null) return;
+    var s = document.getElementById('summary');
+    if (res.data) { s.className = 'big ok'; s.innerHTML = '✓ Wszystko działa'; }
+    else { s.className = 'big bad'; s.innerHTML = 'Strona się otwiera, ale dane są blokowane'; }
+  }
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'strains.json?t=' + new Date().getTime(), true);
+  xhr.timeout = 10000;
+  xhr.onload = function () {
+    var ok = false;
+    try { ok = xhr.status === 200 && JSON.parse(xhr.responseText).strains.length > 0; } catch (e) {}
+    res.data = ok; set('t-data', ok, ok ? 'tak' : 'nie (' + xhr.status + ')'); summary();
+  };
+  xhr.onerror = xhr.ontimeout = function () { res.data = false; set('t-data', false, 'nie'); summary(); };
+  xhr.send();
+
+  var ua = navigator.userAgent || '';
+  document.getElementById('ua').innerHTML = 'Przeglądarka: ' + ua.replace(/</g, '&lt;');
+
+  document.getElementById('btn').onclick = function () {
+    var b = /Edg\//.test(ua) ? 'E' : /Chrome\//.test(ua) ? 'C' : /Firefox\//.test(ua) ? 'F' : 'X';
+    var code = (res.data ? 'OK' : 'BL') + '-' + b + (res.store ? 'S' : 'N') + '-' + (new Date().getHours() * 100 + new Date().getMinutes());
+    document.getElementById('code').innerHTML = code;
+    document.getElementById('done').className = '';
+    this.innerHTML = '✓ Kliknięte';
+  };
+})();
+</script>
+</body>
+</html>
