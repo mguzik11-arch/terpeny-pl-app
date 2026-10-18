@@ -1,6 +1,6 @@
 {
   "meta": {
-    "last_updated": "2026-10-16",
+    "last_updated": "2026-10-18",
     "sources": [
       "URPL - Lista Surowców Farmaceutycznych",
       "BudCare.pl",
@@ -630,7 +630,29 @@
     {
       "name": "Kush Mints",
       "producer": "Canopy Growth",
-      "thc": "27–30%",
+      "thc": "27%",
+      "cbd": "<1%",
+      "type": "Hybryda",
+      "terpenes": [
+        "Linalol",
+        "Kariofilen",
+        "Limonen",
+        "Selinadien"
+      ],
+      "pct": null,
+      "effect": "BudCare wprost zaznacza: „Nie znamy dokładnego profilu terpenowego – podane terpeny wskazują jedynie terpeny dominujące” (na stronie progu 28% THC; strona 30% pokazuje identyczny wzorzec 25/25/25/25%). Realne wartości % oczekują na niezależną analizę CoA (laboratorium, po dostarczeniu przez konopnego farmaceutę).",
+      "verified": "partial",
+      "source": "BudCare (profil orientacyjny, bez %)",
+      "status": "do weryfikacji — wariant bez potwierdzenia w cennikach",
+      "prices": [],
+      "budcare_url": "https://budcare.pl/odmiany/kush-mints-canopy-growth-28/",
+      "pharmacies": [],
+      "serial_note": "Rozdzielono z wpisu z zakresem THC (27–30%) na osobne produkty (2026-10-18). Brak tego stężenia w cennikach NR — do weryfikacji, czy jest w obrocie."
+    },
+    {
+      "name": "Kush Mints",
+      "producer": "Canopy Growth",
+      "thc": "30%",
       "cbd": "<1%",
       "type": "Hybryda",
       "terpenes": [
@@ -684,7 +706,8 @@
           "available": true,
           "updated": "2026-09-21"
         }
-      ]
+      ],
+      "serial_note": "Rozdzielono z wpisu z zakresem THC (27–30%) na osobne produkty (2026-10-18). Cena NR potwierdzona jako 30% (cennik NR 16.09.2026). Ceny NM (570 zł) przypisane do 30% bez potwierdzenia stężenia — do weryfikacji."
     },
     {
       "name": "Krypton / Snowtorious Krypton",
@@ -1009,7 +1032,7 @@
     {
       "name": "Gorilla Girl",
       "producer": "COSMA",
-      "thc": "20–22%",
+      "thc": "20%",
       "cbd": "≤1%",
       "type": "Sativa",
       "terpenes": [
@@ -1035,7 +1058,7 @@
       "effect": "Genetyka sativa-dominująca (Gorilla Glue #4 × GSC Thin Mint), działanie euforyczne, do stosowania w dzień (opis BudCare). BudCare rejestruje pod podwójną nazwą „Gorilla Girl / Balasa”.",
       "verified": true,
       "source": "BudCare",
-      "status": "dostępna",
+      "status": "dostępna [stężenie wariantu w NR do weryfikacji]",
       "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-cosma-thc-20-cbd-1-balasa-gorilla-girl/",
       "pharmacies": [
         {
@@ -1044,7 +1067,51 @@
           "available": true,
           "updated": "2026-09-09"
         }
-      ]
+      ],
+      "prices": [],
+      "serial_note": "Rozdzielono z wpisu z zakresem THC (20–22%) na osobne produkty (2026-10-18). Stężenie dostępnego w NR wariantu nieznane — do weryfikacji."
+    },
+    {
+      "name": "Gorilla Girl",
+      "producer": "COSMA",
+      "thc": "22%",
+      "cbd": "≤1%",
+      "type": "Sativa",
+      "terpenes": [
+        "Kariofilen",
+        "Limonen",
+        "Mircen",
+        "Linalol",
+        "Humulen",
+        "Bisabolol",
+        "Pinen",
+        "Terpinolen"
+      ],
+      "pct": {
+        "Kariofilen": 25,
+        "Limonen": 20,
+        "Mircen": 18,
+        "Linalol": 11,
+        "Humulen": 9,
+        "Bisabolol": 4,
+        "Pinen": 2,
+        "Terpinolen": 2
+      },
+      "effect": "Genetyka sativa-dominująca (Gorilla Glue #4 × GSC Thin Mint), działanie euforyczne, do stosowania w dzień (opis BudCare). BudCare rejestruje pod podwójną nazwą „Gorilla Girl / Balasa”.",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna [stężenie wariantu w NR do weryfikacji]",
+      "budcare_url": "https://budcare.pl/odmiany/cannabis-flos-cosma-thc-20-cbd-1-balasa-gorilla-girl/",
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-09"
+        }
+      ],
+      "prices": [],
+      "serial_note": "Rozdzielono z wpisu z zakresem THC (20–22%) na osobne produkty (2026-10-18). Stężenie dostępnego w NR wariantu nieznane — do weryfikacji."
     },
     {
       "name": "Blue Monkey / Mac Monkey",
@@ -1586,7 +1653,7 @@
     {
       "name": "Pink Certz",
       "producer": "S-Lab",
-      "thc": "18–22%",
+      "thc": "18%",
       "cbd": "—",
       "type": "Hybryda 50/50",
       "terpenes": [
@@ -1604,7 +1671,7 @@
       "effect": "Stymulujące, sprzyja koncentracji, do stosowania w dzień; nuty dieslowo-lukrecjowo-miętowe (opis BudCare). Identyczny profil na obu progach THC (18% i 22%) na BudCare.",
       "verified": true,
       "source": "BudCare",
-      "status": "dostępna",
+      "status": "dostępna [stężenie wariantu w NR do weryfikacji]",
       "budcare_url": "https://budcare.pl/odmiany/s-lab-22-pink-certz/",
       "pharmacies": [
         {
@@ -1613,7 +1680,43 @@
           "available": true,
           "updated": "2026-09-09"
         }
-      ]
+      ],
+      "prices": [],
+      "serial_note": "Rozdzielono z wpisu z zakresem THC (18–22%) na osobne produkty (2026-10-18). Stężenie dostępnego w NR wariantu nieznane — do weryfikacji."
+    },
+    {
+      "name": "Pink Certz",
+      "producer": "S-Lab",
+      "thc": "22%",
+      "cbd": "—",
+      "type": "Hybryda 50/50",
+      "terpenes": [
+        "Nerolidol",
+        "Limonen",
+        "Kariofilen",
+        "Humulen"
+      ],
+      "pct": {
+        "Nerolidol": 27,
+        "Limonen": 14,
+        "Kariofilen": 14,
+        "Humulen": 12
+      },
+      "effect": "Stymulujące, sprzyja koncentracji, do stosowania w dzień; nuty dieslowo-lukrecjowo-miętowe (opis BudCare). Identyczny profil na obu progach THC (18% i 22%) na BudCare.",
+      "verified": true,
+      "source": "BudCare",
+      "status": "dostępna [stężenie wariantu w NR do weryfikacji]",
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-22-pink-certz/",
+      "pharmacies": [
+        {
+          "name": "Niezapominajka Rzeszów Rejtana",
+          "city": "Rzeszów",
+          "available": true,
+          "updated": "2026-09-09"
+        }
+      ],
+      "prices": [],
+      "serial_note": "Rozdzielono z wpisu z zakresem THC (18–22%) na osobne produkty (2026-10-18). Stężenie dostępnego w NR wariantu nieznane — do weryfikacji."
     },
     {
       "name": "Jack Herer",
@@ -1761,7 +1864,40 @@
     {
       "name": "Lilac Diesel",
       "producer": "S-Lab / Tilray / Synoptis",
-      "thc": "18–22%",
+      "thc": "18%",
+      "cbd": "≤1%",
+      "type": "Sativa",
+      "terpenes": [
+        "Terpinolen",
+        "Kariofilen",
+        "Mircen",
+        "Pinen",
+        "Limonen",
+        "Humulen",
+        "Bisabolol"
+      ],
+      "pct": {
+        "Terpinolen": 23,
+        "Kariofilen": 8,
+        "Mircen": 8,
+        "Pinen": 7,
+        "Limonen": 6,
+        "Humulen": 3,
+        "Bisabolol": 3
+      },
+      "effect": "Energetyzujące i pobudzające; nuty cytrusowo-dieslowo-kwiatowo-lawendowe (opis BudCare). Profil zgodny (identyczny) dla progów 18% i 22% pod marką S-Lab.",
+      "verified": true,
+      "source": "BudCare",
+      "status": "do weryfikacji — wariant bez potwierdzenia w cennikach",
+      "prices": [],
+      "budcare_url": "https://budcare.pl/odmiany/s-lab-lilac-diesel/",
+      "pharmacies": [],
+      "serial_note": "Rozdzielono z wpisu z zakresem THC (18–22%) na osobne produkty (2026-10-18). Brak tego stężenia w cennikach NR — do weryfikacji."
+    },
+    {
+      "name": "Lilac Diesel",
+      "producer": "S-Lab / Tilray / Synoptis",
+      "thc": "22%",
       "cbd": "≤1%",
       "type": "Sativa",
       "terpenes": [
@@ -1806,7 +1942,8 @@
           "available": true,
           "updated": "2026-09-30"
         }
-      ]
+      ],
+      "serial_note": "Rozdzielono z wpisu z zakresem THC (18–22%) na osobne produkty (2026-10-18). Cena NR 400 zł potwierdzona jako Tilray 22% (cennik NR 14.10.2026)."
     },
     {
       "name": "Headband",
