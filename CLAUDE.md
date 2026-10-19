@@ -22,6 +22,7 @@ Cloudflare Worker `apka-terpenowa` (statyczne assets z katalogu głównego). Rep
   - `verified: true` = % terpenów potwierdzone na BudCare.pl; `'partial'` = obecność potwierdzona bez wiarygodnych %; `false` = niepotwierdzone.
   - Źródła cen: NR (Niezapominajka Rejtana), DM (Dr.Max 3-go Maja), NM (Niezapominajka Mickiewicza).
 - `check_urpl.py` — porównanie bazy z Listą Surowców Farmaceutycznych URPL (nowe, wycofane, rozbieżności THC/CBD). Tylko raport, nic nie nadpisuje.
+- `tools/build_template.py` — generator szablonu XLSX dla aptek (ceny, stan dużo/średnio/mało/brak, arkusz „Do druku”) z `strains.json`. Po zmianie listy odmian wygeneruj ponownie i podbij `template_version`. Katalog `tools/` nie jest publikowany (`.assetsignore`).
 - `sw.js` — `CACHE_NAME` (np. `terpeny-pl-v1`) podbijaj po zmianach `index.html`.
 - `.assetsignore` — pliki nie publikowane jako strona.
 - Z `strains.json` korzysta też repo `dzienniczek-terapii` (`public/catalog.js`).

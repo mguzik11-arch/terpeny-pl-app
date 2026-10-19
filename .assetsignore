@@ -6,3 +6,4 @@ requirements.txt
 wrangler.jsonc
 1
 .assetsignore
+tools/
