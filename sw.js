@@ -1,4 +1,4 @@
-const CACHE_NAME = 'terpeny-pl-v1';
+const CACHE_NAME = 'terpeny-pl-v2';
 const ASSETS = [
   './index.html',
   './manifest.json',
@@ -25,9 +25,9 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = event.request.url;
-  // Sieć-najpierw dla nawigacji i danych (index.html, strains.json) — żeby aktualizacje
+  // Sieć-najpierw dla nawigacji i danych (index.html, strains.json, offers.json) — żeby aktualizacje
   // (nowe odmiany, poprawki) były widoczne od razu, z fallbackiem do cache offline.
-  if (event.request.mode === 'navigate' || url.endsWith('strains.json')) {
+  if (event.request.mode === 'navigate' || url.includes('strains.json') || url.includes('offers.json')) {
     event.respondWith(
       fetch(event.request)
         .then((res) => {

@@ -515,6 +515,11 @@
     border:1px dashed rgba(143,143,143,0.3);
     color:var(--ink-faint);
   }
+  /* stan z arkusza apteki (offers.json) */
+  .stock{font-size:10px; padding:0 5px; border-radius:4px; border:1px solid currentColor; opacity:.9;}
+  .stock-duzo,.stock-srednio{color:var(--accent);}
+  .stock-malo{color:#e0a243; font-weight:700;}
+  .stock-brak{color:var(--ink-faint);}
   .price-source{
     font-size:9.5px;
     text-transform:uppercase;
@@ -1101,6 +1106,7 @@ async function loadStrains(){
     return;
   }
   normalizeStrains();
+  await loadOffers();
   computeDuplicateStrainNames();
   document.getElementById('scope-nr-count').textContent = strains.filter(s=>isAvailableInRzeszow(s)).length;
   document.getElementById('scope-pl-count').textContent = strains.length;
@@ -1118,6 +1124,52 @@ function normalizeStrains(){
       // brak pola = traktuj jako dostępną w NR (bezpieczny domyślny stan dla starszych wpisów)
       s.pharmacies = [{name:"Niezapominajka Rzeszów Rejtana", city:"Rzeszów", available:true, updated:null}];
     }
+  });
+}
+
+// ── Stany i ceny z arkuszy Google aptek (offers.json, zapisywany przez Apps Script tools/apps-script/Arkusze.gs) ──
+// Dla apteki obecnej w offers.json jej dane z arkusza zastępują ceny/dostępność ze strains.json (cenniki z maili).
+// Dopasowanie odmian po kluczu producent_nazwa_thc — ta sama funkcja slug co w generatorze szablonu.
+function slugPl(s){
+  return String(s).replace(/ł/g,'l').replace(/Ł/g,'L').normalize('NFKD').replace(/[^\x00-\x7F]/g,'')
+    .toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+}
+function strainOfferKeys(s){
+  const raw = String(s.thc).replace(/%/g,'').trim();
+  const parts = /[–-]/.test(raw) ? raw.split(/[–-]/).map(t=>t.trim()) : [raw];
+  return parts.map(t => slugPl(s.producer) + '_' + slugPl(s.name) + '_' + slugPl(t));
+}
+const STOCK_LABEL = { 'dużo (15+)':'dużo', 'średnio (5–14)':'średnio', 'mało (1–4)':'mało', 'brak':'brak' };
+const STOCK_CLASS = { 'dużo (15+)':'duzo', 'średnio (5–14)':'srednio', 'mało (1–4)':'malo', 'brak':'brak' };
+async function loadOffers(){
+  try{
+    const res = await fetch('offers.json', {cache:'no-store'});
+    if(!res.ok) return;
+    applyOffers(await res.json());
+  }catch(e){ console.warn('offers.json niedostępny — zostają ceny ze strains.json', e); }
+}
+function applyOffers(data){
+  (data && data.apteki || []).forEach(a=>{
+    // apteka z pustym arkuszem (jeszcze go nie wypełnia) — zostają jej ceny z maili
+    if(!a.oferty || !a.oferty.length) return;
+    const byKey = {};
+    (a.oferty || []).forEach(o => { (byKey[o.klucz] = byKey[o.klucz] || []).push(o); });
+    const date = a.data_stanu || (a.zmieniono || '').slice(0,10) || null;
+    strains.forEach(s=>{
+      const list = strainOfferKeys(s).flatMap(k => byKey[k] || []);
+      const had = (s.pharmacies || []).some(p => p.name === a.nazwa);
+      s.prices = (s.prices || []).filter(p => p.label !== a.nazwa);
+      s.pharmacies = (s.pharmacies || []).filter(p => p.name !== a.nazwa);
+      if(list.length){
+        const o = list.find(x => x.stan !== 'brak') || list[0];
+        s.prices.push({ source:a.kod, label:a.nazwa, price_pln:o.cena, package_g:o.opak_g, price_per_g:o.cena_g,
+                        date, stan:o.stan || null, from_sheet:true });
+        s.pharmacies.push({ name:a.nazwa, city:'Rzeszów', available:o.stan !== 'brak', updated:date,
+                            stan:o.stan || null, from_sheet:true });
+      } else if(had){
+        s.pharmacies.push({ name:a.nazwa, city:'Rzeszów', available:false, updated:date, from_sheet:true });
+      }
+    });
   });
 }
 
@@ -1397,14 +1449,17 @@ function render(){
           const priceHtml = priceEntry
             ? `<b>${priceEntry.price_pln} zł</b> / ${priceEntry.package_g}g (${priceEntry.price_per_g} zł/g)${priceEntry.thc_nr ? ` · THC ${priceEntry.thc_nr}` : ''}${priceEntry.code ? ` · kod: ${priceEntry.code}` : ''}`
             : 'dostępna';
-          return `<span class="price-chip" title="${escapeHtml(ph.name)}">
+          const stockHtml = (ph.stan && STOCK_LABEL[ph.stan])
+            ? ` <span class="stock stock-${STOCK_CLASS[ph.stan]}">${STOCK_LABEL[ph.stan]}</span>` : '';
+          const chipTitle = ph.name + (ph.from_sheet && ph.updated ? ` · stan z ${ph.updated}` : '');
+          return `<span class="price-chip" title="${escapeHtml(chipTitle)}">
             <span class="price-source">${escapeHtml(meta.short)}</span>
-            ${priceHtml}
+            ${priceHtml}${stockHtml}
           </span>`;
         }
         return `<span class="price-chip unavail" title="${escapeHtml(ph.name)}">
           <span class="price-source">${escapeHtml(meta.short)}</span>
-          brak w cenniku${ph.updated ? ` (${ph.updated})` : ''}
+          ${ph.stan === 'brak' ? 'chwilowy brak' : 'brak w cenniku'}${ph.updated ? ` (${ph.updated})` : ''}
         </span>`;
       }).join('')}</div>` : ''}
     `;
