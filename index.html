@@ -529,6 +529,46 @@
     padding:1px 5px;
     border-radius:4px;
   }
+  .price-chip.highlighted{
+    background:rgba(122,166,224,0.18);
+    border:1px solid var(--lab);
+    color:var(--ink);
+    box-shadow:0 0 0 1px rgba(122,166,224,0.25);
+  }
+  .price-chip.highlighted .price-source{
+    background:var(--lab);
+    color:var(--bg);
+  }
+  .price-chip.unavail.highlighted{
+    border:1px dashed var(--lab);
+    color:var(--lab);
+    background:rgba(122,166,224,0.08);
+  }
+  .lowest-price{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--accent);
+    background:rgba(143,191,107,0.1);
+    border:1px solid rgba(143,191,107,0.3);
+    padding:5px 10px;
+    border-radius:6px;
+    margin-top:9px;
+  }
+  .lowest-price b{color:var(--accent);}
+  .lowest-price .lp-source{
+    font-size:9.5px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--bg);
+    background:var(--accent);
+    padding:1px 6px;
+    border-radius:4px;
+  }
 
   .empty{
     padding:60px 20px;
@@ -1462,6 +1502,21 @@ function render(){
       ? `<span class="verify-badge v-yes" title="Dostępna w Rzeszowie: ${escapeHtml(rzeszowPharmNames.join(', '))}" style="margin-left:6px;">📍 też w Rzeszowie</span>`
       : '';
 
+    // Najniższa aktualna cena (tylko apteki oznaczone jako dostępne) — zawsze widoczna na górze karty.
+    const pricedAvailable = (s.pharmacies || [])
+      .filter(ph => ph.available)
+      .map(ph => ({ ph, priceEntry: (s.prices || []).find(p => p.label === ph.name) }))
+      .filter(x => x.priceEntry && typeof x.priceEntry.price_pln === 'number');
+    const lowest = pricedAvailable.length
+      ? pricedAvailable.reduce((min, x) => x.priceEntry.price_pln < min.priceEntry.price_pln ? x : min)
+      : null;
+    const lowestPriceHtml = lowest
+      ? `<div class="lowest-price" title="Najniższa aktualna cena wśród dostępnych aptek">
+          💰 od <b>${lowest.priceEntry.price_pln} zł</b> / ${lowest.priceEntry.package_g}g (${lowest.priceEntry.price_per_g} zł/g)
+          <span class="lp-source">${escapeHtml(pharmacyMeta(lowest.ph.name).short)}</span>
+        </div>`
+      : '';
+
     card.innerHTML = `
       <div class="card-top">
         <div>
@@ -1471,12 +1526,14 @@ function render(){
         <div class="type-badge type-${s.type}">${s.type}</div>
       </div>
       <div class="thc-row">THC <span>${s.thc}</span> · CBD <span>${s.cbd}</span> · ${badge}${nrChip}</div>
+      ${lowestPriceHtml}
       <div class="terp-tags">${terpTagsHtml}</div>
       <div class="card-effect">${s.effect}</div>
       ${s.serial_note ? `<div class="serial-warning">⚠️ ${s.serial_note}</div>` : ''}
       ${(s.pharmacies && s.pharmacies.length) ? `<div class="price-row">${s.pharmacies.map(ph => {
         const priceEntry = (s.prices || []).find(p => p.label === ph.name);
         const meta = pharmacyMeta(ph.name);
+        const isSel = selectedPharmacies.has(ph.name);
         if(ph.available){
           const priceHtml = priceEntry
             ? `<b>${priceEntry.price_pln} zł</b> / ${priceEntry.package_g}g (${priceEntry.price_per_g} zł/g)${priceEntry.thc_nr ? ` · THC ${priceEntry.thc_nr}` : ''}${priceEntry.code ? ` · kod: ${priceEntry.code}` : ''}`
@@ -1484,12 +1541,12 @@ function render(){
           const stockHtml = (ph.stan && STOCK_LABEL[ph.stan])
             ? ` <span class="stock stock-${STOCK_CLASS[ph.stan]}">${STOCK_LABEL[ph.stan]}${typeof ph.count === 'number' ? ` · ${ph.count} op.` : ''}</span>` : '';
           const chipTitle = ph.name + (ph.from_sheet && ph.updated ? ` · stan z ${ph.updated}` : '');
-          return `<span class="price-chip" title="${escapeHtml(chipTitle)}">
+          return `<span class="price-chip${isSel ? ' highlighted' : ''}" title="${escapeHtml(chipTitle)}">
             <span class="price-source">${escapeHtml(meta.short)}</span>
             ${priceHtml}${stockHtml}
           </span>`;
         }
-        return `<span class="price-chip unavail" title="${escapeHtml(ph.name)}">
+        return `<span class="price-chip unavail${isSel ? ' highlighted' : ''}" title="${escapeHtml(ph.name)}">
           <span class="price-source">${escapeHtml(meta.short)}</span>
           ${ph.stan === 'brak' ? 'chwilowy brak' : 'brak w cenniku'}${ph.updated ? ` (${ph.updated})` : ''}
         </span>`;
