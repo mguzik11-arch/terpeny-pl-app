@@ -1107,6 +1107,7 @@ async function loadStrains(){
   }
   normalizeStrains();
   await loadOffers();
+  await loadCounts();
   computeDuplicateStrainNames();
   document.getElementById('scope-nr-count').textContent = strains.filter(s=>isAvailableInRzeszow(s)).length;
   document.getElementById('scope-pl-count').textContent = strains.length;
@@ -1165,12 +1166,43 @@ function applyOffers(data){
         s.prices.push({ source:a.kod, label:a.nazwa, price_pln:o.cena, package_g:o.opak_g, price_per_g:o.cena_g,
                         date, stan:o.stan || null, from_sheet:true });
         s.pharmacies.push({ name:a.nazwa, city:'Rzeszów', available:o.stan !== 'brak', updated:date,
-                            stan:o.stan || null, from_sheet:true });
+                            stan:o.stan || null, from_sheet:true, offer_id:o.id });
       } else if(had){
         s.pharmacies.push({ name:a.nazwa, city:'Rzeszów', available:false, updated:date, from_sheet:true });
       }
     });
   });
+}
+
+// ── Tryb lekarza: dokładne liczby opakowań na żywo z arkuszy (prywatny endpoint Apps Script) ──
+// Włączany jednorazowo linkiem ?klucz=…&zrodlo=… (wysyła go funkcja ustawDostepLekarza() w Arkusze.gs).
+// Klucz i adres zostają tylko w localStorage tej przeglądarki; w kodzie i w repo ich nie ma.
+// Wyłączenie: otwórz apkę z ?klucz=usun
+const DOC_KEY = 'terpeny-doc-access';
+function captureDoctorAccess(){
+  try{
+    const q = new URLSearchParams(location.search);
+    if(!q.has('klucz')) return;
+    if(q.get('klucz') === 'usun') localStorage.removeItem(DOC_KEY);
+    else if(q.get('zrodlo')) localStorage.setItem(DOC_KEY, JSON.stringify({key:q.get('klucz'), url:q.get('zrodlo')}));
+    history.replaceState(null, '', location.pathname);
+  }catch(e){}
+}
+async function loadCounts(){
+  let acc = null;
+  try{ acc = JSON.parse(localStorage.getItem(DOC_KEY) || 'null'); }catch(e){}
+  if(!acc || !acc.key || !acc.url) return;
+  try{
+    const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 8000);
+    const res = await fetch(acc.url + (acc.url.includes('?') ? '&' : '?') + 'key=' + encodeURIComponent(acc.key), {signal:ctrl.signal});
+    clearTimeout(t);
+    const data = await res.json();
+    if(!data || !data.apteki) return;
+    strains.forEach(s => (s.pharmacies || []).forEach(p => {
+      const m = data.apteki[p.name];
+      if(p.offer_id && m && typeof m[p.offer_id] === 'number') p.count = m[p.offer_id];
+    }));
+  }catch(e){ console.warn('Liczby opakowań niedostępne', e); }
 }
 
 // Odmiana dostępna w co najmniej jednej rzeszowskiej aptece — pole 'pharmacies' w strains.json
@@ -1450,7 +1482,7 @@ function render(){
             ? `<b>${priceEntry.price_pln} zł</b> / ${priceEntry.package_g}g (${priceEntry.price_per_g} zł/g)${priceEntry.thc_nr ? ` · THC ${priceEntry.thc_nr}` : ''}${priceEntry.code ? ` · kod: ${priceEntry.code}` : ''}`
             : 'dostępna';
           const stockHtml = (ph.stan && STOCK_LABEL[ph.stan])
-            ? ` <span class="stock stock-${STOCK_CLASS[ph.stan]}">${STOCK_LABEL[ph.stan]}</span>` : '';
+            ? ` <span class="stock stock-${STOCK_CLASS[ph.stan]}">${STOCK_LABEL[ph.stan]}${typeof ph.count === 'number' ? ` · ${ph.count} op.` : ''}</span>` : '';
           const chipTitle = ph.name + (ph.from_sheet && ph.updated ? ` · stan z ${ph.updated}` : '');
           return `<span class="price-chip" title="${escapeHtml(chipTitle)}">
             <span class="price-source">${escapeHtml(meta.short)}</span>
@@ -2001,6 +2033,7 @@ if('serviceWorker' in navigator){
   });
 }
 
+captureDoctorAccess();
 loadStrains();
 </script>
 

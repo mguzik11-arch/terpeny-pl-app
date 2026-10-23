@@ -1,4 +1,4 @@
-const CACHE_NAME = 'terpeny-pl-v2';
+const CACHE_NAME = 'terpeny-pl-v3';
 const ASSETS = [
   './index.html',
   './manifest.json',
