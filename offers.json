@@ -1,4 +1,59 @@
 {
   "schema": 1,
-  "apteki": []
+  "apteki": [
+    {
+      "kod": "NR",
+      "nazwa": "Niezapominajka Rzeszów Rejtana",
+      "data_stanu": "2026-10-23",
+      "zmieniono": "2026-10-23T16:57",
+      "oferty": []
+    },
+    {
+      "kod": "NM",
+      "nazwa": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
+      "data_stanu": "2026-10-23",
+      "zmieniono": "2026-10-23T16:57",
+      "oferty": []
+    },
+    {
+      "kod": "DM",
+      "nazwa": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
+      "data_stanu": "2026-10-23",
+      "zmieniono": "2026-10-23T16:57",
+      "oferty": []
+    },
+    {
+      "kod": "AG",
+      "nazwa": "Apteki Gemini (ul. Kolejowa, Rzeszów)",
+      "data_stanu": "2026-10-23",
+      "zmieniono": "2026-10-23T17:01",
+      "oferty": []
+    },
+    {
+      "kod": "TL",
+      "nazwa": "Apteka Twoje Leki (ul. Pułaskiego, Rzeszów)",
+      "data_stanu": "2026-10-23",
+      "zmieniono": "2026-10-23T16:57",
+      "oferty": [
+        {
+          "id": "aurora_black-jelly_27_10g",
+          "klucz": "aurora_black-jelly_27",
+          "cena": 280,
+          "opak_g": 10,
+          "cena_g": 28,
+          "stan": "średnio (5–14)",
+          "nowosc": false
+        },
+        {
+          "id": "aurora_electric-honeydew_27_10g",
+          "klucz": "aurora_electric-honeydew_27",
+          "cena": 270,
+          "opak_g": 10,
+          "cena_g": 27,
+          "stan": "mało (1–4)",
+          "nowosc": false
+        }
+      ]
+    }
+  ]
 }
