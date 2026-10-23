@@ -12,6 +12,8 @@
  *   4. zainstalujWyzwalacz()  — uruchamia odczytajArkusze() automatycznie co 30 minut
  *   5. aktualizujListeOdmian()— dopisuje nowe odmiany z strains.json do istniejących arkuszy (wpisy aptek zostają)
  *   6. pokazLinki()           — wysyła Ci mailem linki do wszystkich arkuszy
+ *   7. ustawDostepLekarza()   — (po wdrożeniu jako aplikacja internetowa) wysyła Ci link, który w Twojej
+ *                               przeglądarce włącza w apce dokładne liczby opakowań (widoczne tylko dla Ciebie)
  *
  * Ustawienia skryptu (Project Settings → Script Properties):
  *   GITHUB_TOKEN = token GitHub z prawem zapisu do repo (ten sam rodzaj co w obecnym skrypcie)
@@ -34,6 +36,7 @@ const BRANCH = 'main';
 const OFFERS_PATH = 'offers.json';
 const STRAINS_URL = 'https://raw.githubusercontent.com/' + REPO + '/' + BRANCH + '/strains.json';
 const POWIADOMIENIA = 'mguzik11@gmail.com';     // tu idą linki i alerty o odmianach spoza listy
+const APKA_URL = 'https://apka-terpenowa.mguzik11.workers.dev/';
 const FOLDER_NAZWA = 'Arkusze aptek — terpeny-pl';
 const TEMPLATE_VERSION = 'G1';
 const WYKLUCZONE = [['Aurora', 'Delahaze']];      // wycofane z obrotu
@@ -384,7 +387,8 @@ function odczytajArkusze() {
       oferty.push({ id: id_, klucz: String(id_).replace(/_[^_]+g$/, ''), cena: cena, opak_g: opak,
                     cena_g: opak ? Math.round(cena / opak * 100) / 100 : null,
                     stan: stan || null, nowosc: r[8] === 'TAK' });
-      // UWAGA: dokładna liczba opakowań NIE trafia do offers.json (plik jest publiczny) — zostaje tylko w arkuszu.
+      // UWAGA: dokładna liczba opakowań NIE trafia do offers.json (plik jest publiczny).
+      // Lekarz widzi ją w apce przez prywatny endpoint doGet() poniżej (klucz tylko w jego przeglądarce).
     });
     const c4 = ws.getRange('C4').getValue();
     const zmieniono = DriveApp.getFileById(id).getLastUpdated();
@@ -450,6 +454,45 @@ function zapiszNaGitHub_(path, content, message) {
   const put = UrlFetchApp.fetch(url, { method: 'put', headers: headers, contentType: 'application/json',
                                       payload: JSON.stringify(body), muteHttpExceptions: true });
   if (put.getResponseCode() >= 300) throw new Error('GitHub: HTTP ' + put.getResponseCode() + ' ' + put.getContentText().slice(0, 300));
+}
+
+// ───────────────────────────── DOSTĘP LEKARZA: dokładne liczby opakowań ─────────────────────────────
+// Aplikacja internetowa (Wdróż → Nowe wdrożenie → Aplikacja internetowa, „Wykonaj jako: Ja”, „Dostęp: Każdy”).
+// Bez poprawnego klucza zwraca błąd i żadnych danych. Liczby czytane są na żywo z arkuszy.
+
+function doGet(e) {
+  const props = PropertiesService.getScriptProperties();
+  const klucz = props.getProperty('LICZBY_KEY');
+  const out = function (o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); };
+  if (!klucz || !e || !e.parameter || e.parameter.key !== klucz) return out({ error: 'unauthorized' });
+  const apteki = {};
+  APTEKI.forEach(function (a) {
+    const id = props.getProperty('SHEET_' + a.kod);
+    if (!id) return;
+    const ws = SpreadsheetApp.openById(id).getSheetByName('Stany i ceny');
+    const n = ws.getLastRow() - R0 + 1;
+    if (n <= 0) return;
+    const m = {};
+    ws.getRange(R0, 1, n, 9).getValues().forEach(function (r) {
+      if (r[0] && typeof r[5] === 'number' && typeof r[7] === 'number') m[r[0]] = r[7];
+    });
+    apteki[a.nazwa] = m;
+  });
+  return out({ wygenerowano: Utilities.formatDate(new Date(), 'Europe/Warsaw', "yyyy-MM-dd'T'HH:mm"), apteki: apteki });
+}
+
+/** Tworzy (lub zmienia) prywatny klucz i wysyła Ci link włączający liczby w apce. Uruchom PO wdrożeniu aplikacji internetowej. */
+function ustawDostepLekarza() {
+  const url = ScriptApp.getService().getUrl();
+  if (!url) throw new Error('Najpierw wdróż skrypt jako aplikację internetową (Wdróż → Nowe wdrożenie → Aplikacja internetowa).');
+  const klucz = Utilities.getUuid().replace(/-/g, '');
+  PropertiesService.getScriptProperties().setProperty('LICZBY_KEY', klucz);
+  const link = APKA_URL + '?klucz=' + klucz + '&zrodlo=' + encodeURIComponent(url);
+  MailApp.sendEmail(POWIADOMIENIA, 'Apka terpenowa — włączenie dokładnych liczb opakowań',
+    'Otwórz ten link na każdym swoim urządzeniu (telefon, komputer), na którym chcesz widzieć dokładne liczby:\n\n' + link +
+    '\n\nLink zapisuje klucz tylko w tej przeglądarce. Nie przesyłaj go nikomu.\n' +
+    'Żeby unieważnić stare linki, uruchom ustawDostepLekarza() ponownie — dostaniesz nowy.');
+  Logger.log('Wysłano link na ' + POWIADOMIENIA);
 }
 
 // eksport dla testów w Node (w Apps Script ignorowane)
