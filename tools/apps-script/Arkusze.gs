@@ -126,10 +126,10 @@ function zbudujArkusz_(ss, a, rows, nowaZakladka) {
   ws.getRange('A2').setValue('Wypełniaj tylko żółte pola. Pusta cena = apteka nie prowadzi tej odmiany. Zmiany zapisują się same.')
     .setFontStyle('italic').setFontColor('#595959');
   ws.getRange('B3:B4').setValues([['Apteka:'], ['Data stanu:']]).setFontWeight('bold').setHorizontalAlignment('right');
-  ws.getRange('C3:E3').merge(); ws.getRange('C4:E4').merge();
+  // bez scalania komórek: kolumny A–C są zablokowane (przewijanie), a Google nie pozwala blokować części scalenia
   ws.getRange('C3').setValue(a.tytul);
   ws.getRange('C4').setValue(new Date()).setNumberFormat('dd.MM.yyyy');
-  ws.getRange('C3:E4').setBackground('#FFF2CC').setBorder(true, true, true, true, true, true, '#BFBFBF', null);
+  ws.getRange('C3:C4').setBackground('#FFF2CC').setBorder(true, true, true, true, true, true, '#BFBFBF', SpreadsheetApp.BorderStyle.SOLID).setHorizontalAlignment('left');
 
   const headers = ['ID (nie zmieniać)', 'Producent', 'Nazwa odmiany', 'THC', 'Opakowanie (g)', 'Cena (zł/op.)',
                    'Stan', 'Liczba op. (opcjonalnie)', 'Nowość', 'stan_efekt'];
@@ -147,7 +147,7 @@ function zbudujArkusz_(ss, a, rows, nowaZakladka) {
   ws.getRange(R0, C.LICZBA, rows.length, 1).setBackground('#FFFBEA');
   ws.getRange(R0, C.CENA, rows.length, 1).setNumberFormat('#,##0.00 "zł"');
   ws.getRange(R0, C.LICZBA, rows.length, 1).setNumberFormat('0');  // ułamki zaokrąglane w odczycie
-  ws.getRange(HDR, 1, rows.length + 1, 9).setBorder(true, true, true, true, true, true, '#BFBFBF', null);
+  ws.getRange(HDR, 1, rows.length + 1, 9).setBorder(true, true, true, true, true, true, '#BFBFBF', SpreadsheetApp.BorderStyle.SOLID);
 
   // ukryta kolumna stanu efektywnego (liczba ma pierwszeństwo przed listą) — używa jej „Do druku”
   const f = [];
@@ -249,7 +249,7 @@ function zbudujInnaOdmiana_(ss) {
   s.getRange('A2').setValue('Wpisz tu surowce, których nie ma w arkuszu „Stany i ceny”. Dodam je do listy.').setFontStyle('italic').setFontColor('#595959');
   s.getRange('A4:H4').setValues([['Producent', 'Nazwa odmiany', 'THC', 'Opakowanie (g)', 'Cena (zł/op.)', 'Stan', 'Kod EAN (opcjonalnie)', 'Uwagi']])
     .setFontWeight('bold').setFontColor('#FFFFFF').setBackground('#1F4E78').setHorizontalAlignment('center').setWrap(true);
-  s.getRange('A5:H24').setBackground('#FFF2CC').setFontColor('#0000FF').setBorder(true, true, true, true, true, true, '#BFBFBF', null);
+  s.getRange('A5:H24').setBackground('#FFF2CC').setFontColor('#0000FF').setBorder(true, true, true, true, true, true, '#BFBFBF', SpreadsheetApp.BorderStyle.SOLID);
   s.getRange('F5:F24').setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(STANY, true).build());
   s.getRange('D5:D24').setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(['5', '10', '15'], true).build());
   s.getRange('E5:E24').setNumberFormat('#,##0.00 "zł"');
