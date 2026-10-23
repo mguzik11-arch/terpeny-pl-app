@@ -14,6 +14,7 @@
  *   6. pokazLinki()           — wysyła Ci mailem linki do wszystkich arkuszy
  *   7. ustawDostepLekarza()   — (po wdrożeniu jako aplikacja internetowa) wysyła Ci link, który w Twojej
  *                               przeglądarce włącza w apce dokładne liczby opakowań (widoczne tylko dla Ciebie)
+ *   8. naprawFormuly()        — przebudowuje „Do druku” i formuły w istniejących arkuszach (wpisy aptek zostają)
  *
  * Ustawienia skryptu (Project Settings → Script Properties):
  *   GITHUB_TOKEN = token GitHub z prawem zapisu do repo (ten sam rodzaj co w obecnym skrypcie)
@@ -150,12 +151,7 @@ function zbudujArkusz_(ss, a, rows, nowaZakladka) {
   ws.getRange(HDR, 1, rows.length + 1, 9).setBorder(true, true, true, true, true, true, '#BFBFBF', SpreadsheetApp.BorderStyle.SOLID);
 
   // ukryta kolumna stanu efektywnego (liczba ma pierwszeństwo przed listą) — używa jej „Do druku”
-  const f = [];
-  for (let n = R0; n <= last; n++) {
-    f.push(['=IF(F' + n + '="","",IF(ISNUMBER(H' + n + '),IF(H' + n + '=0,"brak",IF(H' + n + '<=4,"mało (1–4)",' +
-            'IF(H' + n + '<=14,"średnio (5–14)","dużo (15+)"))),G' + n + '))']);
-  }
-  ws.getRange(R0, C.EFEKT, rows.length, 1).setFormulas(f);
+  ustawFormulyStanu_(ss, ws, last);
   ws.hideColumns(C.EFEKT);
 
   // walidacja
@@ -215,31 +211,73 @@ function zbudujArkusz_(ss, a, rows, nowaZakladka) {
   ss.setActiveSheet(ws);
 }
 
+/** Ukryta kolumna J: stan efektywny (liczba opakowań ma pierwszeństwo przed listą). */
+function ustawFormulyStanu_(ss, ws, last) {
+  const f = [];
+  for (let n = R0; n <= last; n++) {
+    f.push([lf_(ss, '=IF(F' + n + '="","",IF(ISNUMBER(H' + n + '),IF(H' + n + '=0,"brak",IF(H' + n + '<=4,"mało (1–4)",' +
+            'IF(H' + n + '<=14,"średnio (5–14)","dużo (15+)"))),G' + n + '))')]);
+  }
+  ws.getRange(R0, C.EFEKT, last - R0 + 1, 1).setFormulas(f);
+}
+
 function zbudujDoDruku_(ss, last) {
   const p = ss.insertSheet('Do druku');
   p.setHiddenGridlines(true);
   const S = "'Stany i ceny'!";
+  const L = function (f) { return lf_(ss, f); };   // formuły w składni zależnej od języka arkusza
   p.getRange('A1:G1').merge(); p.getRange('A2:G2').merge(); p.getRange('A3:G3').merge();
-  p.getRange('A1').setFormula('=IF(' + S + 'C3="","Surowce farmaceutyczne konopi",' + S + 'C3)').setFontSize(16).setFontWeight('bold').setFontColor('#1F4E78');
+  p.getRange('A1').setFormula(L('=IF(' + S + 'C3="","Surowce farmaceutyczne konopi",' + S + 'C3)')).setFontSize(16).setFontWeight('bold').setFontColor('#1F4E78');
   p.getRange('A2').setValue('Dostępne surowce farmaceutyczne konopi: ceny i dostępność').setFontColor('#404040');
-  p.getRange('A3').setFormula('=IF(' + S + 'C4="","Stan na: —","Stan na: "&TEXT(' + S + 'C4,"dd.mm.yyyy"))').setFontWeight('bold');
+  const d = S + 'C4';
+  p.getRange('A3').setFormula(L('=IF(' + d + '="","Stan na: —","Stan na: "&TEXT(DAY(' + d + '),"00")&"."&TEXT(MONTH(' + d + '),"00")&"."&YEAR(' + d + '))')).setFontWeight('bold');
   p.getRange('A1:A3').setHorizontalAlignment('center');
   p.getRange('A5:G5').setValues([['Producent', 'Nazwa odmiany', 'THC', 'Opak. (g)', 'Cena (zł/op.)', 'zł/g', 'Dostępność']])
     .setFontWeight('bold').setFontColor('#FFFFFF').setBackground('#1F4E78').setHorizontalAlignment('center');
   const rg = function (col) { return S + col + R0 + ':' + col + last; };
-  const status = 'IF(LEFT(' + rg('J') + ',4)="brak","chwilowy brak",IF(LEFT(' + rg('J') + ',4)="mało","ostatnie sztuki",' +
-                 'IF(' + rg('J') + '="","—","dostępna")))';
-  p.getRange('A6').setFormula('=IFERROR(ARRAYFORMULA(FILTER({' + rg('B') + ',' + rg('C') + '&IF(' + rg('I') + '="TAK","  ★ NOWOŚĆ",""),' +
-    rg('D') + ',' + rg('E') + ',' + rg('F') + ',IF(' + rg('E') + '="","",' + rg('F') + '/' + rg('E') + '),' + status + '},' +
-    rg('F') + '<>"")),"")');
+  const warunek = rg('F') + '<>""';
+  // osobna formuła FILTER na każdą kolumnę (bez tablic {…}, których składnia też zależy od języka)
+  const kolumny = [
+    rg('B'),
+    rg('C') + '&IF(' + rg('I') + '="TAK","  ★ NOWOŚĆ","")',
+    rg('D'),
+    rg('E'),
+    rg('F'),
+    'IF(' + rg('E') + '="","",' + rg('F') + '/' + rg('E') + ')',
+    'IF(LEFT(' + rg('J') + ',4)="brak","chwilowy brak",IF(LEFT(' + rg('J') + ',4)="mało","ostatnie sztuki",IF(' + rg('J') + '="","—","dostępna")))'
+  ];
+  p.getRange(6, 1, 1, kolumny.length).setFormulas([kolumny.map(function (k) {
+    return L('=IFERROR(ARRAYFORMULA(FILTER(' + k + ',' + warunek + ')),"")');
+  })]);
   [150, 230, 55, 70, 95, 70, 120].forEach(function (w, i) { p.setColumnWidth(i + 1, w); });
   p.getRange('E6:E200').setNumberFormat('#,##0.00 "zł"');
   p.getRange('F6:F200').setNumberFormat('#,##0.00');
   p.getRange('C6:G200').setHorizontalAlignment('center');
   p.getRange('B6:B200').setFontWeight('bold');
   p.setConditionalFormatRules([SpreadsheetApp.newConditionalFormatRule()
-    .whenFormulaSatisfied(lf_(ss, '=AND($B6<>"",ISEVEN(ROW()))')).setBackground('#F2F2F2').setRanges([p.getRange('A6:G200')]).build()]);
+    .whenFormulaSatisfied(L('=AND($B6<>"",ISEVEN(ROW()))')).setBackground('#F2F2F2').setRanges([p.getRange('A6:G200')]).build()]);
   zablokuj_(p.protect().setDescription('Wydruk tworzy się sam'));
+  return p;
+}
+
+/** Naprawia formuły w JUŻ utworzonych arkuszach (zakładka „Do druku” i ukryta kolumna stanu). Wpisy aptek zostają. */
+function naprawFormuly() {
+  const props = PropertiesService.getScriptProperties();
+  APTEKI.forEach(function (a) {
+    const id = props.getProperty('SHEET_' + a.kod);
+    if (!id) return;
+    const ss = SpreadsheetApp.openById(id);
+    const ws = ss.getSheetByName('Stany i ceny');
+    const last = ws.getLastRow();
+    ustawFormulyStanu_(ss, ws, last);
+    const stary = ss.getSheetByName('Do druku');
+    const poz = stary ? stary.getIndex() : null;
+    if (stary) ss.deleteSheet(stary);
+    const p = zbudujDoDruku_(ss, last);
+    if (poz) { ss.setActiveSheet(p); ss.moveActiveSheet(poz); }
+    ss.setActiveSheet(ws);
+    Logger.log(a.kod + ': formuły naprawione');
+  });
 }
 
 function zbudujInnaOdmiana_(ss) {
