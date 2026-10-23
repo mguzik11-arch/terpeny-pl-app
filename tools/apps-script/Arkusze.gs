@@ -14,7 +14,7 @@
  *   6. pokazLinki()           — wysyła Ci mailem linki do wszystkich arkuszy
  *   7. ustawDostepLekarza()   — (po wdrożeniu jako aplikacja internetowa) wysyła Ci link, który w Twojej
  *                               przeglądarce włącza w apce dokładne liczby opakowań (widoczne tylko dla Ciebie)
- *   8. naprawFormuly()        — przebudowuje „Do druku” i formuły w istniejących arkuszach (wpisy aptek zostają)
+ *   8. naprawFormuly()        — przebudowuje „Do druku”, instrukcję i formuły w istniejących arkuszach (wpisy aptek zostają)
  *
  * Ustawienia skryptu (Project Settings → Script Properties):
  *   GITHUB_TOKEN = token GitHub z prawem zapisu do repo (ten sam rodzaj co w obecnym skrypcie)
@@ -275,6 +275,10 @@ function naprawFormuly() {
     if (stary) ss.deleteSheet(stary);
     const p = zbudujDoDruku_(ss, last);
     if (poz) { ss.setActiveSheet(p); ss.moveActiveSheet(poz); }
+    // instrukcja: przebudowa z aktualnym tekstem
+    const ins = ss.getSheetByName('Instrukcja');
+    if (ins) ss.deleteSheet(ins);
+    zbudujInstrukcje_(ss);
     ss.setActiveSheet(ws);
     Logger.log(a.kod + ': formuły naprawione');
   });
@@ -310,7 +314,7 @@ function zbudujInstrukcje_(ss) {
     ['    Ta sama odmiana w różnych stężeniach THC lub gramaturach ma osobne wiersze: wpisz w wierszu, który się zgadza.', ''],
     ['4. Przy kolejnej aktualizacji zmieniaj tylko to, co się zmieniło. Stan zmieniaj, gdy przejdzie do innej grupy (np. ze „średnio” na „mało”).', ''],
     ['5. Surowiec spoza listy wpisz w arkuszu „Inna odmiana”. Nowość w ofercie oznacz „TAK” w kolumnie Nowość.', ''],
-    ['6. Cennik przy kasę: otwórz arkusz „Do druku” → Plik → Drukuj (Ctrl+P) → „Dopasuj do szerokości”.', ''],
+    ['6. Cennik przy kasie: otwórz arkusz „Do druku” → Plik → Drukuj (Ctrl+P) → „Dopasuj do szerokości”.', ''],
     ['7. Chcesz cennik ozdobić po swojemu? W „Do druku” zaznacz tabelę, skopiuj (Ctrl+C) i wklej do Worda lub Dokumentów Google.', ''],
     ['', ''], ['Stany:', 'b'],
     ['•  dużo → 15 i więcej opakowań', ''], ['•  średnio → 5–14 opakowań', ''],
