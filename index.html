@@ -569,6 +569,13 @@
     padding:1px 6px;
     border-radius:4px;
   }
+  .lowest-price.ph-match{
+    border-color:var(--lab);
+    box-shadow:0 0 0 2px rgba(122,166,224,0.35);
+  }
+  .lowest-price.ph-match .lp-source{
+    background:var(--lab);
+  }
 
   .empty{
     padding:60px 20px;
@@ -1510,8 +1517,9 @@ function render(){
     const lowest = pricedAvailable.length
       ? pricedAvailable.reduce((min, x) => x.priceEntry.price_pln < min.priceEntry.price_pln ? x : min)
       : null;
+    const lpMatchSelected = lowest && selectedPharmacies.has(lowest.ph.name);
     const lowestPriceHtml = lowest
-      ? `<div class="lowest-price" title="Najniższa aktualna cena wśród dostępnych aptek">
+      ? `<div class="lowest-price${lpMatchSelected ? ' ph-match' : ''}" title="Najniższa aktualna cena wśród dostępnych aptek${lpMatchSelected ? ' — to też Twoja wybrana apteka' : ''}">
           💰 od <b>${lowest.priceEntry.price_pln} zł</b> / ${lowest.priceEntry.package_g}g (${lowest.priceEntry.price_per_g} zł/g)
           <span class="lp-source">${escapeHtml(pharmacyMeta(lowest.ph.name).short)}</span>
         </div>`
