@@ -146,7 +146,7 @@ function zbudujArkusz_(ss, a, rows, nowaZakladka) {
   ws.getRange(R0, C.CENA, rows.length, 4).setBackground('#FFF2CC').setFontColor('#0000FF').setHorizontalAlignment('center');
   ws.getRange(R0, C.LICZBA, rows.length, 1).setBackground('#FFFBEA');
   ws.getRange(R0, C.CENA, rows.length, 1).setNumberFormat('#,##0.00 "zł"');
-  ws.getRange(R0, C.LICZBA, rows.length, 1).setNumberFormat('0');
+  ws.getRange(R0, C.LICZBA, rows.length, 1).setNumberFormat('0');  // ułamki zaokrąglane w odczycie
   ws.getRange(HDR, 1, rows.length + 1, 9).setBorder(true, true, true, true, true, true, '#BFBFBF', null);
 
   // ukryta kolumna stanu efektywnego (liczba ma pierwszeństwo przed listą) — używa jej „Do druku”
@@ -165,7 +165,7 @@ function zbudujArkusz_(ss, a, rows, nowaZakladka) {
   const stanRule = SpreadsheetApp.newDataValidation().requireValueInList(STANY, true).setAllowInvalid(false)
     .setHelpText('dużo = 15+ op. · średnio = 5–14 · mało = 1–4 · brak = 0. Zmieniaj, gdy stan przejdzie do innej grupy.').build();
   ws.getRange(R0, C.STAN, rows.length, 1).setDataValidation(stanRule);
-  const liczbaRule = SpreadsheetApp.newDataValidation().requireFormulaSatisfied('=OR(H' + R0 + '="",AND(ISNUMBER(H' + R0 + '),H' + R0 + '>=0,H' + R0 + '=INT(H' + R0 + ')))')
+  const liczbaRule = SpreadsheetApp.newDataValidation().requireNumberBetween(0, 999)
     .setAllowInvalid(false).setHelpText('Dla chętnych: dokładna liczba opakowań (wtedy nie trzeba wybierać stanu).').build();
   ws.getRange(R0, C.LICZBA, rows.length, 1).setDataValidation(liczbaRule);
   const nowRule = SpreadsheetApp.newDataValidation().requireValueInList(['TAK'], true).setAllowInvalid(false)
@@ -178,11 +178,10 @@ function zbudujArkusz_(ss, a, rows, nowaZakladka) {
   // formatowanie warunkowe
   const cf = [];
   const g = ws.getRange(R0, C.STAN, rows.length, 2);
-  cf.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied('=AND($F' + R0 + '<>"",$G' + R0 + '="",$H' + R0 + '="")')
+  cf.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied(lf_(ss, '=AND($F' + R0 + '<>"",$G' + R0 + '="",$H' + R0 + '="")'))
     .setBackground('#FFC7CE').setFontColor('#9C0006').setRanges([g]).build());
-  cf.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied(
-    '=AND($G' + R0 + '<>"",ISNUMBER($H' + R0 + '),$G' + R0 + '<>IF($H' + R0 + '=0,"brak",IF($H' + R0 + '<=4,"mało (1–4)",IF($H' + R0 + '<=14,"średnio (5–14)","dużo (15+)"))))')
-    .setBackground('#FFC7CE').setFontColor('#9C0006').setRanges([g]).build());
+  cf.push(SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied(lf_(ss,
+    '=AND($G' + R0 + '<>"",ISNUMBER($H' + R0 + '),$G' + R0 + '<>IF($H' + R0 + '=0,"brak",IF($H' + R0 + '<=4,"mało (1–4)",IF($H' + R0 + '<=14,"średnio (5–14)","dużo (15+)"))))')).setBackground('#FFC7CE').setFontColor('#9C0006').setRanges([g]).build());
   const gs = ws.getRange(R0, C.STAN, rows.length, 1);
   [['dużo', '#C6EFCE', '#006100'], ['średnio', '#E2F0D9', '#38761D'], ['mało', '#FCE4D6', '#C55A11'], ['brak', '#FFEB9C', '#9C5700']]
     .forEach(function (t) {
@@ -239,7 +238,7 @@ function zbudujDoDruku_(ss, last) {
   p.getRange('C6:G200').setHorizontalAlignment('center');
   p.getRange('B6:B200').setFontWeight('bold');
   p.setConditionalFormatRules([SpreadsheetApp.newConditionalFormatRule()
-    .whenFormulaSatisfied('=AND($B6<>"",ISEVEN(ROW()))').setBackground('#F2F2F2').setRanges([p.getRange('A6:G200')]).build()]);
+    .whenFormulaSatisfied(lf_(ss, '=AND($B6<>"",ISEVEN(ROW()))')).setBackground('#F2F2F2').setRanges([p.getRange('A6:G200')]).build()]);
   zablokuj_(p.protect().setDescription('Wydruk tworzy się sam'));
 }
 
@@ -290,6 +289,12 @@ function zbudujInstrukcje_(ss) {
     if (l[1] === 'i') c.setFontStyle('italic').setFontColor('#595959');
   });
   zablokuj_(s.protect());
+}
+
+/** Formuły w regułach walidacji i formatowania zależą od języka arkusza: w polskim separator to średnik. */
+function lf_(ss, f) {
+  const loc = String(ss.getSpreadsheetLocale() || 'en');
+  return /^(en|ja|zh|ko|th|he)/i.test(loc) ? f : f.replace(/,/g, ';');
 }
 
 function zablokuj_(prot) {
