@@ -5,7 +5,7 @@
       "kod": "NR",
       "nazwa": "Niezapominajka Rzeszów Rejtana",
       "data_stanu": "2026-10-23",
-      "zmieniono": "2026-10-23T16:57",
+      "zmieniono": "2026-10-23T17:00",
       "oferty": []
     },
     {
@@ -33,27 +33,8 @@
       "kod": "TL",
       "nazwa": "Apteka Twoje Leki (ul. Pułaskiego, Rzeszów)",
       "data_stanu": "2026-10-23",
-      "zmieniono": "2026-10-23T16:57",
-      "oferty": [
-        {
-          "id": "aurora_black-jelly_27_10g",
-          "klucz": "aurora_black-jelly_27",
-          "cena": 280,
-          "opak_g": 10,
-          "cena_g": 28,
-          "stan": "średnio (5–14)",
-          "nowosc": false
-        },
-        {
-          "id": "aurora_electric-honeydew_27_10g",
-          "klucz": "aurora_electric-honeydew_27",
-          "cena": 270,
-          "opak_g": 10,
-          "cena_g": 27,
-          "stan": "mało (1–4)",
-          "nowosc": false
-        }
-      ]
+      "zmieniono": "2026-10-23T17:13",
+      "oferty": []
     }
   ]
 }
