@@ -23,13 +23,15 @@
 // ───────────────────────────── KONFIGURACJA ─────────────────────────────
 
 // „nazwa” MUSI być identyczna jak nazwa apteki w apce (PHARMACY_META w index.html).
-// „email” = konto Google osoby, która będzie wypełniać arkusz (może być prywatne). Puste = jeszcze nie udostępniamy.
+// ADRESY E-MAIL NIE WPISUJ TUTAJ (ten plik jest w publicznym repo). Wpisz je w Ustawieniach projektu →
+// Właściwości skryptu jako EMAIL_<kod>, np. EMAIL_TL = adres@gmail.com. Pole „email” poniżej zostaw puste.
 const APTEKI = [
   { kod: 'NR', nazwa: 'Niezapominajka Rzeszów Rejtana',                tytul: 'Apteka Niezapominajka, ul. Rejtana, Rzeszów',        email: '' },
   { kod: 'NM', nazwa: 'Niezapominajka Rzeszów (ul. Mickiewicza 12)',    tytul: 'Apteka Niezapominajka, ul. Mickiewicza 12, Rzeszów', email: '' },
   { kod: 'DM', nazwa: 'Dr.Max (ul. 3-go Maja 16, Rzeszów)',             tytul: 'Apteka Dr.Max, ul. 3-go Maja 16, Rzeszów',            email: '' },
   { kod: 'AG', nazwa: 'Apteki Gemini (ul. Kolejowa, Rzeszów)',          tytul: 'Apteka Gemini, ul. Kolejowa, Rzeszów',                email: '' },
-  { kod: 'TL', nazwa: 'Apteka Twoje Leki (ul. Pułaskiego, Rzeszów)',    tytul: 'Apteka Twoje Leki, ul. Pułaskiego, Rzeszów',          email: '' }
+  { kod: 'TL', nazwa: 'Apteka Twoje Leki (ul. Pułaskiego, Rzeszów)',    tytul: 'Apteka Twoje Leki, ul. Pułaskiego, Rzeszów',          email: '' },
+  { kod: 'AP', nazwa: 'Apteka Pomocna (ul. Lwowska 64, Rzeszów)',       tytul: 'Apteka Pomocna, ul. Lwowska 64, Rzeszów',             email: '' }
 ];
 
 const REPO = 'mguzik11-arch/terpeny-pl-app';
@@ -339,6 +341,10 @@ function lf_(ss, f) {
   return /^(en|ja|zh|ko|th|he)/i.test(loc) ? f : f.replace(/,/g, ';');
 }
 
+function emailDla_(a, props) {
+  return String(props.getProperty('EMAIL_' + a.kod) || a.email || '').trim();
+}
+
 function zablokuj_(prot) {
   prot.removeEditors(prot.getEditors());
   if (prot.canDomainEdit()) prot.setDomainEdit(false);
@@ -351,12 +357,13 @@ function udostepnijArkusze() {
   const props = PropertiesService.getScriptProperties();
   APTEKI.forEach(function (a) {
     const id = props.getProperty('SHEET_' + a.kod);
-    if (!id || !a.email) return;
+    const email = emailDla_(a, props);
+    if (!id || !email) return;
     const ss = SpreadsheetApp.openById(id);
     const juz = ss.getEditors().map(function (u) { return u.getEmail().toLowerCase(); });
-    if (juz.indexOf(a.email.toLowerCase()) !== -1) return;
-    ss.addEditor(a.email);   // Google wysyła tej osobie zaproszenie mailem
-    Logger.log('Udostępniono ' + a.kod + ' → ' + a.email);
+    if (juz.indexOf(email.toLowerCase()) !== -1) return;
+    ss.addEditor(email);   // Google wysyła tej osobie zaproszenie mailem
+    Logger.log('Udostępniono ' + a.kod + ' → ' + email);
   });
 }
 
@@ -365,7 +372,7 @@ function pokazLinki() {
   const lines = APTEKI.map(function (a) {
     const id = props.getProperty('SHEET_' + a.kod);
     return a.kod + ' — ' + a.tytul + ':\n' + (id ? 'https://docs.google.com/spreadsheets/d/' + id + '/edit' : '(jeszcze nie utworzony)') +
-           (a.email ? '\n  udostępniony dla: ' + a.email : '\n  jeszcze nieudostępniony');
+           (emailDla_(a, props) ? '\n  udostępniony dla: ' + emailDla_(a, props) : '\n  jeszcze nieudostępniony');
   });
   MailApp.sendEmail(POWIADOMIENIA, 'Arkusze aptek — linki', lines.join('\n\n'));
   Logger.log(lines.join('\n\n'));
