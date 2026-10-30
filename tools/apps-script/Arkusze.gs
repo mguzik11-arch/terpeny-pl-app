@@ -7,7 +7,8 @@
  *
  * Funkcje do uruchamiania z edytora (menu „Uruchom”):
  *   1. utworzArkusze()        — tworzy arkusz dla każdej apteki z listy APTEKI (pomija istniejące)
- *   2. udostepnijArkusze()    — udostępnia arkusze na adresy e-mail wpisane w APTEKI
+ *   2. udostepnijArkusze()    — udostępnia arkusze na adresy z Właściwości skryptu (EMAIL_<kod>) i wysyła im link mailem
+ *   2a. wyslijLinkiPonownie() — wysyła link jeszcze raz wszystkim, którym arkusz już udostępniono
  *   3. odczytajArkusze()      — czyta arkusze i zapisuje offers.json do repo (tylko gdy coś się zmieniło)
  *   4. zainstalujWyzwalacz()  — uruchamia odczytajArkusze() automatycznie co 30 minut
  *   5. aktualizujListeOdmian()— dopisuje nowe odmiany z strains.json do istniejących arkuszy (wpisy aptek zostają)
@@ -362,9 +363,36 @@ function udostepnijArkusze() {
     const ss = SpreadsheetApp.openById(id);
     const juz = ss.getEditors().map(function (u) { return u.getEmail().toLowerCase(); });
     if (juz.indexOf(email.toLowerCase()) !== -1) return;
-    ss.addEditor(email);   // Google wysyła tej osobie zaproszenie mailem
-    Logger.log('Udostępniono ' + a.kod + ' → ' + email);
+    ss.addEditor(email);   // UWAGA: samo addEditor NIE wysyła maila — dlatego wysyłamy link sami
+    wyslijLink_(a, email, ss.getUrl());
+    Logger.log('Udostępniono i wysłano link: ' + a.kod + ' → ' + email);
   });
+}
+
+/** Wysyła (ponownie) link do arkusza każdej osobie, której arkusz jest już udostępniony. */
+function wyslijLinkiPonownie() {
+  const props = PropertiesService.getScriptProperties();
+  APTEKI.forEach(function (a) {
+    const id = props.getProperty('SHEET_' + a.kod);
+    const email = emailDla_(a, props);
+    if (!id || !email) return;
+    wyslijLink_(a, email, 'https://docs.google.com/spreadsheets/d/' + id + '/edit');
+    Logger.log('Wysłano link: ' + a.kod + ' → ' + email);
+  });
+}
+
+function wyslijLink_(a, email, url) {
+  const temat = 'Link do arkusza cen i dostępności — ' + a.tytul;
+  const tekst =
+    'Dzień dobry,\n\n' +
+    'poniżej link do arkusza cen i dostępności surowców farmaceutycznych konopi dla: ' + a.tytul + '.\n\n' +
+    url + '\n\n' +
+    'Arkusz otwiera się w przeglądarce po zalogowaniu na konto Google: ' + email + '.\n' +
+    'Warto dodać go do zakładek. Arkusz jest też widoczny w Dysku Google w sekcji „Udostępnione dla mnie”.\n\n' +
+    'W zakładce „Stany i ceny” przy prowadzonych odmianach wpisują Państwo cenę i wybierają stan z listy. ' +
+    'Zmiany zapisują się automatycznie. Szczegóły są w zakładce „Instrukcja”.\n\n' +
+    'Z wyrazami szacunku\nlek. Michał Guzik\ndostepnosc.cannabis@gmail.com';
+  MailApp.sendEmail(email, temat, tekst, { name: 'lek. Michał Guzik' });
 }
 
 function pokazLinki() {
