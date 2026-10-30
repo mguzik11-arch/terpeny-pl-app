@@ -1539,7 +1539,13 @@ function render(){
       <div class="terp-tags">${terpTagsHtml}</div>
       <div class="card-effect">${s.effect}</div>
       ${s.serial_note ? `<div class="serial-warning">⚠️ ${s.serial_note}</div>` : ''}
-      ${(s.pharmacies && s.pharmacies.length) ? `<div class="price-row">${s.pharmacies.map(ph => {
+      ${(s.pharmacies && s.pharmacies.length) ? `<div class="price-row">${s.pharmacies.slice().sort((a,b)=>{
+        const pa = (s.prices || []).find(p=>p.label===a.name);
+        const pb = (s.prices || []).find(p=>p.label===b.name);
+        const ka = (a.available && pa && typeof pa.price_pln === 'number') ? pa.price_pln : Infinity;
+        const kb = (b.available && pb && typeof pb.price_pln === 'number') ? pb.price_pln : Infinity;
+        return ka - kb;
+      }).map(ph => {
         const priceEntry = (s.prices || []).find(p => p.label === ph.name);
         const meta = pharmacyMeta(ph.name);
         const isSel = selectedPharmacies.has(ph.name);
