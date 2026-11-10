@@ -5,35 +5,35 @@
       "kod": "NR",
       "nazwa": "Niezapominajka Rzeszów Rejtana",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-10-27T20:09",
+      "zmieniono": "2026-11-10T18:48",
       "oferty": []
     },
     {
       "kod": "NM",
       "nazwa": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-10-27T20:09",
+      "zmieniono": "2026-11-10T18:48",
       "oferty": []
     },
     {
       "kod": "DM",
       "nazwa": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-10-27T20:10",
+      "zmieniono": "2026-11-10T18:48",
       "oferty": []
     },
     {
       "kod": "AG",
       "nazwa": "Apteki Gemini (ul. Kolejowa, Rzeszów)",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-10-27T20:10",
+      "zmieniono": "2026-11-10T18:49",
       "oferty": []
     },
     {
       "kod": "TL",
       "nazwa": "Apteka Twoje Leki (ul. Pułaskiego, Rzeszów)",
       "data_stanu": "2026-11-10",
-      "zmieniono": "2026-11-10T15:52",
+      "zmieniono": "2026-11-10T18:49",
       "oferty": [
         {
           "id": "aurora_black-jelly_27_10g",
@@ -42,16 +42,10 @@
           "opak_g": 10,
           "cena_g": 33.9,
           "stan": "średnio (5–14)",
-          "nowosc": false
-        },
-        {
-          "id": "aurora_cosmic-cream_29_xg",
-          "klucz": "aurora_cosmic-cream_29",
-          "cena": 425,
-          "opak_g": 10,
-          "cena_g": 42.5,
-          "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Aurora",
+          "nazwa": "Black Jelly",
+          "thc": "0.27"
         },
         {
           "id": "aurora_electric-honeydew_27_10g",
@@ -60,7 +54,10 @@
           "opak_g": 10,
           "cena_g": 25.1,
           "stan": "średnio (5–14)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Aurora",
+          "nazwa": "Electric Honeydew",
+          "thc": "0.27"
         },
         {
           "id": "aurora_farm-gas_27_10g",
@@ -69,7 +66,10 @@
           "opak_g": 10,
           "cena_g": 29.9,
           "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Aurora",
+          "nazwa": "Farm Gas",
+          "thc": "0.27"
         },
         {
           "id": "aurora_ghost-train-haze_22_10g",
@@ -78,7 +78,10 @@
           "opak_g": 10,
           "cena_g": 42.7,
           "stan": "średnio (5–14)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Aurora",
+          "nazwa": "Ghost Train Haze",
+          "thc": "0.22"
         },
         {
           "id": "aurora_pink-diesel_29_10g",
@@ -87,7 +90,10 @@
           "opak_g": 10,
           "cena_g": 37.5,
           "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Aurora",
+          "nazwa": "Pink Diesel",
+          "thc": "0.29"
         },
         {
           "id": "aurora_pink-kush_20_10g",
@@ -96,7 +102,10 @@
           "opak_g": 10,
           "cena_g": 37.7,
           "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Aurora",
+          "nazwa": "Pink Kush",
+          "thc": "0.2"
         },
         {
           "id": "aurora_sourdough_29_10g",
@@ -105,7 +114,10 @@
           "opak_g": 10,
           "cena_g": 32.9,
           "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Aurora",
+          "nazwa": "Sourdough",
+          "thc": "0.29"
         },
         {
           "id": "canopy-growth_ultra-jack_30_15g",
@@ -114,7 +126,10 @@
           "opak_g": 15,
           "cena_g": 38.27,
           "stan": "średnio (5–14)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Canopy Growth",
+          "nazwa": "Ultra Jack",
+          "thc": "0.3"
         },
         {
           "id": "cantourage_gelato-33_26_10g",
@@ -123,7 +138,10 @@
           "opak_g": 10,
           "cena_g": 49.5,
           "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Cantourage",
+          "nazwa": "Gelato 33",
+          "thc": "0.26"
         },
         {
           "id": "cantourage_mac-1_25_10g",
@@ -132,7 +150,10 @@
           "opak_g": 10,
           "cena_g": 43.8,
           "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Cantourage",
+          "nazwa": "MAC 1",
+          "thc": "0.25"
         },
         {
           "id": "cantourage_modified-gas_26-3_10g",
@@ -141,7 +162,10 @@
           "opak_g": 10,
           "cena_g": 45.3,
           "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Cantourage",
+          "nazwa": "Modified Gas",
+          "thc": "0.263"
         },
         {
           "id": "cantourage_orange-cake_27-9_10g",
@@ -150,7 +174,10 @@
           "opak_g": 10,
           "cena_g": 46.9,
           "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Cantourage",
+          "nazwa": "Orange Cake",
+          "thc": "0.279"
         },
         {
           "id": "cantourage_pave-s1_27-3_10g",
@@ -159,7 +186,10 @@
           "opak_g": 10,
           "cena_g": 38.2,
           "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Cantourage",
+          "nazwa": "Pavé S1",
+          "thc": "0.273"
         },
         {
           "id": "cantourage_slurricane-mint_25-3_10g",
@@ -168,7 +198,10 @@
           "opak_g": 10,
           "cena_g": 38.2,
           "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Cantourage",
+          "nazwa": "Slurricane Mint",
+          "thc": "0.253"
         },
         {
           "id": "cosma_black-r_22_10g",
@@ -177,7 +210,10 @@
           "opak_g": 10,
           "cena_g": 26.4,
           "stan": "średnio (5–14)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "COSMA",
+          "nazwa": "Black R.",
+          "thc": "0.22"
         },
         {
           "id": "cosma_dosimosa_22_10g",
@@ -186,7 +222,10 @@
           "opak_g": 10,
           "cena_g": 36.3,
           "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "COSMA",
+          "nazwa": "Dosimosa",
+          "thc": "0.22"
         },
         {
           "id": "cosma_hindu-kush_22_10g",
@@ -195,7 +234,10 @@
           "opak_g": 10,
           "cena_g": 31.7,
           "stan": "średnio (5–14)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "COSMA",
+          "nazwa": "Hindu Kush",
+          "thc": "0.22"
         },
         {
           "id": "cosma_somango_22_10g",
@@ -204,7 +246,10 @@
           "opak_g": 10,
           "cena_g": 36.3,
           "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "COSMA",
+          "nazwa": "SoMango",
+          "thc": "0.22"
         },
         {
           "id": "medalchemy_zookies_25_10g",
@@ -213,16 +258,22 @@
           "opak_g": 10,
           "cena_g": 23.9,
           "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Medalchemy",
+          "nazwa": "Zookies",
+          "thc": "0.25"
         },
         {
-          "id": "s-lab-tilray-synoptis_lilac-diesel_22_15g",
-          "klucz": "s-lab-tilray-synoptis_lilac-diesel_22",
+          "id": "s-lab_lilac-diesel_22_15g",
+          "klucz": "s-lab_lilac-diesel_22",
           "cena": 469,
           "opak_g": 15,
           "cena_g": 31.27,
           "stan": "dużo (15+)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "S-Lab",
+          "nazwa": "Lilac Diesel",
+          "thc": "0.22"
         },
         {
           "id": "tilray_master-kush_22_15g",
@@ -231,7 +282,10 @@
           "opak_g": 15,
           "cena_g": 21.53,
           "stan": "średnio (5–14)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Tilray",
+          "nazwa": "Master Kush",
+          "thc": "0.22"
         },
         {
           "id": "tilray_pink-kush_22_15g",
@@ -240,7 +294,10 @@
           "opak_g": 15,
           "cena_g": 22.93,
           "stan": "mało (1–4)",
-          "nowosc": false
+          "nowosc": false,
+          "producent": "Tilray",
+          "nazwa": "Pink Kush",
+          "thc": "0.22"
         }
       ]
     },
@@ -248,7 +305,7 @@
       "kod": "AP",
       "nazwa": "Apteka Pomocna (ul. Lwowska 64, Rzeszów)",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-10-28T06:32",
+      "zmieniono": "2026-11-10T18:49",
       "oferty": []
     }
   ]
