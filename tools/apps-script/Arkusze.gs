@@ -10,8 +10,11 @@
  *   2. udostepnijArkusze()    — udostępnia arkusze na adresy z Właściwości skryptu (EMAIL_<kod>) i wysyła im link mailem
  *   2a. wyslijLinkiPonownie() — wysyła link jeszcze raz wszystkim, którym arkusz już udostępniono
  *   3. odczytajArkusze()      — czyta arkusze i zapisuje offers.json do repo (tylko gdy coś się zmieniło)
- *   4. zainstalujWyzwalacz()  — uruchamia odczytajArkusze() automatycznie co 30 minut
- *   5. aktualizujListeOdmian()— dopisuje nowe odmiany z strains.json do istniejących arkuszy (wpisy aptek zostają)
+ *   4. zainstalujWyzwalacz()  — odczytajArkusze() co 30 minut + aktualizujListeOdmian() w poniedziałki
+ *   5. aktualizujListeOdmian()— lista odmian = apka (strains.json) + BudCare (wszyscy producenci, na żywo);
+ *                               przebudowuje arkusze aptek, gdy lista się zmieniła (wpisy aptek zostają).
+ *                               Za 1. razem tworzy Twój arkusz „Lista odmian — ustawienia” z polem „Wyklucz”.
+ *                               Działa też sama co poniedziałek ok. 5:00 i mailuje Ci nowości z BudCare.
  *   6. pokazLinki()           — wysyła Ci mailem linki do wszystkich arkuszy
  *   7. ustawDostepLekarza()   — (po wdrożeniu jako aplikacja internetowa) wysyła Ci link, który w Twojej
  *                               przeglądarce włącza w apce dokładne liczby opakowań (widoczne tylko dla Ciebie)
@@ -42,8 +45,7 @@ const STRAINS_URL = 'https://raw.githubusercontent.com/' + REPO + '/' + BRANCH +
 const POWIADOMIENIA = 'mguzik11@gmail.com';     // tu idą linki i alerty o odmianach spoza listy
 const APKA_URL = 'https://apka-terpenowa.mguzik11.workers.dev/';
 const FOLDER_NAZWA = 'Arkusze aptek — terpeny-pl';
-const TEMPLATE_VERSION = 'G3';
-const WYKLUCZONE = [['Aurora', 'Delahaze']];      // wycofane z obrotu
+const TEMPLATE_VERSION = 'G4';
 
 const STANY = ['dużo (15+)', 'średnio (5–14)', 'mało (1–4)', 'brak'];
 const HDR = 6, R0 = 7;                            // wiersz nagłówka, pierwszy wiersz danych
@@ -59,8 +61,18 @@ function slugPl(s) {
 }
 
 // S-Lab i Tilray sprzedają te same odmiany w różnych cenach (np. Pink Kush S-Lab 420 zł, Tilray 380 zł),
-// a w katalogu odmiana bywa zapisana tylko pod jednym z nich. Apteka dostaje więc wiersz dla OBU producentów.
+// a w katalogu/BudCare odmiana bywa zapisana tylko pod jednym z nich. Apteka dostaje więc wiersz dla OBU.
 const PARA_PRODUCENTOW = ['S-Lab', 'Tilray'];
+const GRUPA_PARY = PARA_PRODUCENTOW.join(' / ');
+
+// BudCare → nazwy producentów używane w katalogu (strains.json)
+const PRODUCENCI_BUDCARE = { 'synoptis-pharma': 'Synoptis', 'cosma': 'COSMA', 'phytopur-bio': 'PhytoPūr Bio' };
+// Ta sama odmiana pod inną nazwą w BudCare i w katalogu (klucz: slug nazwy z BudCare → nazwa z katalogu)
+const ALIASY_NAZW = {
+  'galaxy-walker-og': 'Galaxy Walker', 'afghan-kush': 'Afgan Kush', 'masterpiece': 'MSP',
+  'strawberry-og': 'Strawberry Kush'
+};
+const ALIASY_ODMIAN = { 'canopy-growth_jack-haze': 'Red No 2' };   // producent w katalogu inny niż w BudCare
 
 /** "S-Lab / Tilray / Synoptis" → ['S-Lab','Tilray','Synoptis']; S-Lab albo Tilray → zawsze oba. */
 function producenciWierszy_(producer) {
@@ -77,86 +89,133 @@ function nazwaCzysta_(name) {
   return String(name).replace(/\s*\d+(?:[.,]\d+)?\s*%\s*$/, '').trim() || String(name);
 }
 
-// Nazwy z BudCare, które w katalogu mają inną formę
-const ALIASY_NAZW = { 'galaxy-walker-og': 'Galaxy Walker' };
+/** Warianty nazwy do porównań: "Krypton / Snowtorious Krypton" → ['krypton','snowtorious-krypton'],
+ *  "Frozen Lemon Mints (FLM)" → ['frozen-lemon-mints'], "Gorilla Glue #4" → ['gorilla-glue']. */
+function warianty_(name) {
+  return String(name).split('/').map(function (t) {
+    return slugPl(t.replace(/\(.*?\)/g, ' ').replace(/#\s*\d+/g, ' '));
+  }).filter(Boolean);
+}
+function nazwyPasuja_(a, b) {
+  const wa = warianty_(a), wb = warianty_(b);
+  return wa.some(function (x) {
+    return wb.some(function (y) { return x === y || x.indexOf(y + '-') === 0 || y.indexOf(x + '-') === 0; });
+  });
+}
+function thcNum_(t) { return parseFloat(String(t).replace('%', '').replace(',', '.')); }
 
-/** Tytuł z BudCare → {name, thc}. Np. "S-LAB 22% THC – Wappa", "Tilray Headband (THC 18% +/- 10%, CBD ≤1%)",
- *  "S-LAB Beach Crasher 18", "Cannabis flos PURPS (THC 18% …)". Zwraca null, gdy brak %THC. */
-function budcareTytul_(t) {
-  t = String(t).replace(/&#8211;|&ndash;/g, '–').replace(/&amp;/g, '&').replace(/&#0?39;|&#8217;/g, "'").trim();
-  const m = t.match(/THC\s*(\d{1,2})\s*%/i) || t.match(/(?:^|\s)(\d{1,2})\s*%?(?=\s|$)/);
-  if (!m) return null;
-  let n = t.replace(/\(.*\)/g, ' ')
-    .replace(/^(s-?lab|tilray|cannabis\s+flos)\b/i, ' ')
-    .replace(/\b\d{1,2}\s*%?(\s*THC\b)?/gi, ' ').replace(/%/g, ' ')
-    .replace(/[–-]\s/g, ' ').replace(/\s+/g, ' ').trim();
-  if (n === n.toUpperCase()) n = n.toLowerCase().replace(/\b\w/g, function (c) { return c.toUpperCase(); });
-  n = ALIASY_NAZW[slugPl(n)] || n;
-  return n ? { name: n, thc: m[1] } : null;
+/** Odmiana z BudCare ([producent, nazwa, thc, dostępność]) → w nazewnictwie katalogu. */
+function budcareNaKatalog_(x) {
+  let prod = PRODUCENCI_BUDCARE[slugPl(x[0])] || x[0];
+  let name = String(x[1]).trim();
+  if (name === name.toUpperCase() && /[A-Z]{4,}/.test(name)) name = name.toLowerCase().replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+  prod = ALIASY_ODMIAN[slugPl(x[0]) + '_' + slugPl(name)] || prod;
+  name = ALIASY_NAZW[slugPl(name)] || name;
+  return { producer: prod, name: name, thc: String(x[2]).replace('%', '').trim(), dost: x[3] || '' };
 }
 
-/** Odmiany S-Lab/Tilray z BudCare → [{producer, name, thc}] (wejście: [[producent, tytuł, url], …]). */
-function budcareOdmiany_(lista) {
-  const out = [];
-  (lista || []).forEach(function (x) { const p = budcareTytul_(x[1]); if (p) out.push({ producer: x[0], name: p.name, thc: p.thc, url: x[2] }); });
-  return out;
-}
+/** Klucz odmiany w arkuszu ustawień (jeden na parę S-Lab/Tilray). */
+function kluczOdmiany_(grupa, name, thc) { return slugPl(grupa) + '_' + slugPl(name) + '_' + slugPl(thc); }
 
-/** Wiersze szablonu z strains.json (+ odmiany S-Lab/Tilray z BudCare, których nie ma w katalogu).
- *  Ta sama logika i te same ID co w index.html (strainOfferKeys). */
-function zbudujWiersze(strains, budcare) {
-  const rows = [], byId = {};
+/**
+ * Pełna lista odmian do arkuszy: katalog (strains.json) + BudCare (wszyscy producenci).
+ * Zwraca [{klucz, grupa, producenci[], name, thc, packs[], stareId, zrodlo, dost}].
+ * Odmiana z BudCare, którą katalog już ma (ta sama nazwa/alias, THC równe albo różne o ≤2 pkt
+ * i bez osobnego wpisu BudCare na to THC), nie jest dublowana — pierwszeństwo ma nazwa z katalogu.
+ */
+function zbudujOdmiany(strains, budcare) {
+  const lista = [], byKey = {};
+  const dodaj = function (o) {
+    if (byKey[o.klucz]) {
+      const b = byKey[o.klucz];
+      o.packs.forEach(function (p) { if (b.packs.indexOf(p) === -1) b.packs.push(p); });
+      Object.keys(o.stare || {}).forEach(function (k) { if (!b.stare[k]) b.stare[k] = o.stare[k]; });
+      if (!b.dost && o.dost) b.dost = o.dost;
+      return b;
+    }
+    byKey[o.klucz] = o; lista.push(o); return o;
+  };
+  // 1) katalog
+  const katalog = [];
   strains.forEach(function (x) {
-    if (WYKLUCZONE.some(function (w) { return w[0] === x.producer && w[1] === x.name; })) return;
     const packs = [];
     (x.prices || []).forEach(function (p) { if (p.package_g && packs.indexOf(p.package_g) === -1) packs.push(p.package_g); });
-    packs.sort(function (a, b) { return a - b; });
     const raw = String(x.thc).replace(/%/g, '').trim();
     const thcs = /[–-]/.test(raw) ? raw.split(/[–-]/).map(function (t) { return t.trim(); }) : [raw];
-    const nazwa = nazwaCzysta_(x.name);
     const prods = producenciWierszy_(x.producer);
+    const para = prods.some(function (p) { return PARA_PRODUCENTOW.indexOf(p) !== -1; });
+    const name = nazwaCzysta_(x.name);
     thcs.forEach(function (thc) {
-      (packs.length ? packs : [null]).forEach(function (pk) {
-        const suf = '_' + (pk ? pk : 'x') + 'g';
-        // dawne ID (sprzed rozdzielenia) — żeby aktualizujListeOdmian() przeniosła już wpisane ceny
-        const stareId = slugPl(x.producer) + '_' + slugPl(x.name) + '_' + slugPl(thc) + suf;
-        prods.forEach(function (prod, i) {
-          const klucz = slugPl(prod) + '_' + slugPl(nazwa) + '_' + slugPl(thc);
-          const id = klucz + suf;
-          const katalogowy = i === 0 || String(x.producer).indexOf(prod) !== -1;
-          if (byId[id]) {
-            if (katalogowy) byId[id].katalogowy = true;
-            if (i === 0 && stareId !== id && !byId[id].stareId) byId[id].stareId = stareId;
-            return;
-          }
-          const r = { id: id, klucz: klucz, producer: prod, name: nazwa, thc: thc + '%', pack: pk,
-                      stareId: (i === 0 && stareId !== id) ? stareId : null, katalogowy: katalogowy,
-                      grupa: PARA_PRODUCENTOW.indexOf(prod) !== -1 ? PARA_PRODUCENTOW.join(' / ') : prod };
-          byId[id] = r; rows.push(r);
+      // dawne ID (sprzed rozdzielenia) — aktualizujListeOdmian() przenosi już wpisane ceny
+      const stary = slugPl(x.producer) + '_' + slugPl(x.name) + '_' + slugPl(thc);
+      const stareDla_ = function (prod) {
+        const o = {};
+        if (prod === prods[0] && stary !== slugPl(prod) + '_' + slugPl(name) + '_' + slugPl(thc)) o[prod] = stary;
+        return o;
+      };
+      if (para) {
+        dodaj({ klucz: kluczOdmiany_(GRUPA_PARY, name, thc), grupa: GRUPA_PARY, producenci: PARA_PRODUCENTOW.slice(),
+                name: name, thc: thc, packs: packs.slice(), stare: stareDla_(prods[0]), zrodlo: 'katalog', dost: '' });
+        prods.filter(function (p) { return PARA_PRODUCENTOW.indexOf(p) === -1; }).forEach(function (p) {
+          dodaj({ klucz: kluczOdmiany_(p, name, thc), grupa: p, producenci: [p], name: name, thc: thc,
+                  packs: packs.slice(), stare: stareDla_(p), zrodlo: 'katalog', dost: '' });
         });
+      } else {
+        dodaj({ klucz: kluczOdmiany_(x.producer, name, thc), grupa: x.producer, producenci: [x.producer],
+                name: name, thc: thc, packs: packs.slice(), stare: stareDla_(x.producer), zrodlo: 'katalog', dost: '' });
+      }
+      katalog.push({ producer: x.producer, name: name, thc: thc, para: para });
+    });
+  });
+  // 2) BudCare
+  const bc = (budcare || []).map(budcareNaKatalog_).filter(function (b) { return b.name && b.thc; });
+  bc.forEach(function (b) {
+    const para = PARA_PRODUCENTOW.indexOf(b.producer) !== -1;
+    if (para) {
+      const k = kluczOdmiany_(GRUPA_PARY, b.name, b.thc);
+      if (byKey[k]) { if (!byKey[k].dost || b.dost !== 'Wycofana') byKey[k].dost = b.dost; return; }
+      dodaj({ klucz: k, grupa: GRUPA_PARY, producenci: PARA_PRODUCENTOW.slice(), name: b.name, thc: b.thc,
+              packs: [], stare: {}, zrodlo: 'BudCare', dost: b.dost });
+      return;
+    }
+    // ten sam producent i nazwa w katalogu?
+    const pas = katalog.filter(function (c) { return !c.para && slugPl(c.producer) === slugPl(b.producer) && nazwyPasuja_(c.name, b.name); });
+    const dokladny = pas.filter(function (c) { return thcNum_(c.thc) === thcNum_(b.thc); })[0];
+    const bliski = pas.filter(function (c) {
+      const d = Math.abs(thcNum_(c.thc) - thcNum_(b.thc));
+      // BudCare ma osobny wpis na THC z katalogu → to inna rejestracja, nie dublet
+      const osobny = bc.some(function (o) { return o !== b && slugPl(o.producer) === slugPl(b.producer) && nazwyPasuja_(o.name, b.name) && thcNum_(o.thc) === thcNum_(c.thc); });
+      return d > 0 && d <= 2 && !osobny;
+    })[0];
+    const c = dokladny || bliski;
+    if (c) { const o = byKey[kluczOdmiany_(c.producer, c.name, c.thc)]; if (o && (!o.dost || b.dost !== 'Wycofana')) o.dost = b.dost; return; }
+    dodaj({ klucz: kluczOdmiany_(b.producer, b.name, b.thc), grupa: b.producer, producenci: [b.producer],
+            name: b.name, thc: b.thc, packs: [], stare: {}, zrodlo: 'BudCare', dost: b.dost });
+  });
+  lista.forEach(function (o) { o.packs.sort(function (a, b) { return a - b; }); });
+  lista.sort(function (a, b) {
+    return a.grupa.toLowerCase().localeCompare(b.grupa.toLowerCase()) ||
+           a.name.toLowerCase().localeCompare(b.name.toLowerCase()) || thcNum_(a.thc) - thcNum_(b.thc);
+  });
+  return lista;
+}
+
+/** Wiersze arkusza aptek z listy odmian, bez wykluczonych (klucze z arkusza ustawień).
+ *  ID wiersza = producent_nazwa_thc_<opak>g — ta sama logika co strainOfferKeys() w index.html. */
+function zbudujWiersze(strains, budcare, wykluczone) {
+  const wyk = wykluczone || {};
+  const rows = [];
+  zbudujOdmiany(strains, budcare).forEach(function (o) {
+    if (wyk[o.klucz]) return;
+    (o.packs.length ? o.packs : [null]).forEach(function (pk) {
+      const suf = '_' + (pk ? pk : 'x') + 'g';
+      o.producenci.forEach(function (prod, i) {
+        const klucz = slugPl(prod) + '_' + slugPl(o.name) + '_' + slugPl(o.thc);
+        const stareId = o.stare[prod] ? o.stare[prod] + suf : null;
+        rows.push({ id: klucz + suf, klucz: klucz, producer: prod, name: o.name, thc: o.thc + '%', pack: pk,
+                    stareId: stareId, grupa: o.grupa, zrodlo: o.zrodlo, odmiana: o.klucz });
       });
     });
-  });
-  // odmiany z BudCare spoza katalogu: wiersz dla obu producentów, opakowanie wpisuje apteka
-  const znane = {};
-  rows.forEach(function (r) { znane[slugPl(r.name) + '_' + slugPl(r.thc.replace('%', ''))] = true; });
-  (budcare || []).forEach(function (b) {
-    const k = slugPl(b.name) + '_' + slugPl(b.thc);
-    if (znane[k]) return;
-    znane[k] = true;
-    PARA_PRODUCENTOW.forEach(function (prod) {
-      const klucz = slugPl(prod) + '_' + slugPl(b.name) + '_' + slugPl(b.thc);
-      const r = { id: klucz + '_xg', klucz: klucz, producer: prod, name: b.name, thc: b.thc + '%', pack: null,
-                  stareId: null, katalogowy: false, budcare: true, grupa: PARA_PRODUCENTOW.join(' / ') };
-      byId[r.id] = r; rows.push(r);
-    });
-  });
-  // S-Lab i Tilray sortowane razem po nazwie → oba wiersze tej samej odmiany są jeden pod drugim
-  rows.sort(function (a, b) {
-    return a.grupa.toLowerCase().localeCompare(b.grupa.toLowerCase()) ||
-           a.name.toLowerCase().localeCompare(b.name.toLowerCase()) ||
-           a.thc.localeCompare(b.thc) || (a.pack || 0) - (b.pack || 0) ||
-           a.producer.toLowerCase().localeCompare(b.producer.toLowerCase());
   });
   return rows;
 }
@@ -183,7 +242,9 @@ function doIso(d) {
 
 function utworzArkusze() {
   const strains = pobierzStrains_();
-  const rows = zbudujWiersze(strains, pobierzBudcare_());
+  const budcare = pobierzBudcare_();
+  const ust = synchronizujUstawienia_(zbudujOdmiany(strains, budcare));
+  const rows = zbudujWiersze(strains, budcare, ust.wykluczone);
   const folder = folder_();
   const props = PropertiesService.getScriptProperties();
   const utworzone = [];
@@ -485,10 +546,17 @@ function pokazLinki() {
 
 // ───────────────────────────── AKTUALIZACJA LISTY ODMIAN ─────────────────────────────
 
-/** Dopisuje nowe odmiany z strains.json do istniejących arkuszy. Wpisy aptek (cena, stan, liczba, nowość) zostają przy swoich ID. */
+/** Lista odmian = katalog (strains.json) + BudCare (wszyscy producenci), bez odmian zaznaczonych jako
+ *  „Wyklucz” w arkuszu ustawień. Przebudowuje arkusze aptek, gdy lista się zmieniła — wpisy aptek
+ *  (cena, stan, liczba, nowość) zostają przy swoich ID, a wiersz z wpisaną ceną nie znika, nawet
+ *  jeśli odmianę wykluczysz. Nowości z BudCare: mail do Ciebie. Uruchamiana też co tydzień (wyzwalacz). */
 function aktualizujListeOdmian() {
-  const rows = zbudujWiersze(pobierzStrains_(), pobierzBudcare_());
+  const strains = pobierzStrains_();
+  const budcare = pobierzBudcare_();
+  const ust = synchronizujUstawienia_(zbudujOdmiany(strains, budcare));
+  const wszystkie = zbudujWiersze(strains, budcare, {});
   const props = PropertiesService.getScriptProperties();
+  const raport = [];
   APTEKI.forEach(function (a) {
     const id = props.getProperty('SHEET_' + a.kod);
     if (!id) return;
@@ -498,8 +566,13 @@ function aktualizujListeOdmian() {
     const stare = n > 0 ? ws.getRange(R0, 1, n, 9).getValues() : [];
     const wpisy = {};
     stare.forEach(function (r) { if (r[0]) wpisy[r[0]] = { opak: r[4], vals: [r[5], r[6], r[7], r[8]] }; });
-    const nowe = rows.filter(function (r) { return !wpisy[r.id]; });
-    if (!nowe.length) { Logger.log(a.kod + ': bez zmian'); return; }
+    const wpis = function (r) { return wpisy[r.id] || (r.stareId && wpisy[r.stareId]) || null; };
+    const maDane = function (r) { const w = wpis(r); return !!(w && w.vals.some(function (v) { return v !== '' && v !== null; })); };
+    const rows = wszystkie.filter(function (r) { return !ust.wykluczone[r.odmiana] || maDane(r); });
+    const bylo = stare.map(function (r) { return r[0]; }).filter(String).join('|');
+    if (bylo === rows.map(function (r) { return r.id; }).join('|')) { Logger.log(a.kod + ': bez zmian'); return; }
+    const dodane = rows.filter(function (r) { return !wpisy[r.id]; }).length;
+    const usuniete = stare.filter(function (r) { return r[0] && !rows.some(function (x) { return x.id === r[0] || x.stareId === r[0]; }); }).length;
     // przebudowujemy zakładki w tym samym pliku (link dla apteki się nie zmienia) i przepisujemy wpisy po ID
     ss.getProtections(SpreadsheetApp.ProtectionType.SHEET).forEach(function (p) { p.remove(); });
     ['Stany i ceny', 'Do druku', 'Inna odmiana', 'Instrukcja', 'meta'].forEach(function (nm) {
@@ -514,14 +587,84 @@ function aktualizujListeOdmian() {
     zbudujArkusz_(ss, a, rows, true);
     const ws2 = ss.getSheetByName('Stany i ceny');
     ws2.getRange('C3').setValue(c3); ws2.getRange('C4').setValue(c4);
-    const wpis = function (r) { return wpisy[r.id] || (r.stareId && wpisy[r.stareId]) || null; };
     const out = rows.map(function (r) { return wpis(r) ? wpis(r).vals : ['', '', '', '']; });
     ws2.getRange(R0, C.CENA, out.length, 4).setValues(out);
     rows.forEach(function (r, i) { if (!r.pack && wpis(r) && wpis(r).opak) ws2.getRange(R0 + i, C.OPAK).setValue(wpis(r).opak); });
     if (innaVals) ss.getSheetByName('Inna odmiana').getRange('A5:H24').setValues(innaVals);
     ss.deleteSheet(stary);
-    Logger.log(a.kod + ': dodano ' + nowe.length + ' odmian');
+    raport.push(a.kod + ': ' + rows.length + ' wierszy (+' + dodane + ', −' + usuniete + ')');
+    Logger.log(raport[raport.length - 1]);
   });
+  if (ust.nowe.length && !ust.pierwszy) {
+    MailApp.sendEmail(POWIADOMIENIA, 'Nowe odmiany w BudCare: ' + ust.nowe.length,
+      'Te odmiany pojawiły się w BudCare i zostały dopisane do arkuszy aptek:\n\n' +
+      ust.nowe.map(function (o) { return '• ' + o.grupa + ' — ' + o.name + ' ' + o.thc + '%' + (o.dost ? ' (' + o.dost + ')' : ''); }).join('\n') +
+      '\n\nJeśli którejś apteki nie powinny widzieć, zaznacz „Wyklucz” w arkuszu ustawień:\n' + ust.url +
+      (raport.length ? '\n\nArkusze aptek:\n' + raport.join('\n') : ''),
+      { name: 'Arkusze aptek — terpeny-pl' });
+  }
+}
+
+// ───────────────────────────── ARKUSZ USTAWIEŃ (tylko dla Ciebie) ─────────────────────────────
+
+const USTAWIENIA_NAZWA = 'Lista odmian — ustawienia (tylko dla lekarza)';
+
+/** Twój arkusz z pełną listą odmian i polem „Wyklucz”. Dopisuje nowe odmiany (z datą), aktualizuje
+ *  dostępność wg BudCare, zachowuje Twoje zaznaczenia. Zwraca {wykluczone, nowe, pierwszy, url}. */
+function synchronizujUstawienia_(odmiany) {
+  const props = PropertiesService.getScriptProperties();
+  let id = props.getProperty('USTAWIENIA_ID'), ss = null, pierwszy = false;
+  if (id) { try { ss = SpreadsheetApp.openById(id); } catch (e) { ss = null; } }
+  if (!ss) {
+    ss = SpreadsheetApp.create(USTAWIENIA_NAZWA);
+    DriveApp.getFileById(ss.getId()).moveTo(folder_());
+    props.setProperty('USTAWIENIA_ID', ss.getId());
+    ss.getSheets()[0].setName('Odmiany');
+    pierwszy = true;
+  }
+  const ws = ss.getSheetByName('Odmiany') || ss.insertSheet('Odmiany');
+  const last = ws.getLastRow();
+  const stare = {};
+  if (last >= 3) ws.getRange(3, 1, last - 2, 8).getValues().forEach(function (r) {
+    if (r[7]) stare[r[7]] = { wyk: r[0] === true, dodano: r[6] };
+  });
+  const dzis = Utilities.formatDate(new Date(), 'Europe/Warsaw', 'yyyy-MM-dd');
+  const nowe = [];
+  const vals = odmiany.map(function (o) {
+    const s = stare[o.klucz];
+    if (!s) nowe.push(o);
+    return [s ? s.wyk : false, o.grupa, o.name, o.thc + '%', o.dost || '—', o.zrodlo === 'katalog' ? 'apka' : 'BudCare',
+            s ? s.dodano : (pierwszy ? '' : dzis), o.klucz];
+  });
+  // odmiany zaznaczone kiedyś, których już nie ma w żadnym źródle — zostają na dole (żeby nie zgubić decyzji)
+  Object.keys(stare).forEach(function (k) {
+    if (stare[k].wyk && !odmiany.some(function (o) { return o.klucz === k; })) vals.push([true, '', '(brak w źródłach)', '', '', '', stare[k].dodano, k]);
+  });
+  ws.clear(); ws.clearConditionalFormatRules();
+  ws.getRange('A1').setValue('Zaznacz „Wyklucz”, żeby odmiana zniknęła z arkuszy aptek (przy najbliższej aktualizacji listy — co poniedziałek lub ręcznie: aktualizujListeOdmian). Wiersz z wpisaną już ceną zostaje w arkuszu apteki.')
+    .setFontStyle('italic').setFontColor('#5E6B63');
+  ws.getRange(2, 1, 1, 8).setValues([['Wyklucz', 'Producent', 'Nazwa', 'THC', 'Dostępność wg BudCare', 'Źródło', 'Dodano', 'klucz']])
+    .setFontWeight('bold').setBackground('#E8F3EC');
+  if (vals.length) {
+    ws.getRange(3, 1, vals.length, 8).setValues(vals);
+    ws.getRange(3, 1, vals.length, 1).insertCheckboxes();
+    const rng = ws.getRange(3, 1, vals.length, 8);
+    ws.setConditionalFormatRules([
+      SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied(lf_(ss, '=$A3=TRUE')).setBackground('#F3E3DE').setFontColor('#9C3B22').setRanges([rng]).build(),
+      SpreadsheetApp.newConditionalFormatRule().whenFormulaSatisfied(lf_(ss, '=$E3="Wycofana"')).setFontColor('#9C3B22').setRanges([ws.getRange(3, 5, vals.length, 1)]).build()
+    ]);
+  }
+  ws.setFrozenRows(2);
+  ws.hideColumns(8);
+  ws.setColumnWidth(1, 70); ws.setColumnWidth(2, 140); ws.setColumnWidth(3, 200); ws.setColumnWidth(5, 160);
+  if (vals.length && !ws.getFilter()) ws.getRange(2, 1, vals.length + 1, 7).createFilter();
+  const wykluczone = {};
+  vals.forEach(function (v) { if (v[0] === true) wykluczone[v[7]] = true; });
+  if (pierwszy) MailApp.sendEmail(POWIADOMIENIA, 'Arkusz ustawień listy odmian',
+    'Pełna lista odmian (apka + BudCare) z polem „Wyklucz”:\n' + ss.getUrl() +
+    '\n\nZaznacz odmiany, których apteki mają nie widzieć, i uruchom aktualizujListeOdmian (albo poczekaj do poniedziałku).',
+    { name: 'Arkusze aptek — terpeny-pl' });
+  return { wykluczone: wykluczone, nowe: nowe, pierwszy: pierwszy, url: ss.getUrl() };
 }
 
 // ───────────────────────────── ODCZYT → offers.json ─────────────────────────────
@@ -586,8 +729,13 @@ function zainstalujWyzwalacz() {
   ScriptApp.getProjectTriggers().forEach(function (t) {
     if (t.getHandlerFunction() === 'odczytajArkusze') ScriptApp.deleteTrigger(t);
   });
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === 'aktualizujListeOdmian') ScriptApp.deleteTrigger(t);
+  });
   ScriptApp.newTrigger('odczytajArkusze').timeBased().everyMinutes(30).create();
-  Logger.log('Wyzwalacz ustawiony: odczytajArkusze co 30 minut.');
+  // nowości z BudCare: co poniedziałek ok. 5:00, zanim apteki zaczną pracę
+  ScriptApp.newTrigger('aktualizujListeOdmian').timeBased().onWeekDay(ScriptApp.WeekDay.MONDAY).atHour(5).create();
+  Logger.log('Wyzwalacze ustawione: odczytajArkusze co 30 minut, aktualizujListeOdmian w poniedziałki ok. 5:00.');
 }
 
 // ───────────────────────────── POMOCNICZE ─────────────────────────────
@@ -598,27 +746,60 @@ function pobierzStrains_() {
   return JSON.parse(res.getContentText()).strains;
 }
 
-const BUDCARE_API = 'https://budcare.pl/wp-json/wp/v2/odmiany?per_page=100&producent=15,18&_fields=title,producent,link';
-const BUDCARE_ZAPAS = 'https://raw.githubusercontent.com/' + REPO + '/' + BRANCH + '/tools/budcare-slab-tilray.json';
+const BUDCARE = 'https://budcare.pl/wp-json/wp/v2/';
+const BUDCARE_ZAPAS = 'https://raw.githubusercontent.com/' + REPO + '/' + BRANCH + '/tools/budcare-odmiany.json';
 
-/** Odmiany S-Lab (id 15) i Tilray (id 18) z BudCare na żywo; gdy BudCare nie odpowiada — migawka z repo. */
+function budcareGet_(sciezka) {
+  let out = [];
+  for (let page = 1; page <= 6; page++) {
+    const res = UrlFetchApp.fetch(BUDCARE + sciezka + (sciezka.indexOf('?') === -1 ? '?' : '&') + 'per_page=100&page=' + page,
+      { muteHttpExceptions: true });
+    if (res.getResponseCode() !== 200) { if (page === 1) throw new Error('HTTP ' + res.getResponseCode()); break; }
+    const j = JSON.parse(res.getContentText());
+    out = out.concat(j);
+    if (j.length < 100) break;
+  }
+  return out;
+}
+
+/** Wszystkie odmiany (susz) z BudCare → [[producent, nazwa, thc, dostępność], …].
+ *  Pola z taksonomii BudCare: producent, odmiana-bazowa (nazwa), rejestr (THC), dostepnosc.
+ *  Gdy BudCare nie odpowiada — migawka tools/budcare-odmiany.json z repo. */
 function pobierzBudcare_() {
   try {
-    let lista = [];
-    for (let page = 1; page <= 5; page++) {
-      const res = UrlFetchApp.fetch(BUDCARE_API + '&page=' + page, { muteHttpExceptions: true });
-      if (res.getResponseCode() !== 200) break;
-      const j = JSON.parse(res.getContentText());
-      lista = lista.concat(j.map(function (o) {
-        return [(o.producent || []).indexOf(18) !== -1 ? 'Tilray' : 'S-Lab', o.title.rendered, o.link];
-      }));
-      if (j.length < 100) break;
+    const mapa = function (t) {
+      const m = {};
+      budcareGet_(t + '?_fields=id,name').forEach(function (x) { m[x.id] = String(x.name).replace(/&lt;/g, '<').replace(/&amp;/g, '&'); });
+      return m;
+    };
+    const P = mapa('producent'), B = mapa('odmiana-bazowa'), R = mapa('rejestr'), D = mapa('dostepnosc');
+    const lista = budcareGet_('odmiany?_fields=producent,odmiana-bazowa,rejestr,dostepnosc').map(function (o) {
+      const pierwszy = function (ids, m) { return (ids || []).map(function (i) { return m[i]; }).filter(Boolean)[0] || ''; };
+      const rej = pierwszy(o.rejestr, R);
+      const t = rej.match(/THC\s*(\d{1,2}(?:,\d)?)\s*%/i);
+      return [pierwszy(o.producent, P), pierwszy(o['odmiana-bazowa'], B), t ? t[1] : '', pierwszy(o.dostepnosc, D)];
+    }).filter(function (x) { return x[0] && x[1] && x[2]; });
+    if (lista.length > 50) {
+      Logger.log('BudCare na żywo: ' + lista.length + ' odmian');
+      zapiszMigawkeBudcare_(lista);
+      return lista;
     }
-    if (lista.length > 20) { Logger.log('BudCare na żywo: ' + lista.length + ' odmian S-Lab/Tilray'); return budcareOdmiany_(lista); }
   } catch (e) { Logger.log('BudCare niedostępne: ' + e); }
   const res = UrlFetchApp.fetch(BUDCARE_ZAPAS + '?t=' + Date.now(), { muteHttpExceptions: true });
   Logger.log('BudCare: używam migawki z repo');
-  return res.getResponseCode() === 200 ? budcareOdmiany_(JSON.parse(res.getContentText())) : [];
+  return res.getResponseCode() === 200 ? JSON.parse(res.getContentText()) : [];
+}
+
+/** Odświeża migawkę w repo (tylko gdy lista się zmieniła), żeby zapas był zawsze świeży. */
+function zapiszMigawkeBudcare_(lista) {
+  try {
+    const props = PropertiesService.getScriptProperties();
+    const tresc = JSON.stringify(lista, null, 0).replace(/\],\[/g, '],\n[');
+    const hash = Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, tresc));
+    if (props.getProperty('BUDCARE_HASH') === hash) return;
+    zapiszNaGitHub_('tools/budcare-odmiany.json', tresc + '\n', 'Migawka BudCare: ' + lista.length + ' odmian');
+    props.setProperty('BUDCARE_HASH', hash);
+  } catch (e) { Logger.log('Migawka BudCare niezapisana: ' + e); }
 }
 
 function folder_() {
@@ -680,4 +861,4 @@ function ustawDostepLekarza() {
 }
 
 // eksport dla testów w Node (w Apps Script ignorowane)
-if (typeof module !== 'undefined') module.exports = { slugPl: slugPl, zbudujWiersze: zbudujWiersze, budcareOdmiany_: budcareOdmiany_, stanEfektywny: stanEfektywny };
+if (typeof module !== 'undefined') module.exports = { slugPl: slugPl, zbudujWiersze: zbudujWiersze, zbudujOdmiany: zbudujOdmiany, stanEfektywny: stanEfektywny };
