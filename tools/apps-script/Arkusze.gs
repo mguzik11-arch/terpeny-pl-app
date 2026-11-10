@@ -566,13 +566,28 @@ function aktualizujListeOdmian() {
     const stare = n > 0 ? ws.getRange(R0, 1, n, 9).getValues() : [];
     const wpisy = {};
     stare.forEach(function (r) { if (r[0]) wpisy[r[0]] = { opak: r[4], vals: [r[5], r[6], r[7], r[8]] }; });
-    const wpis = function (r) { return wpisy[r.id] || (r.stareId && wpisy[r.stareId]) || null; };
+    // wpis bez dopasowania po ID (np. katalog dostał rozmiar opakowania: _xg → _10g) przechodzi na wiersz
+    // tej samej odmiany i producenta — pierwszy wolny, żeby nic nie zniknęło
+    const bezPak = function (id) { return String(id).replace(/_[^_]+g$/, ''); };
+    const wolne = {};
+    const zajete = {};
+    wszystkie.forEach(function (r) { if (wpisy[r.id]) zajete[r.id] = true; if (r.stareId && wpisy[r.stareId]) zajete[r.stareId] = true; });
+    Object.keys(wpisy).forEach(function (id) { if (!zajete[id]) (wolne[bezPak(id)] = wolne[bezPak(id)] || []).push(id); });
+    const przeniesione = {};
+    wszystkie.forEach(function (r) {
+      if (wpisy[r.id] || (r.stareId && wpisy[r.stareId])) return;
+      const k = wolne[r.klucz] || (r.stareId && wolne[bezPak(r.stareId)]);
+      if (k && k.length) przeniesione[r.id] = k.shift();
+    });
+    const wpis = function (r) { return wpisy[r.id] || (r.stareId && wpisy[r.stareId]) || (przeniesione[r.id] && wpisy[przeniesione[r.id]]) || null; };
     const maDane = function (r) { const w = wpis(r); return !!(w && w.vals.some(function (v) { return v !== '' && v !== null; })); };
     const rows = wszystkie.filter(function (r) { return !ust.wykluczone[r.odmiana] || maDane(r); });
     const bylo = stare.map(function (r) { return r[0]; }).filter(String).join('|');
     if (bylo === rows.map(function (r) { return r.id; }).join('|')) { Logger.log(a.kod + ': bez zmian'); return; }
     const dodane = rows.filter(function (r) { return !wpisy[r.id]; }).length;
-    const usuniete = stare.filter(function (r) { return r[0] && !rows.some(function (x) { return x.id === r[0] || x.stareId === r[0]; }); }).length;
+    const uzyte = {};
+    rows.forEach(function (x) { uzyte[x.id] = 1; if (x.stareId) uzyte[x.stareId] = 1; if (przeniesione[x.id]) uzyte[przeniesione[x.id]] = 1; });
+    const usuniete = stare.filter(function (r) { return r[0] && !uzyte[r[0]]; }).length;
     // przebudowujemy zakładki w tym samym pliku (link dla apteki się nie zmienia) i przepisujemy wpisy po ID
     ss.getProtections(SpreadsheetApp.ProtectionType.SHEET).forEach(function (p) { p.remove(); });
     ['Stany i ceny', 'Do druku', 'Inna odmiana', 'Instrukcja', 'meta'].forEach(function (nm) {
