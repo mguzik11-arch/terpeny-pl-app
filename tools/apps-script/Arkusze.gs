@@ -73,6 +73,8 @@ const ALIASY_NAZW = {
   'strawberry-og': 'Strawberry Kush'
 };
 const ALIASY_ODMIAN = { 'canopy-growth_jack-haze': 'Red No 2' };   // producent w katalogu inny niż w BudCare
+// Jak pokazać odmianę w arkuszu apteki, gdy katalog zapisuje ją inaczej niż opakowanie (ID wiersza bez zmian)
+const WYSWIETLANIE = { 'red-no-2_jack-haze_19': { producer: 'Canopy Growth', name: 'Jack Haze (Red No 2)' } };
 
 /** "S-Lab / Tilray / Synoptis" → ['S-Lab','Tilray','Synoptis']; S-Lab albo Tilray → zawsze oba. */
 function producenciWierszy_(producer) {
@@ -192,10 +194,15 @@ function zbudujOdmiany(strains, budcare) {
     dodaj({ klucz: kluczOdmiany_(b.producer, b.name, b.thc), grupa: b.producer, producenci: [b.producer],
             name: b.name, thc: b.thc, packs: [], stare: {}, zrodlo: 'BudCare', dost: b.dost });
   });
-  lista.forEach(function (o) { o.packs.sort(function (a, b) { return a - b; }); });
+  lista.forEach(function (o) {
+    o.packs.sort(function (a, b) { return a - b; });
+    o.pokaz = WYSWIETLANIE[o.klucz] || null;
+    o.sortP = o.pokaz ? o.pokaz.producer : o.grupa;
+    o.sortN = o.pokaz ? o.pokaz.name : o.name;
+  });
   lista.sort(function (a, b) {
-    return a.grupa.toLowerCase().localeCompare(b.grupa.toLowerCase()) ||
-           a.name.toLowerCase().localeCompare(b.name.toLowerCase()) || thcNum_(a.thc) - thcNum_(b.thc);
+    return a.sortP.toLowerCase().localeCompare(b.sortP.toLowerCase()) ||
+           a.sortN.toLowerCase().localeCompare(b.sortN.toLowerCase()) || thcNum_(a.thc) - thcNum_(b.thc);
   });
   return lista;
 }
@@ -212,7 +219,8 @@ function zbudujWiersze(strains, budcare, wykluczone) {
       o.producenci.forEach(function (prod, i) {
         const klucz = slugPl(prod) + '_' + slugPl(o.name) + '_' + slugPl(o.thc);
         const stareId = o.stare[prod] ? o.stare[prod] + suf : null;
-        rows.push({ id: klucz + suf, klucz: klucz, producer: prod, name: o.name, thc: o.thc + '%', pack: pk,
+        rows.push({ id: klucz + suf, klucz: klucz, producer: o.pokaz ? o.pokaz.producer : prod,
+                    name: o.pokaz ? o.pokaz.name : o.name, thc: o.thc + '%', pack: pk,
                     stareId: stareId, grupa: o.grupa, zrodlo: o.zrodlo, odmiana: o.klucz });
       });
     });
@@ -655,7 +663,7 @@ function synchronizujUstawienia_(odmiany) {
     // Jeśli później ręcznie odznaczysz, zostaje Twój wybór (status się już nie zmienia).
     let wyk = s ? s.wyk : false;
     if (o.dost === 'Wycofana' && (!s || s.dost !== 'Wycofana')) { if (!wyk) wycofane.push(o); wyk = true; }
-    return [wyk, o.grupa, o.name, o.thc + '%', o.dost || '—', o.zrodlo === 'katalog' ? 'apka' : 'BudCare',
+    return [wyk, o.pokaz ? o.pokaz.producer : o.grupa, o.pokaz ? o.pokaz.name : o.name, o.thc + '%', o.dost || '—', o.zrodlo === 'katalog' ? 'apka' : 'BudCare',
             s ? s.dodano : (pierwszy ? '' : dzis), o.klucz];
   });
   // odmiany zaznaczone kiedyś, których już nie ma w żadnym źródle — zostają na dole (żeby nie zgubić decyzji)
