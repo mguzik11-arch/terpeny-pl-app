@@ -35,7 +35,26 @@ def slug(s):
     return re.sub(r"[^a-z0-9]+", "-", s).strip("-")
 
 
-rows = []
+# S-Lab i Tilray: te same odmiany w różnych cenach -> wiersz dla obu (jak zbudujWiersze() w Arkusze.gs)
+PAIR = ["S-Lab", "Tilray"]
+
+
+def producers_for(producer):
+    out = []
+    for t in producer.split("/"):
+        t = t.strip()
+        if t and t not in out:
+            out.append(t)
+    if any(p in PAIR for p in out):
+        out += [p for p in PAIR if p not in out]
+    return out or [producer]
+
+
+def clean_name(n):
+    return re.sub(r"\s*\d+(?:[.,]\d+)?\s*%\s*$", "", n).strip() or n
+
+
+rows, seen = [], set()
 for x in strains:
     if (x["producer"], x["name"]) in EXCLUDE:
         continue
@@ -43,14 +62,20 @@ for x in strains:
     raw = x["thc"].replace("%", "").strip()
     # zakres THC (np. 27–30%) = osobne produkty w aptece -> osobny wiersz na każdy wariant
     thcs = [t.strip() for t in re.split(r"[–-]", raw)] if re.search(r"[–-]", raw) else [raw]
+    name = clean_name(x["name"])
     for thc in thcs:
         for pk in (packs or [None]):
-            rid = f"{slug(x['producer'])}_{slug(x['name'])}_{slug(thc)}_{pk if pk else 'x'}g"
-            t = (x.get("type") or "").strip().lower()
-            typ = "INDICA" if t.startswith("indica") else "SATIVA" if t.startswith("sativa") else "HYBRYDA" if t else ""
-            rows.append(dict(id=rid, producer=x["producer"], name=x["name"], thc=f"{thc}%", pack=pk,
-                             split=len(thcs) > 1, typ=typ))
-rows.sort(key=lambda r: (r["producer"].lower(), r["name"].lower(), r["thc"], r["pack"] or 0))
+            for prod in producers_for(x["producer"]):
+                rid = f"{slug(prod)}_{slug(name)}_{slug(thc)}_{pk if pk else 'x'}g"
+                if rid in seen:
+                    continue
+                seen.add(rid)
+                t = (x.get("type") or "").strip().lower()
+                typ = "INDICA" if t.startswith("indica") else "SATIVA" if t.startswith("sativa") else "HYBRYDA" if t else ""
+                rows.append(dict(id=rid, producer=prod, name=name, thc=f"{thc}%", pack=pk,
+                                 split=len(thcs) > 1, typ=typ,
+                                 grp=" / ".join(PAIR) if prod in PAIR else prod))
+rows.sort(key=lambda r: (r["grp"].lower(), r["name"].lower(), r["thc"], r["pack"] or 0, r["producer"].lower()))
 assert len({r["id"] for r in rows}) == len(rows), "duplicate ids"
 
 F = "Arial"

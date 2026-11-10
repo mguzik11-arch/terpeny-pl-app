@@ -1189,11 +1189,38 @@ function slugPl(s){
   return String(s).replace(/ł/g,'l').replace(/Ł/g,'L').normalize('NFKD').replace(/[^\x00-\x7F]/g,'')
     .toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
 }
-function strainOfferKeys(s){
-  const raw = String(s.thc).replace(/%/g,'').trim();
-  const parts = /[–-]/.test(raw) ? raw.split(/[–-]/).map(t=>t.trim()) : [raw];
-  return parts.map(t => slugPl(s.producer) + '_' + slugPl(s.name) + '_' + slugPl(t));
+// S-Lab i Tilray: te same odmiany w różnych cenach — arkusz apteki ma wiersz dla obu producentów
+// (ta sama logika co zbudujWiersze() w tools/apps-script/Arkusze.gs).
+const PAIR_PRODUCERS = ['S-Lab','Tilray'];
+function offerProducers(producer){
+  const out = [];
+  String(producer).split('/').forEach(t => { t = t.trim(); if(t && !out.includes(t)) out.push(t); });
+  if(out.some(p => PAIR_PRODUCERS.includes(p))) PAIR_PRODUCERS.forEach(p => { if(!out.includes(p)) out.push(p); });
+  return out.length ? out : [String(producer)];
 }
+function cleanStrainName(n){ return String(n).replace(/\s*\d+(?:[.,]\d+)?\s*%\s*$/,'').trim() || String(n); }
+function strainThcParts(s){
+  const raw = String(s.thc).replace(/%/g,'').trim();
+  return /[–-]/.test(raw) ? raw.split(/[–-]/).map(t=>t.trim()) : [raw];
+}
+// Klucze z katalogu: producent(y) zapisani przy odmianie + dawny klucz sprzed rozdzielenia S-Lab/Tilray
+function strainOfferKeys(s){
+  const keys = new Set();
+  const own = String(s.producer).split('/').map(t=>t.trim()).filter(Boolean);
+  strainThcParts(s).forEach(t => {
+    own.forEach(p => keys.add(slugPl(p) + '_' + slugPl(cleanStrainName(s.name)) + '_' + slugPl(t)));
+    keys.add(slugPl(s.producer) + '_' + slugPl(s.name) + '_' + slugPl(t));
+  });
+  return [...keys];
+}
+// Klucze „bliźniacze”: drugi producent z pary S-Lab/Tilray (używane, gdy katalog nie ma dla niego osobnej odmiany)
+function strainTwinKeys(s){
+  const own = String(s.producer).split('/').map(t=>t.trim());
+  const extra = offerProducers(s.producer).filter(p => !own.includes(p));
+  return strainThcParts(s).flatMap(t => extra.map(p => slugPl(p) + '_' + slugPl(cleanStrainName(s.name)) + '_' + slugPl(t)));
+}
+const PRODUCER_BY_SLUG = Object.fromEntries(PAIR_PRODUCERS.map(p => [slugPl(p), p]));
+function offerProducer(o){ return PRODUCER_BY_SLUG[String(o.klucz).split('_')[0]] || null; }
 const STOCK_LABEL = { 'dużo (15+)':'dużo', 'średnio (5–14)':'średnio', 'mało (1–4)':'mało', 'brak':'brak' };
 const STOCK_CLASS = { 'dużo (15+)':'duzo', 'średnio (5–14)':'srednio', 'mało (1–4)':'malo', 'brak':'brak' };
 async function loadOffers(){
@@ -1204,6 +1231,7 @@ async function loadOffers(){
   }catch(e){ console.warn('offers.json niedostępny — zostają ceny ze strains.json', e); }
 }
 function applyOffers(data){
+  const owned = new Set(strains.flatMap(strainOfferKeys));
   (data && data.apteki || []).forEach(a=>{
     // apteka z pustym arkuszem (jeszcze go nie wypełnia) — zostają jej ceny z maili
     if(!a.oferty || !a.oferty.length) return;
@@ -1211,14 +1239,26 @@ function applyOffers(data){
     (a.oferty || []).forEach(o => { (byKey[o.klucz] = byKey[o.klucz] || []).push(o); });
     const date = a.data_stanu || (a.zmieniono || '').slice(0,10) || null;
     strains.forEach(s=>{
-      const list = strainOfferKeys(s).flatMap(k => byKey[k] || []);
+      const keys = strainOfferKeys(s).concat(strainTwinKeys(s).filter(k => !owned.has(k)));
+      const list = [...new Set(keys)].flatMap(k => byKey[k] || []);
       const had = (s.pharmacies || []).some(p => p.name === a.nazwa);
       s.prices = (s.prices || []).filter(p => p.label !== a.nazwa);
       s.pharmacies = (s.pharmacies || []).filter(p => p.name !== a.nazwa);
       if(list.length){
-        const o = list.find(x => x.stan !== 'brak') || list[0];
+        // dostępne przed brakiem, potem najtańsze za gram
+        const sorted = list.slice().sort((x,y) => ((x.stan === 'brak') - (y.stan === 'brak')) ||
+          ((x.cena_g || x.cena) - (y.cena_g || y.cena)));
+        const o = sorted[0];
+        // przy parze S-Lab/Tilray: od kogo jest cena + cena drugiego producenta w tej samej aptece
+        let producerNote = null;
+        const prod = offerProducer(o);
+        if(prod && offerProducers(s.producer).length > 1){
+          producerNote = prod;
+          const other = sorted.find(x => x.stan !== 'brak' && offerProducer(x) && offerProducer(x) !== prod);
+          if(other) producerNote += ` (${offerProducer(other)}: ${other.cena} zł)`;
+        }
         s.prices.push({ source:a.kod, label:a.nazwa, price_pln:o.cena, package_g:o.opak_g, price_per_g:o.cena_g,
-                        date, stan:o.stan || null, from_sheet:true });
+                        date, stan:o.stan || null, from_sheet:true, producer_note:producerNote });
         s.pharmacies.push({ name:a.nazwa, city:'Rzeszów', available:o.stan !== 'brak', updated:date,
                             stan:o.stan || null, from_sheet:true, offer_id:o.id });
       } else if(had){
@@ -1561,7 +1601,7 @@ function render(){
         const originHtml = `<span class="price-origin" title="Źródło: ${srcLabel}${srcDate ? ' · aktualizacja: ' + srcDate : ''}">${srcIcon}</span>`;
         if(ph.available){
           const priceHtml = priceEntry
-            ? `<b>${priceEntry.price_pln} zł</b> / ${priceEntry.package_g}g (${priceEntry.price_per_g} zł/g)${priceEntry.thc_nr ? ` · THC ${priceEntry.thc_nr}` : ''}${priceEntry.code ? ` · kod: ${priceEntry.code}` : ''}`
+            ? `<b>${priceEntry.price_pln} zł</b> / ${priceEntry.package_g}g (${priceEntry.price_per_g} zł/g)${priceEntry.thc_nr ? ` · THC ${priceEntry.thc_nr}` : ''}${priceEntry.producer_note ? ` · ${priceEntry.producer_note}` : ''}${priceEntry.code ? ` · kod: ${priceEntry.code}` : ''}`
             : 'dostępna';
           const stockHtml = (ph.stan && STOCK_LABEL[ph.stan])
             ? ` <span class="stock stock-${STOCK_CLASS[ph.stan]}">${STOCK_LABEL[ph.stan]}${typeof ph.count === 'number' ? ` · ${ph.count} op.` : ''}</span>` : '';

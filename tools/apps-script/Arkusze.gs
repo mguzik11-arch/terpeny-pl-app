@@ -42,7 +42,7 @@ const STRAINS_URL = 'https://raw.githubusercontent.com/' + REPO + '/' + BRANCH +
 const POWIADOMIENIA = 'mguzik11@gmail.com';     // tu idą linki i alerty o odmianach spoza listy
 const APKA_URL = 'https://apka-terpenowa.mguzik11.workers.dev/';
 const FOLDER_NAZWA = 'Arkusze aptek — terpeny-pl';
-const TEMPLATE_VERSION = 'G1';
+const TEMPLATE_VERSION = 'G2';
 const WYKLUCZONE = [['Aurora', 'Delahaze']];      // wycofane z obrotu
 
 const STANY = ['dużo (15+)', 'średnio (5–14)', 'mało (1–4)', 'brak'];
@@ -58,9 +58,28 @@ function slugPl(s) {
     .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
 
-/** Wiersze szablonu z strains.json — ta sama logika i te same ID co w tools/build_template.py. */
+// S-Lab i Tilray sprzedają te same odmiany w różnych cenach (np. Pink Kush S-Lab 420 zł, Tilray 380 zł),
+// a w katalogu odmiana bywa zapisana tylko pod jednym z nich. Apteka dostaje więc wiersz dla OBU producentów.
+const PARA_PRODUCENTOW = ['S-Lab', 'Tilray'];
+
+/** "S-Lab / Tilray / Synoptis" → ['S-Lab','Tilray','Synoptis']; S-Lab albo Tilray → zawsze oba. */
+function producenciWierszy_(producer) {
+  const out = [];
+  String(producer).split('/').forEach(function (t) { t = t.trim(); if (t && out.indexOf(t) === -1) out.push(t); });
+  if (out.some(function (p) { return PARA_PRODUCENTOW.indexOf(p) !== -1; })) {
+    PARA_PRODUCENTOW.forEach(function (p) { if (out.indexOf(p) === -1) out.push(p); });
+  }
+  return out.length ? out : [String(producer)];
+}
+
+/** "Blueberry 22%" → "Blueberry" (THC jest w osobnej kolumnie). */
+function nazwaCzysta_(name) {
+  return String(name).replace(/\s*\d+(?:[.,]\d+)?\s*%\s*$/, '').trim() || String(name);
+}
+
+/** Wiersze szablonu z strains.json — ta sama logika i te same ID co w index.html (strainOfferKeys). */
 function zbudujWiersze(strains) {
-  const rows = [];
+  const rows = [], byId = {};
   strains.forEach(function (x) {
     if (WYKLUCZONE.some(function (w) { return w[0] === x.producer && w[1] === x.name; })) return;
     const packs = [];
@@ -68,18 +87,36 @@ function zbudujWiersze(strains) {
     packs.sort(function (a, b) { return a - b; });
     const raw = String(x.thc).replace(/%/g, '').trim();
     const thcs = /[–-]/.test(raw) ? raw.split(/[–-]/).map(function (t) { return t.trim(); }) : [raw];
+    const nazwa = nazwaCzysta_(x.name);
+    const prods = producenciWierszy_(x.producer);
     thcs.forEach(function (thc) {
       (packs.length ? packs : [null]).forEach(function (pk) {
-        const klucz = slugPl(x.producer) + '_' + slugPl(x.name) + '_' + slugPl(thc);
-        rows.push({ id: klucz + '_' + (pk ? pk : 'x') + 'g', klucz: klucz, producer: x.producer, name: x.name,
-                    thc: thc + '%', pack: pk });
+        const suf = '_' + (pk ? pk : 'x') + 'g';
+        // dawne ID (sprzed rozdzielenia) — żeby aktualizujListeOdmian() przeniosła już wpisane ceny
+        const stareId = slugPl(x.producer) + '_' + slugPl(x.name) + '_' + slugPl(thc) + suf;
+        prods.forEach(function (prod, i) {
+          const klucz = slugPl(prod) + '_' + slugPl(nazwa) + '_' + slugPl(thc);
+          const id = klucz + suf;
+          const katalogowy = i === 0 || String(x.producer).indexOf(prod) !== -1;
+          if (byId[id]) {
+            if (katalogowy) byId[id].katalogowy = true;
+            if (i === 0 && stareId !== id && !byId[id].stareId) byId[id].stareId = stareId;
+            return;
+          }
+          const r = { id: id, klucz: klucz, producer: prod, name: nazwa, thc: thc + '%', pack: pk,
+                      stareId: (i === 0 && stareId !== id) ? stareId : null, katalogowy: katalogowy,
+                      grupa: PARA_PRODUCENTOW.indexOf(prod) !== -1 ? PARA_PRODUCENTOW.join(' / ') : prod };
+          byId[id] = r; rows.push(r);
+        });
       });
     });
   });
+  // S-Lab i Tilray sortowane razem po nazwie → oba wiersze tej samej odmiany są jeden pod drugim
   rows.sort(function (a, b) {
-    return a.producer.toLowerCase().localeCompare(b.producer.toLowerCase()) ||
+    return a.grupa.toLowerCase().localeCompare(b.grupa.toLowerCase()) ||
            a.name.toLowerCase().localeCompare(b.name.toLowerCase()) ||
-           a.thc.localeCompare(b.thc) || (a.pack || 0) - (b.pack || 0);
+           a.thc.localeCompare(b.thc) || (a.pack || 0) - (b.pack || 0) ||
+           a.producer.toLowerCase().localeCompare(b.producer.toLowerCase());
   });
   return rows;
 }
@@ -437,9 +474,10 @@ function aktualizujListeOdmian() {
     zbudujArkusz_(ss, a, rows, true);
     const ws2 = ss.getSheetByName('Stany i ceny');
     ws2.getRange('C3').setValue(c3); ws2.getRange('C4').setValue(c4);
-    const out = rows.map(function (r) { return wpisy[r.id] ? wpisy[r.id].vals : ['', '', '', '']; });
+    const wpis = function (r) { return wpisy[r.id] || (r.stareId && wpisy[r.stareId]) || null; };
+    const out = rows.map(function (r) { return wpis(r) ? wpis(r).vals : ['', '', '', '']; });
     ws2.getRange(R0, C.CENA, out.length, 4).setValues(out);
-    rows.forEach(function (r, i) { if (!r.pack && wpisy[r.id] && wpisy[r.id].opak) ws2.getRange(R0 + i, C.OPAK).setValue(wpisy[r.id].opak); });
+    rows.forEach(function (r, i) { if (!r.pack && wpis(r) && wpis(r).opak) ws2.getRange(R0 + i, C.OPAK).setValue(wpis(r).opak); });
     if (innaVals) ss.getSheetByName('Inna odmiana').getRange('A5:H24').setValues(innaVals);
     ss.deleteSheet(stary);
     Logger.log(a.kod + ': dodano ' + nowe.length + ' odmian');
