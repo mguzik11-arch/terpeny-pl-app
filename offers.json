@@ -5,35 +5,35 @@
       "kod": "NR",
       "nazwa": "Niezapominajka Rzeszów Rejtana",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-11-10T18:48",
+      "zmieniono": "2026-11-10T19:03",
       "oferty": []
     },
     {
       "kod": "NM",
       "nazwa": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-11-10T18:48",
+      "zmieniono": "2026-11-10T19:04",
       "oferty": []
     },
     {
       "kod": "DM",
       "nazwa": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-11-10T18:48",
+      "zmieniono": "2026-11-10T19:04",
       "oferty": []
     },
     {
       "kod": "AG",
       "nazwa": "Apteki Gemini (ul. Kolejowa, Rzeszów)",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-11-10T18:49",
+      "zmieniono": "2026-11-10T19:04",
       "oferty": []
     },
     {
       "kod": "TL",
       "nazwa": "Apteka Twoje Leki (ul. Pułaskiego, Rzeszów)",
       "data_stanu": "2026-11-10",
-      "zmieniono": "2026-11-10T18:49",
+      "zmieniono": "2026-11-10T19:06",
       "oferty": [
         {
           "id": "aurora_black-jelly_27_10g",
@@ -46,6 +46,18 @@
           "producent": "Aurora",
           "nazwa": "Black Jelly",
           "thc": "0.27"
+        },
+        {
+          "id": "aurora_cosmic-cream_29_10g",
+          "klucz": "aurora_cosmic-cream_29",
+          "cena": 425,
+          "opak_g": 10,
+          "cena_g": 42.5,
+          "stan": "mało (1–4)",
+          "nowosc": false,
+          "producent": "Aurora",
+          "nazwa": "Cosmic Cream",
+          "thc": "0.29"
         },
         {
           "id": "aurora_electric-honeydew_27_10g",
@@ -118,6 +130,30 @@
           "producent": "Aurora",
           "nazwa": "Sourdough",
           "thc": "0.29"
+        },
+        {
+          "id": "canopy-growth_chemsicle_27_15g",
+          "klucz": "canopy-growth_chemsicle_27",
+          "cena": 546,
+          "opak_g": 15,
+          "cena_g": 36.4,
+          "stan": "średnio (5–14)",
+          "nowosc": false,
+          "producent": "Canopy Growth",
+          "nazwa": "Chemsicle",
+          "thc": "0.27"
+        },
+        {
+          "id": "red-no-2_jack-haze_19_5g",
+          "klucz": "red-no-2_jack-haze_19",
+          "cena": 274,
+          "opak_g": 5,
+          "cena_g": 54.8,
+          "stan": "mało (1–4)",
+          "nowosc": false,
+          "producent": "Canopy Growth",
+          "nazwa": "Jack Haze (Red No 2)",
+          "thc": "0.19"
         },
         {
           "id": "canopy-growth_ultra-jack_30_15g",
@@ -264,6 +300,18 @@
           "thc": "0.25"
         },
         {
+          "id": "tilray_blue-cheese_18_xg",
+          "klucz": "tilray_blue-cheese_18",
+          "cena": 336,
+          "opak_g": 15,
+          "cena_g": 22.4,
+          "stan": "średnio (5–14)",
+          "nowosc": false,
+          "producent": "Tilray",
+          "nazwa": "Blue Cheese",
+          "thc": "0.18"
+        },
+        {
           "id": "s-lab_lilac-diesel_22_15g",
           "klucz": "s-lab_lilac-diesel_22",
           "cena": 469,
@@ -305,7 +353,7 @@
       "kod": "AP",
       "nazwa": "Apteka Pomocna (ul. Lwowska 64, Rzeszów)",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-11-10T18:49",
+      "zmieniono": "2026-11-10T19:04",
       "oferty": []
     }
   ]
