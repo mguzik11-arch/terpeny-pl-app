@@ -1230,7 +1230,24 @@ async function loadOffers(){
     applyOffers(await res.json());
   }catch(e){ console.warn('offers.json niedostępny — zostają ceny ze strains.json', e); }
 }
+// Odmiana wpisana przez aptekę, której nie ma w strains.json (np. S-Lab/Tilray znane tylko z BudCare):
+// tworzymy prostą kartę, żeby cena i stan były widoczne. Bez profilu terpenowego.
+function sheetOnlyStrain(o){
+  const thc = String(o.thc || '').replace(/%/g,'').trim();
+  return { name:o.nazwa, producer:o.producent, thc: thc ? thc + '%' : '?', cbd:'', type:'',
+           terpenes:[], pct:{}, verified:false, source:'arkusz apteki',
+           effect:'Odmiana spoza bazy — dodana z arkusza apteki. Profil terpenowy: sprawdź na BudCare.pl.',
+           status:'', pharmacies:[], prices:[], sheet_only:true };
+}
 function applyOffers(data){
+  // karty dla odmian z arkuszy, których katalog nie zna (ani bezpośrednio, ani jako bliźniak S-Lab/Tilray)
+  const covered = new Set(strains.flatMap(s => strainOfferKeys(s).concat(strainTwinKeys(s))));
+  (data && data.apteki || []).forEach(a => (a.oferty || []).forEach(o => {
+    if(covered.has(o.klucz) || !o.nazwa || !o.producent) return;
+    const st = sheetOnlyStrain(o);
+    strains.push(st);
+    strainOfferKeys(st).concat(strainTwinKeys(st)).forEach(k => covered.add(k));
+  }));
   const owned = new Set(strains.flatMap(strainOfferKeys));
   (data && data.apteki || []).forEach(a=>{
     // apteka z pustym arkuszem (jeszcze go nie wypełnia) — zostają jej ceny z maili

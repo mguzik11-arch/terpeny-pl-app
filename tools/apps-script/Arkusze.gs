@@ -42,7 +42,7 @@ const STRAINS_URL = 'https://raw.githubusercontent.com/' + REPO + '/' + BRANCH +
 const POWIADOMIENIA = 'mguzik11@gmail.com';     // tu idą linki i alerty o odmianach spoza listy
 const APKA_URL = 'https://apka-terpenowa.mguzik11.workers.dev/';
 const FOLDER_NAZWA = 'Arkusze aptek — terpeny-pl';
-const TEMPLATE_VERSION = 'G2';
+const TEMPLATE_VERSION = 'G3';
 const WYKLUCZONE = [['Aurora', 'Delahaze']];      // wycofane z obrotu
 
 const STANY = ['dużo (15+)', 'średnio (5–14)', 'mało (1–4)', 'brak'];
@@ -77,8 +77,34 @@ function nazwaCzysta_(name) {
   return String(name).replace(/\s*\d+(?:[.,]\d+)?\s*%\s*$/, '').trim() || String(name);
 }
 
-/** Wiersze szablonu z strains.json — ta sama logika i te same ID co w index.html (strainOfferKeys). */
-function zbudujWiersze(strains) {
+// Nazwy z BudCare, które w katalogu mają inną formę
+const ALIASY_NAZW = { 'galaxy-walker-og': 'Galaxy Walker' };
+
+/** Tytuł z BudCare → {name, thc}. Np. "S-LAB 22% THC – Wappa", "Tilray Headband (THC 18% +/- 10%, CBD ≤1%)",
+ *  "S-LAB Beach Crasher 18", "Cannabis flos PURPS (THC 18% …)". Zwraca null, gdy brak %THC. */
+function budcareTytul_(t) {
+  t = String(t).replace(/&#8211;|&ndash;/g, '–').replace(/&amp;/g, '&').replace(/&#0?39;|&#8217;/g, "'").trim();
+  const m = t.match(/THC\s*(\d{1,2})\s*%/i) || t.match(/(?:^|\s)(\d{1,2})\s*%?(?=\s|$)/);
+  if (!m) return null;
+  let n = t.replace(/\(.*\)/g, ' ')
+    .replace(/^(s-?lab|tilray|cannabis\s+flos)\b/i, ' ')
+    .replace(/\b\d{1,2}\s*%?(\s*THC\b)?/gi, ' ').replace(/%/g, ' ')
+    .replace(/[–-]\s/g, ' ').replace(/\s+/g, ' ').trim();
+  if (n === n.toUpperCase()) n = n.toLowerCase().replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+  n = ALIASY_NAZW[slugPl(n)] || n;
+  return n ? { name: n, thc: m[1] } : null;
+}
+
+/** Odmiany S-Lab/Tilray z BudCare → [{producer, name, thc}] (wejście: [[producent, tytuł, url], …]). */
+function budcareOdmiany_(lista) {
+  const out = [];
+  (lista || []).forEach(function (x) { const p = budcareTytul_(x[1]); if (p) out.push({ producer: x[0], name: p.name, thc: p.thc, url: x[2] }); });
+  return out;
+}
+
+/** Wiersze szablonu z strains.json (+ odmiany S-Lab/Tilray z BudCare, których nie ma w katalogu).
+ *  Ta sama logika i te same ID co w index.html (strainOfferKeys). */
+function zbudujWiersze(strains, budcare) {
   const rows = [], byId = {};
   strains.forEach(function (x) {
     if (WYKLUCZONE.some(function (w) { return w[0] === x.producer && w[1] === x.name; })) return;
@@ -109,6 +135,20 @@ function zbudujWiersze(strains) {
           byId[id] = r; rows.push(r);
         });
       });
+    });
+  });
+  // odmiany z BudCare spoza katalogu: wiersz dla obu producentów, opakowanie wpisuje apteka
+  const znane = {};
+  rows.forEach(function (r) { znane[slugPl(r.name) + '_' + slugPl(r.thc.replace('%', ''))] = true; });
+  (budcare || []).forEach(function (b) {
+    const k = slugPl(b.name) + '_' + slugPl(b.thc);
+    if (znane[k]) return;
+    znane[k] = true;
+    PARA_PRODUCENTOW.forEach(function (prod) {
+      const klucz = slugPl(prod) + '_' + slugPl(b.name) + '_' + slugPl(b.thc);
+      const r = { id: klucz + '_xg', klucz: klucz, producer: prod, name: b.name, thc: b.thc + '%', pack: null,
+                  stareId: null, katalogowy: false, budcare: true, grupa: PARA_PRODUCENTOW.join(' / ') };
+      byId[r.id] = r; rows.push(r);
     });
   });
   // S-Lab i Tilray sortowane razem po nazwie → oba wiersze tej samej odmiany są jeden pod drugim
@@ -143,7 +183,7 @@ function doIso(d) {
 
 function utworzArkusze() {
   const strains = pobierzStrains_();
-  const rows = zbudujWiersze(strains);
+  const rows = zbudujWiersze(strains, pobierzBudcare_());
   const folder = folder_();
   const props = PropertiesService.getScriptProperties();
   const utworzone = [];
@@ -447,7 +487,7 @@ function pokazLinki() {
 
 /** Dopisuje nowe odmiany z strains.json do istniejących arkuszy. Wpisy aptek (cena, stan, liczba, nowość) zostają przy swoich ID. */
 function aktualizujListeOdmian() {
-  const rows = zbudujWiersze(pobierzStrains_());
+  const rows = zbudujWiersze(pobierzStrains_(), pobierzBudcare_());
   const props = PropertiesService.getScriptProperties();
   APTEKI.forEach(function (a) {
     const id = props.getProperty('SHEET_' + a.kod);
@@ -506,7 +546,8 @@ function odczytajArkusze() {
       const stan = stanEfektywny(r[6], r[7] === '' ? null : r[7]);
       oferty.push({ id: id_, klucz: String(id_).replace(/_[^_]+g$/, ''), cena: cena, opak_g: opak,
                     cena_g: opak ? Math.round(cena / opak * 100) / 100 : null,
-                    stan: stan || null, nowosc: r[8] === 'TAK' });
+                    stan: stan || null, nowosc: r[8] === 'TAK',
+                    producent: String(r[1]), nazwa: String(r[2]), thc: String(r[3]) });
       // UWAGA: dokładna liczba opakowań NIE trafia do offers.json (plik jest publiczny).
       // Lekarz widzi ją w apce przez prywatny endpoint doGet() poniżej (klucz tylko w jego przeglądarce).
     });
@@ -555,6 +596,29 @@ function pobierzStrains_() {
   const res = UrlFetchApp.fetch(STRAINS_URL + '?t=' + Date.now(), { muteHttpExceptions: true });
   if (res.getResponseCode() !== 200) throw new Error('Nie udało się pobrać strains.json: HTTP ' + res.getResponseCode());
   return JSON.parse(res.getContentText()).strains;
+}
+
+const BUDCARE_API = 'https://budcare.pl/wp-json/wp/v2/odmiany?per_page=100&producent=15,18&_fields=title,producent,link';
+const BUDCARE_ZAPAS = 'https://raw.githubusercontent.com/' + REPO + '/' + BRANCH + '/tools/budcare-slab-tilray.json';
+
+/** Odmiany S-Lab (id 15) i Tilray (id 18) z BudCare na żywo; gdy BudCare nie odpowiada — migawka z repo. */
+function pobierzBudcare_() {
+  try {
+    let lista = [];
+    for (let page = 1; page <= 5; page++) {
+      const res = UrlFetchApp.fetch(BUDCARE_API + '&page=' + page, { muteHttpExceptions: true });
+      if (res.getResponseCode() !== 200) break;
+      const j = JSON.parse(res.getContentText());
+      lista = lista.concat(j.map(function (o) {
+        return [(o.producent || []).indexOf(18) !== -1 ? 'Tilray' : 'S-Lab', o.title.rendered, o.link];
+      }));
+      if (j.length < 100) break;
+    }
+    if (lista.length > 20) { Logger.log('BudCare na żywo: ' + lista.length + ' odmian S-Lab/Tilray'); return budcareOdmiany_(lista); }
+  } catch (e) { Logger.log('BudCare niedostępne: ' + e); }
+  const res = UrlFetchApp.fetch(BUDCARE_ZAPAS + '?t=' + Date.now(), { muteHttpExceptions: true });
+  Logger.log('BudCare: używam migawki z repo');
+  return res.getResponseCode() === 200 ? budcareOdmiany_(JSON.parse(res.getContentText())) : [];
 }
 
 function folder_() {
@@ -616,4 +680,4 @@ function ustawDostepLekarza() {
 }
 
 // eksport dla testów w Node (w Apps Script ignorowane)
-if (typeof module !== 'undefined') module.exports = { slugPl: slugPl, zbudujWiersze: zbudujWiersze, stanEfektywny: stanEfektywny };
+if (typeof module !== 'undefined') module.exports = { slugPl: slugPl, zbudujWiersze: zbudujWiersze, budcareOdmiany_: budcareOdmiany_, stanEfektywny: stanEfektywny };
