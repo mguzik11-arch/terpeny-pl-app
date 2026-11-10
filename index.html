@@ -529,6 +529,12 @@
     padding:1px 5px;
     border-radius:4px;
   }
+  .price-origin{
+    margin-left:3px;
+    font-size:9px;
+    opacity:0.5;
+    cursor:help;
+  }
   .price-chip.highlighted{
     background:rgba(122,166,224,0.18);
     border:1px solid var(--lab);
@@ -1549,6 +1555,10 @@ function render(){
         const priceEntry = (s.prices || []).find(p => p.label === ph.name);
         const meta = pharmacyMeta(ph.name);
         const isSel = selectedPharmacies.has(ph.name);
+        const srcLabel = ph.from_sheet ? 'arkusz Google' : 'e-mail (cennik)';
+        const srcIcon = ph.from_sheet ? '📊' : '✉️';
+        const srcDate = ph.updated || (priceEntry && priceEntry.date) || null;
+        const originHtml = `<span class="price-origin" title="Źródło: ${srcLabel}${srcDate ? ' · aktualizacja: ' + srcDate : ''}">${srcIcon}</span>`;
         if(ph.available){
           const priceHtml = priceEntry
             ? `<b>${priceEntry.price_pln} zł</b> / ${priceEntry.package_g}g (${priceEntry.price_per_g} zł/g)${priceEntry.thc_nr ? ` · THC ${priceEntry.thc_nr}` : ''}${priceEntry.code ? ` · kod: ${priceEntry.code}` : ''}`
@@ -1558,12 +1568,12 @@ function render(){
           const chipTitle = ph.name + (ph.from_sheet && ph.updated ? ` · stan z ${ph.updated}` : '');
           return `<span class="price-chip${isSel ? ' highlighted' : ''}" title="${escapeHtml(chipTitle)}">
             <span class="price-source">${escapeHtml(meta.short)}</span>
-            ${priceHtml}${stockHtml}
+            ${priceHtml}${stockHtml}${originHtml}
           </span>`;
         }
         return `<span class="price-chip unavail${isSel ? ' highlighted' : ''}" title="${escapeHtml(ph.name)}">
           <span class="price-source">${escapeHtml(meta.short)}</span>
-          ${ph.stan === 'brak' ? 'chwilowy brak' : 'brak w cenniku'}${ph.updated ? ` (${ph.updated})` : ''}
+          ${ph.stan === 'brak' ? 'chwilowy brak' : 'brak w cenniku'}${ph.updated ? ` (${ph.updated})` : ''}${originHtml}
         </span>`;
       }).join('')}</div>` : ''}
     `;
