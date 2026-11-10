@@ -595,11 +595,14 @@ function aktualizujListeOdmian() {
     raport.push(a.kod + ': ' + rows.length + ' wierszy (+' + dodane + ', −' + usuniete + ')');
     Logger.log(raport[raport.length - 1]);
   });
-  if (ust.nowe.length && !ust.pierwszy) {
-    MailApp.sendEmail(POWIADOMIENIA, 'Nowe odmiany w BudCare: ' + ust.nowe.length,
-      'Te odmiany pojawiły się w BudCare i zostały dopisane do arkuszy aptek:\n\n' +
-      ust.nowe.map(function (o) { return '• ' + o.grupa + ' — ' + o.name + ' ' + o.thc + '%' + (o.dost ? ' (' + o.dost + ')' : ''); }).join('\n') +
-      '\n\nJeśli którejś apteki nie powinny widzieć, zaznacz „Wyklucz” w arkuszu ustawień:\n' + ust.url +
+  const nowe = ust.nowe.filter(function (o) { return o.dost !== 'Wycofana'; });
+  const wyc = ust.pierwszy ? [] : ust.wycofane;
+  if ((nowe.length || wyc.length) && !ust.pierwszy) {
+    const lista = function (a) { return a.map(function (o) { return '• ' + o.grupa + ' — ' + o.name + ' ' + o.thc + '%' + (o.dost ? ' (' + o.dost + ')' : ''); }).join('\n'); };
+    MailApp.sendEmail(POWIADOMIENIA, 'BudCare: ' + (nowe.length ? nowe.length + ' nowych' : '') + (nowe.length && wyc.length ? ', ' : '') + (wyc.length ? wyc.length + ' wycofanych' : ''),
+      (nowe.length ? 'Nowe odmiany w BudCare — dopisane do arkuszy aptek:\n\n' + lista(nowe) + '\n\n' : '') +
+      (wyc.length ? 'BudCare oznaczył jako wycofane — automatycznie wykluczone z arkuszy aptek:\n\n' + lista(wyc) + '\n\n' : '') +
+      'Zmiany możesz cofnąć lub dodać własne wykluczenia w arkuszu ustawień (pole „Wyklucz”):\n' + ust.url +
       (raport.length ? '\n\nArkusze aptek:\n' + raport.join('\n') : ''),
       { name: 'Arkusze aptek — terpeny-pl' });
   }
@@ -626,14 +629,18 @@ function synchronizujUstawienia_(odmiany) {
   const last = ws.getLastRow();
   const stare = {};
   if (last >= 3) ws.getRange(3, 1, last - 2, 8).getValues().forEach(function (r) {
-    if (r[7]) stare[r[7]] = { wyk: r[0] === true, dodano: r[6] };
+    if (r[7]) stare[r[7]] = { wyk: r[0] === true, dodano: r[6], dost: r[4] };
   });
   const dzis = Utilities.formatDate(new Date(), 'Europe/Warsaw', 'yyyy-MM-dd');
-  const nowe = [];
+  const nowe = [], wycofane = [];
   const vals = odmiany.map(function (o) {
     const s = stare[o.klucz];
     if (!s) nowe.push(o);
-    return [s ? s.wyk : false, o.grupa, o.name, o.thc + '%', o.dost || '—', o.zrodlo === 'katalog' ? 'apka' : 'BudCare',
+    // BudCare oznaczył jako wycofaną (nowa odmiana albo zmiana statusu) → zaznaczamy „Wyklucz”.
+    // Jeśli później ręcznie odznaczysz, zostaje Twój wybór (status się już nie zmienia).
+    let wyk = s ? s.wyk : false;
+    if (o.dost === 'Wycofana' && (!s || s.dost !== 'Wycofana')) { if (!wyk) wycofane.push(o); wyk = true; }
+    return [wyk, o.grupa, o.name, o.thc + '%', o.dost || '—', o.zrodlo === 'katalog' ? 'apka' : 'BudCare',
             s ? s.dodano : (pierwszy ? '' : dzis), o.klucz];
   });
   // odmiany zaznaczone kiedyś, których już nie ma w żadnym źródle — zostają na dole (żeby nie zgubić decyzji)
@@ -641,7 +648,7 @@ function synchronizujUstawienia_(odmiany) {
     if (stare[k].wyk && !odmiany.some(function (o) { return o.klucz === k; })) vals.push([true, '', '(brak w źródłach)', '', '', '', stare[k].dodano, k]);
   });
   ws.clear(); ws.clearConditionalFormatRules();
-  ws.getRange('A1').setValue('Zaznacz „Wyklucz”, żeby odmiana zniknęła z arkuszy aptek (przy najbliższej aktualizacji listy — co poniedziałek lub ręcznie: aktualizujListeOdmian). Wiersz z wpisaną już ceną zostaje w arkuszu apteki.')
+  ws.getRange('A1').setValue('Odmiany wycofane wg BudCare zaznaczają się same. Zaznacz „Wyklucz”, żeby odmiana zniknęła z arkuszy aptek (przy najbliższej aktualizacji listy — co poniedziałek lub ręcznie: aktualizujListeOdmian). Wiersz z wpisaną już ceną zostaje w arkuszu apteki.')
     .setFontStyle('italic').setFontColor('#5E6B63');
   ws.getRange(2, 1, 1, 8).setValues([['Wyklucz', 'Producent', 'Nazwa', 'THC', 'Dostępność wg BudCare', 'Źródło', 'Dodano', 'klucz']])
     .setFontWeight('bold').setBackground('#E8F3EC');
@@ -662,9 +669,10 @@ function synchronizujUstawienia_(odmiany) {
   vals.forEach(function (v) { if (v[0] === true) wykluczone[v[7]] = true; });
   if (pierwszy) MailApp.sendEmail(POWIADOMIENIA, 'Arkusz ustawień listy odmian',
     'Pełna lista odmian (apka + BudCare) z polem „Wyklucz”:\n' + ss.getUrl() +
-    '\n\nZaznacz odmiany, których apteki mają nie widzieć, i uruchom aktualizujListeOdmian (albo poczekaj do poniedziałku).',
+    '\n\nOdmiany wycofane wg BudCare (' + wycofane.length + ') są już zaznaczone. Możesz dodać własne wykluczenia ' +
+    'albo odznaczyć — zmiany wejdą przy najbliższym aktualizujListeOdmian (lub w poniedziałek).',
     { name: 'Arkusze aptek — terpeny-pl' });
-  return { wykluczone: wykluczone, nowe: nowe, pierwszy: pierwszy, url: ss.getUrl() };
+  return { wykluczone: wykluczone, nowe: nowe, wycofane: wycofane, pierwszy: pierwszy, url: ss.getUrl() };
 }
 
 // ───────────────────────────── ODCZYT → offers.json ─────────────────────────────
