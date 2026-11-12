@@ -353,8 +353,33 @@
       "kod": "AP",
       "nazwa": "Apteka Pomocna (ul. Lwowska 64, Rzeszów)",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-11-10T19:04",
-      "oferty": []
+      "zmieniono": "2026-11-12T15:02",
+      "oferty": [
+        {
+          "id": "aurora_chemango-kush_29_10g",
+          "klucz": "aurora_chemango-kush_29",
+          "cena": 440,
+          "opak_g": 10,
+          "cena_g": 44,
+          "stan": "mało (1–4)",
+          "nowosc": false,
+          "producent": "Aurora",
+          "nazwa": "Chemango Kush",
+          "thc": "0.29"
+        },
+        {
+          "id": "cosma_black-r_22_10g",
+          "klucz": "cosma_black-r_22",
+          "cena": 289.99,
+          "opak_g": 10,
+          "cena_g": 29,
+          "stan": "mało (1–4)",
+          "nowosc": false,
+          "producent": "COSMA",
+          "nazwa": "Black R.",
+          "thc": "0.22"
+        }
+      ]
     }
   ]
 }
