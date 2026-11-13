@@ -33,7 +33,7 @@
       "kod": "TL",
       "nazwa": "Apteka Twoje Leki (ul. Pułaskiego, Rzeszów)",
       "data_stanu": "2026-11-10",
-      "zmieniono": "2026-11-10T19:06",
+      "zmieniono": "2026-11-13T15:28",
       "oferty": [
         {
           "id": "aurora_black-jelly_27_10g",
@@ -288,24 +288,12 @@
           "thc": "0.22"
         },
         {
-          "id": "medalchemy_zookies_25_10g",
-          "klucz": "medalchemy_zookies_25",
-          "cena": 239,
-          "opak_g": 10,
-          "cena_g": 23.9,
-          "stan": "mało (1–4)",
-          "nowosc": false,
-          "producent": "Medalchemy",
-          "nazwa": "Zookies",
-          "thc": "0.25"
-        },
-        {
           "id": "tilray_blue-cheese_18_xg",
           "klucz": "tilray_blue-cheese_18",
           "cena": 336,
           "opak_g": 15,
           "cena_g": 22.4,
-          "stan": "średnio (5–14)",
+          "stan": "mało (1–4)",
           "nowosc": false,
           "producent": "Tilray",
           "nazwa": "Blue Cheese",
@@ -317,9 +305,21 @@
           "cena": 469,
           "opak_g": 15,
           "cena_g": 31.27,
-          "stan": "dużo (15+)",
+          "stan": "średnio (5–14)",
           "nowosc": false,
           "producent": "S-Lab",
+          "nazwa": "Lilac Diesel",
+          "thc": "0.22"
+        },
+        {
+          "id": "tilray_lilac-diesel_22_15g",
+          "klucz": "tilray_lilac-diesel_22",
+          "cena": 377,
+          "opak_g": 15,
+          "cena_g": 25.13,
+          "stan": "średnio (5–14)",
+          "nowosc": false,
+          "producent": "Tilray",
           "nazwa": "Lilac Diesel",
           "thc": "0.22"
         },
