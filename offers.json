@@ -33,7 +33,7 @@
       "kod": "TL",
       "nazwa": "Apteka Twoje Leki (ul. Pułaskiego, Rzeszów)",
       "data_stanu": "2026-11-10",
-      "zmieniono": "2026-11-16T05:57",
+      "zmieniono": "2026-11-18T13:30",
       "oferty": [
         {
           "id": "aurora_black-jelly_27_10g",
@@ -333,18 +333,6 @@
           "nowosc": false,
           "producent": "Tilray",
           "nazwa": "Master Kush",
-          "thc": "0.22"
-        },
-        {
-          "id": "tilray_pink-kush_22_15g",
-          "klucz": "tilray_pink-kush_22",
-          "cena": 344,
-          "opak_g": 15,
-          "cena_g": 22.93,
-          "stan": "mało (1–4)",
-          "nowosc": false,
-          "producent": "Tilray",
-          "nazwa": "Pink Kush",
           "thc": "0.22"
         }
       ]
