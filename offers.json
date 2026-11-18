@@ -33,7 +33,7 @@
       "kod": "TL",
       "nazwa": "Apteka Twoje Leki (ul. Pułaskiego, Rzeszów)",
       "data_stanu": "2026-11-10",
-      "zmieniono": "2026-11-18T13:30",
+      "zmieniono": "2026-11-18T14:27",
       "oferty": [
         {
           "id": "aurora_black-jelly_27_10g",
@@ -242,9 +242,9 @@
         {
           "id": "cosma_black-r_22_10g",
           "klucz": "cosma_black-r_22",
-          "cena": 264,
+          "cena": 253,
           "opak_g": 10,
-          "cena_g": 26.4,
+          "cena_g": 25.3,
           "stan": "średnio (5–14)",
           "nowosc": false,
           "producent": "COSMA",
@@ -266,9 +266,9 @@
         {
           "id": "cosma_hindu-kush_22_10g",
           "klucz": "cosma_hindu-kush_22",
-          "cena": 317,
+          "cena": 253,
           "opak_g": 10,
-          "cena_g": 31.7,
+          "cena_g": 25.3,
           "stan": "średnio (5–14)",
           "nowosc": false,
           "producent": "COSMA",
@@ -322,6 +322,18 @@
           "producent": "Tilray",
           "nazwa": "Lilac Diesel",
           "thc": "0.22"
+        },
+        {
+          "id": "tilray_master-kush_18_15g",
+          "klucz": "tilray_master-kush_18",
+          "cena": 344,
+          "opak_g": 15,
+          "cena_g": 22.93,
+          "stan": "mało (1–4)",
+          "nowosc": false,
+          "producent": "Tilray",
+          "nazwa": "Master Kush",
+          "thc": "0.18"
         },
         {
           "id": "tilray_master-kush_22_15g",
