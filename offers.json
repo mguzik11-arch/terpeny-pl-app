@@ -5,35 +5,35 @@
       "kod": "NR",
       "nazwa": "Niezapominajka Rzeszów Rejtana",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-11-16T05:56",
+      "zmieniono": "2026-11-23T05:55",
       "oferty": []
     },
     {
       "kod": "NM",
       "nazwa": "Niezapominajka Rzeszów (ul. Mickiewicza 12)",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-11-16T05:56",
+      "zmieniono": "2026-11-23T05:56",
       "oferty": []
     },
     {
       "kod": "DM",
       "nazwa": "Dr.Max (ul. 3-go Maja 16, Rzeszów)",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-11-16T05:56",
+      "zmieniono": "2026-11-23T05:56",
       "oferty": []
     },
     {
       "kod": "AG",
       "nazwa": "Apteki Gemini (ul. Kolejowa, Rzeszów)",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-11-16T05:57",
+      "zmieniono": "2026-11-23T05:56",
       "oferty": []
     },
     {
       "kod": "TL",
       "nazwa": "Apteka Twoje Leki (ul. Pułaskiego, Rzeszów)",
       "data_stanu": "2026-11-10",
-      "zmieniono": "2026-11-20T15:33",
+      "zmieniono": "2026-11-23T05:57",
       "oferty": [
         {
           "id": "aurora_black-jelly_27_10g",
@@ -353,7 +353,7 @@
       "kod": "AP",
       "nazwa": "Apteka Pomocna (ul. Lwowska 64, Rzeszów)",
       "data_stanu": "2026-10-27",
-      "zmieniono": "2026-11-16T05:58",
+      "zmieniono": "2026-11-23T05:57",
       "oferty": [
         {
           "id": "aurora_chemango-kush_29_10g",
