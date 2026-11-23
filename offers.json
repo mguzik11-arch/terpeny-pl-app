@@ -33,7 +33,7 @@
       "kod": "TL",
       "nazwa": "Apteka Twoje Leki (ul. Pułaskiego, Rzeszów)",
       "data_stanu": "2026-11-10",
-      "zmieniono": "2026-11-23T05:57",
+      "zmieniono": "2026-11-23T12:48",
       "oferty": [
         {
           "id": "aurora_black-jelly_27_10g",
@@ -285,6 +285,18 @@
           "nowosc": false,
           "producent": "COSMA",
           "nazwa": "SoMango",
+          "thc": "0.22"
+        },
+        {
+          "id": "four20-pharma_mac-1_22_5g",
+          "klucz": "four20-pharma_mac-1_22",
+          "cena": 130,
+          "opak_g": 5,
+          "cena_g": 26,
+          "stan": "dużo (15+)",
+          "nowosc": false,
+          "producent": "Four20 Pharma",
+          "nazwa": "MAC 1",
           "thc": "0.22"
         },
         {
