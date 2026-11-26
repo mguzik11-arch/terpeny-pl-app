@@ -33,7 +33,7 @@
       "kod": "TL",
       "nazwa": "Apteka Twoje Leki (ul. Pułaskiego, Rzeszów)",
       "data_stanu": "2026-11-10",
-      "zmieniono": "2026-11-23T12:48",
+      "zmieniono": "2026-11-26T13:20",
       "oferty": [
         {
           "id": "aurora_black-jelly_27_10g",
@@ -142,6 +142,18 @@
           "producent": "Canopy Growth",
           "nazwa": "Chemsicle",
           "thc": "0.27"
+        },
+        {
+          "id": "canopy-growth_florida-kush_25_xg",
+          "klucz": "canopy-growth_florida-kush_25",
+          "cena": 555,
+          "opak_g": null,
+          "cena_g": null,
+          "stan": "dużo (15+)",
+          "nowosc": false,
+          "producent": "Canopy Growth",
+          "nazwa": "Florida Kush",
+          "thc": "0.25"
         },
         {
           "id": "red-no-2_jack-haze_19_5g",
